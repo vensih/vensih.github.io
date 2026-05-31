@@ -26,17 +26,10 @@ function NavBtn({ n, active, go }) {
 }
 
 function SideNav({ active, go, theme, toggleTheme }) {
-  const mid = Math.floor(NAV.length / 2);
   return (
     <>
       <nav className="sidenav">
-        {NAV.slice(0, mid).map((n) => <NavBtn key={n.id} n={n} active={active} go={go} />)}
-        <div className="nav-logo">
-          <div className="irid-glow"></div>
-          <div className="irid-ring"></div>
-          <Icon name="spark" />
-        </div>
-        {NAV.slice(mid).map((n) => <NavBtn key={n.id} n={n} active={active} go={go} />)}
+        {NAV.map((n) => <NavBtn key={n.id} n={n} active={active} go={go} />)}
       </nav>
       <div className="topnav">
         <button className="theme-toggle" onClick={toggleTheme}
@@ -48,137 +41,13 @@ function SideNav({ active, go, theme, toggleTheme }) {
   );
 }
 
-/* ---- arc / fan / spotlight card stage ---- */
-function cardTransform(offset, layout) {
-  const a = Math.abs(offset);
-  let x, y, rot, scale, op, z, blur = 0;
-  if (layout === "fan") {
-    x = offset * 90; y = a * a * 7; rot = offset * 7;
-    scale = offset === 0 ? 1.26 : 1 - a * 0.08;
-    op = a > 2 ? 0 : 1 - a * 0.05; z = 50 - a * 10;
-  } else if (layout === "spotlight") {
-    const dir = offset > 0 ? 1 : -1;
-    x = offset === 0 ? 0 : dir * (188 + (a - 1) * 116);
-    y = a * 18; rot = offset * 3;
-    scale = offset === 0 ? 1.5 : Math.max(0.4, 0.72 - (a - 1) * 0.1);
-    /* off-focus cards dissolve softly into the background */
-    op = offset === 0 ? 1 : Math.max(0, 0.46 - (a - 1) * 0.22);
-    blur = offset === 0 ? 0 : (a - 1) * 4 + 4;
-    z = offset === 0 ? 60 : 40 - a * 8;
-  } else { /* arc — downward-opening arch, copy nested in the hollow */
-    x = offset * 132; y = a * a * 13; rot = offset * 7;
-    scale = offset === 0 ? 1.12 : 1 - a * 0.05;
-    op = a > 3 ? 0 : 1 - a * 0.09; z = 50 - a * 10;
-  }
-  return {
-    transform: `translateX(calc(-50% + ${x}px)) translateY(${y}px) rotate(${rot}deg) scale(${scale})`,
-    opacity: op, zIndex: z,
-    filter: blur ? `blur(${blur}px)` : "none",
-  };
-}
-
-function Hero({ name, role, layout, autoplay, go }) {
-  const N = PROJECTS.length;
-  const [center, setCenter] = useState(0);
-  const [hover, setHover] = useState(false);
-  const stageRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 680);
-  const [touchStartX, setTouchStartX] = useState(null);
-
-  const step = useCallback((dir) => setCenter((c) => (c + dir + N) % N), [N]);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 680);
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  useEffect(() => {
-    if (!autoplay || hover) return;
-    const t = setInterval(() => step(1), 4200);
-    return () => clearInterval(t);
-  }, [autoplay, hover, step]);
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowLeft")  step(-1);
-      if (e.key === "ArrowRight") step(1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [step]);
-
+function Hero({ name, role, go }) {
   const [shown, setShown] = useState(false);
   useEffect(() => { const r = requestAnimationFrame(() => setShown(true)); return () => cancelAnimationFrame(r); }, []);
 
-  const offsetOf = (i) => {
-    let d = i - center;
-    if (d > N / 2) d -= N;
-    if (d < -N / 2) d += N;
-    return d;
-  };
-
-  const mobileTransform = (offset) => {
-    const a = Math.abs(offset);
-    const cardW = window.innerWidth * 0.78;
-    const x = offset * (cardW * 0.92);
-    return {
-      transform: `translateX(calc(-50% + ${x}px)) scale(${a === 0 ? 1 : 0.88})`,
-      opacity: a === 0 ? 1 : a === 1 ? 0.38 : 0,
-      zIndex: a === 0 ? 60 : 40,
-      filter: "none",
-      transition: "transform .48s cubic-bezier(.22,.61,.36,1), opacity .38s ease",
-    };
-  };
-
-  const onTouchStart = (e) => setTouchStartX(e.touches[0].clientX);
-  const onTouchEnd = (e) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 44) step(diff > 0 ? 1 : -1);
-    setTouchStartX(null);
-  };
-
-  const copyShift = isMobile ? 0 : layout === "arc" ? -86 : layout === "fan" ? -20 : -36;
-
   return (
     <header className="hero" id="hero">
-      {!isMobile && (
-        <div
-          className="arc-stage"
-          ref={stageRef}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-        >
-          {PROJECTS.map((p, i) => {
-            const off = offsetOf(i);
-            const isC = off === 0;
-            const st = cardTransform(off, layout);
-            return (
-              <div
-                key={p.id}
-                className={`arc-card ${isC ? "is-center" : ""}`}
-                style={st}
-                onClick={() => { if (isC) go("work"); else setCenter(i); }}
-              >
-                <div className="ac-ring"></div>
-                <div className="ac-inner">
-                  <image-slot id={`hero-${p.id}`} shape="rect" fit="cover"
-                    placeholder={p.name} style={{ width:"100%", height:"100%" }}></image-slot>
-                  <div className="ph" data-ph={p.name}
-                    style={{ position:"absolute", inset:0, zIndex:-1, "--ph-a":p.phA, "--ph-b":p.phB }}></div>
-                </div>
-                <div className="ac-shade"></div>
-                <div className="ac-label">{p.name}</div>
-              </div>
-            );
-          })}
-          <button className="arc-arrow prev" onClick={() => step(-1)} aria-label="Previous"><Icon name="arrowL" /></button>
-          <button className="arc-arrow next" onClick={() => step(1)} aria-label="Next"><Icon name="arrowR" /></button>
-        </div>
-      )}
-
-      <div className={`hero-copy ${shown ? "shown" : ""}`} style={{ marginTop: copyShift }}>
+      <div className={`hero-copy ${shown ? "shown" : ""}`}>
         <h1 className="hero-title" style={{ transitionDelay: ".14s" }}>
           {name.split(" ")[0]} <span className="grad">{name.split(" ").slice(1).join(" ")}</span>
         </h1>
@@ -191,7 +60,6 @@ function Hero({ name, role, layout, autoplay, go }) {
           <a className="cta ghost" href="#contact" onClick={(e)=>{e.preventDefault();go("contact");}}>Say hello</a>
         </div>
       </div>
-
       <div className="scroll-hint"><span>Scroll</span><span className="scroll-arrow"></span></div>
     </header>
   );
@@ -201,9 +69,7 @@ function Hero({ name, role, layout, autoplay, go }) {
    App
    ============================================================ */
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "heroLayout": "spotlight",
   "accent": ["#2f6bff", "#4f9dff", "#86c4ff"],
-  "autoplay": true,
   "name": "VENSI HAJDARI",
   "role": "Graphic designer & creative engineer, working at the seam between product thinking and creative technology."
 }/*EDITMODE-END*/;
@@ -276,7 +142,7 @@ function App() {
     <>
       <SideNav active={active} go={go} theme={theme} toggleTheme={toggleTheme} />
       <main className="page">
-        <Hero name={t.name} role={t.role} layout={t.heroLayout} autoplay={t.autoplay} go={go} />
+        <Hero name={t.name} role={t.role} go={go} />
         <WorkSection onOpen={setOpen} />
         <AboutSection name={t.name} />
         <ContactSection name={t.name} email="vensi@hajdari.al" socials={SOCIALS} />
@@ -285,12 +151,6 @@ function App() {
       <ProjectModal project={open} onClose={() => setOpen(null)} />
 
       <TweaksPanel>
-        <TweakSection label="Hero" />
-        <TweakRadio label="Layout" value={t.heroLayout}
-          options={["arc", "fan", "spotlight"]}
-          onChange={(v) => setTweak("heroLayout", v)} />
-        <TweakToggle label="Auto-rotate" value={t.autoplay}
-          onChange={(v) => setTweak("autoplay", v)} />
         <TweakSection label="Iridescence" />
         <TweakColor label="Accent" value={t.accent}
           options={[

@@ -304,63 +304,18 @@ body {
 .hero {
   position: relative;
   min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  min-height: 100dvh;
+  /* Span full viewport width so the name centers against the viewport, not the content column */
+  width: calc(100% + 110px);
+  margin-left: -110px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center;
-  padding: clamp(140px, 24vh, 210px) 48px 80px;
+  padding: clamp(120px, 20vh, 200px) 48px 100px;
 }
-
-.arc-stage {
-  position: relative;
-  width: 100%; max-width: 1080px; height: clamp(290px, 42vh, 420px);
-  margin: 0 auto;
-  perspective: 1400px;
-  -webkit-mask-image: linear-gradient(to bottom, black 48%, transparent 94%);
-  mask-image: linear-gradient(to bottom, black 48%, transparent 94%);
-}
-.arc-card {
-  position: absolute; top: 0; left: 50%;
-  width: 142px; height: 172px;
-  border-radius: 26px; overflow: hidden;
-  transform-origin: center top;
-  transition: transform .9s var(--ease-out), opacity .8s var(--ease), filter .8s var(--ease), box-shadow .5s var(--ease);
-  cursor: pointer;
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--hairline);
-  will-change: transform, opacity, filter;
-}
-.arc-card .ac-inner {
-  position: absolute; inset: 0;
-  transition: transform .3s var(--ease);
-}
-.arc-card img, .arc-card image-slot { width: 100%; height: 100%; display: block; object-fit: cover; }
-.arc-card .ac-shade {
-  position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top, rgba(0,0,0,.55), transparent 55%);
-  opacity: .8;
-}
-.arc-card .ac-label {
-  position: absolute; left: 12px; bottom: 11px; right: 12px;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em;
-  color: #fff; opacity: 0; transform: translateY(6px);
-  transition: opacity .4s var(--ease), transform .4s var(--ease);
-  text-align: left;
-}
-.arc-card.is-center .ac-label { opacity: 1; transform: none; }
-.arc-card.is-center { border-color: var(--hairline-strong); }
-.arc-card .ac-ring {
-  position: absolute; inset: 0; border-radius: 22px;
-  background: var(--spectrum); padding: 2px;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  opacity: 0; transition: opacity .5s var(--ease);
-  animation: spin 7s linear infinite;
-}
-.arc-card.is-center .ac-ring { opacity: 1; }
-.arc-card.is-center { z-index: 60 !important; }
 
 .hero-copy {
   position: relative; z-index: 60;
-  width: min(1140px, 90%); text-align: center;
+  width: min(96%, 1500px); text-align: center;
 }
 .hero-mark {
   width: 46px; height: 46px; margin: 0 auto 16px;
@@ -373,14 +328,24 @@ body {
 
 .hero-title {
   font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(32px, 11vw, 132px); line-height: .93;
-  letter-spacing: -.025em; margin-bottom: 14px;
+  font-size: clamp(52px, 10vw, 148px); line-height: .93;
+  letter-spacing: -.03em; margin-bottom: 20px;
+  white-space: nowrap; /* stay on one line when width allows */
 }
 .grad {
   background: linear-gradient(100deg, var(--a1), var(--a2), var(--a3), #c8e0ff, var(--a2), var(--a1), var(--a2), var(--a3));
   background-size: 350% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
   animation: iridFlow 5s linear infinite;
+  /* three-layer glow traces letter shapes via drop-shadow */
+  filter:
+    drop-shadow(0 0 3px rgba(79,157,255,.55))
+    drop-shadow(0 0 10px rgba(47,107,255,.18));
+}
+[data-theme="light"] .grad {
+  filter:
+    drop-shadow(0 0 3px rgba(47,107,255,.35))
+    drop-shadow(0 0 8px rgba(79,157,255,.14));
 }
 @keyframes iridFlow {
   0%   { background-position: 0% 50%; }
@@ -411,20 +376,6 @@ body {
 .cta.ghost { background: transparent; color: var(--text); border: 1px solid var(--hairline-strong); padding: 15px 26px; }
 .cta.ghost:hover { background: var(--surface); box-shadow: none; }
 
-/* arc navigation arrows — sides of the stage */
-.arc-nav { display: contents; }
-.arc-arrow {
-  position: absolute; top: 38%; transform: translateY(-50%);
-  width: 40px; height: 40px;
-  background: none; border: none;
-  color: var(--faint); cursor: pointer; display: grid; place-items: center;
-  z-index: 55;
-  transition: color .35s var(--ease), transform .35s var(--ease);
-}
-.arc-arrow.prev { left: 1%; }
-.arc-arrow.next { right: 1%; }
-.arc-arrow:hover { color: var(--dim); transform: translateY(-50%) scale(1.12); }
-.arc-arrow svg { width: 20px; height: 20px; }
 
 .scroll-hint {
   position: absolute; bottom: 88px; left: 50%; transform: translateX(-50%);
@@ -656,92 +607,289 @@ body {
 .hero-copy.shown > * { opacity: 1; transform: none; }
 
 /* ============================================================
-   Responsive
+   Responsive — full overhaul
+   Breakpoints: 1200 · 1100 · 960 · 900 · 768 · 680 · 480 · 380
    ============================================================ */
 
-/* Tablet */
-@media (max-width: 1100px) {
+/* ============================================================
+   1200px — wide laptop / near-desktop
+   ============================================================ */
+@media (max-width: 1200px) {
   .section { padding: 0 36px; }
-  .hero { padding: 96px 36px 72px; }
-  .work { padding: 96px 36px; }
-  .about { padding: 80px 36px; }
-  .contact { padding: 96px 36px 80px; }
+  .hero    { padding: clamp(100px, 18vh, 180px) 36px 88px; }
+  .work    { padding: 108px 36px; }
+  .about   { padding: 88px 36px; }
+  .contact { padding: 100px 36px 88px; }
 }
 
-/* Bottom-nav breakpoint */
+/* ============================================================
+   1100px — landscape tablet / 13" laptop
+   ============================================================ */
+@media (max-width: 1100px) {
+  .section    { padding: 0 28px; }
+  .hero       { padding: clamp(88px, 16vh, 140px) 28px 80px; }
+  .hero-title { font-size: clamp(52px, 9.5vw, 130px); }
+  .work       { padding: 96px 28px; }
+  .about      { padding: 80px 28px; }
+  .contact    { padding: 96px 28px 80px; }
+  .h-lg { height: 400px; }
+  .h-md { height: 320px; }
+}
+
+/* ============================================================
+   960px — iPad landscape / small laptop
+   ============================================================ */
+@media (max-width: 960px) {
+  .section    { padding: 0 24px; }
+  .hero       { padding: clamp(80px, 14vh, 120px) 24px 72px; }
+  .hero-title { font-size: clamp(52px, 9vw, 116px); }
+  .work       { padding: 80px 24px; }
+  .about      { padding: 72px 24px; }
+  .contact    { padding: 80px 24px 72px; }
+  .h-lg { height: 370px; }
+  .h-md { height: 300px; }
+  .h-sm { height: 280px; }
+  .modal-body { padding: 40px 32px; }
+}
+
+/* ============================================================
+   900px — nav flips to bottom bar.
+   Hero resets to full natural width (no viewport-centering needed).
+   ============================================================ */
 @media (max-width: 900px) {
-  .page { padding-left: 0; padding-bottom: 100px; }
-
-  .sidenav {
-    left: 50%; top: auto; bottom: 16px; transform: translateX(-50%);
-    flex-direction: row; border-radius: var(--r-pill);
-    padding: 7px 10px; gap: 4px;
-    width: max-content;
-  }
-  .sidenav .nav-logo { order: 0; margin-bottom: 0; margin-right: 0; width: 28px; height: 28px; }
-  .sidenav .nav-logo svg { width: 13px; height: 13px; }
-  .sidenav .nav-item { width: 38px; height: 38px; }
-  .nav-tip { display: none; }
-
-  .hero { padding: 80px 36px 64px; }
-  .work { padding: 88px 36px; }
-  .about { padding: 72px 36px; }
-  .contact { padding: 96px 36px 80px; }
-
-  .work-head { margin-bottom: 40px; }
-  .about-grid { grid-template-columns: 1fr; gap: 40px; }
-
-  .modal { grid-template-columns: 1fr; }
-  .modal-media { min-height: 260px; }
-
-  .col-7,.col-5,.col-6,.col-4,.col-8 { grid-column: span 12; }
-  .h-lg,.h-md,.h-sm { height: 280px; }
-  .grid { gap: 16px; }
-
-  .arc-stage { height: clamp(240px, 34vh, 360px); }
-
-  .contact-ring { width: 380px; height: 380px; }
-
-  .footer-line { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
-
-  /* lift scroll hint above the nav pill */
-  .scroll-hint { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
-}
-
-/* Mobile — no arc, centered hero */
-@media (max-width: 680px) {
-  /* hero centers the copy vertically */
-  .hero { padding: 80px 24px; justify-content: center; }
-
-  /* no arc stage on mobile — nothing to override */
-  .hero-copy { width: 100%; }
-  .hero-title {
-    font-size: clamp(52px, 18vw, 96px); white-space: normal;
-    display: flex; flex-direction: column; align-items: center; gap: 0;
+  /* layout shell */
+  .page {
+    padding-left: 0;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
   }
 
-  /* scroll hint clears the bottom nav pill */
-  .scroll-hint { bottom: calc(140px + env(safe-area-inset-bottom, 0px)); }
-
-  /* CTAs inline */
+  /* hero: reset viewport-centering offset */
+  .hero {
+    width: 100%;
+    margin-left: 0;
+    padding: clamp(80px, 14vh, 130px) 24px clamp(88px, 14vh, 130px);
+  }
+  .hero-copy  { width: min(96%, 1500px); }
+  .hero-title { font-size: clamp(44px, 10.5vw, 108px); white-space: nowrap; }
+  .hero-sub { font-size: clamp(14px, 3.4vw, 18px); margin-bottom: 28px; }
   .hero-cta { flex-direction: row; gap: 10px; justify-content: center; flex-wrap: wrap; }
   .hero-cta .cta,
   .hero-cta .cta.ghost { width: auto; }
 
+  /* bottom nav pill */
+  .sidenav {
+    left: 50%; top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    flex-direction: row;
+    border-radius: var(--r-pill);
+    padding: 8px 12px;
+    gap: 6px;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+  }
+  .nav-item { width: 44px; height: 44px; } /* WCAG min touch target */
+  .nav-item svg { width: 19px; height: 19px; }
+  .nav-tip { display: none; }
+
   /* sections */
-  .section  { padding: 0 24px; }
-  .work     { padding: 72px 24px; }
-  .about    { padding: 64px 24px; }
-  .contact  { padding: 72px 24px 64px; }
+  .section { padding: 0 24px; }
+  .work    { padding: 72px 24px; }
+  .about   { padding: 64px 24px; }
+  .contact { padding: 80px 24px 72px; }
 
-  .about-grid { gap: 32px; }
+  .work-head { margin-bottom: 40px; }
 
-  .modal-scrim { padding: 16px; }
-  .modal-body  { padding: 28px 20px; }
+  /* work grid: 2-per-row (span 6 each) */
+  .col-7, .col-8, .col-5, .col-6, .col-4 { grid-column: span 6; }
+  .h-lg, .h-md { height: 300px; }
+  .h-sm        { height: 280px; }
+  .grid        { gap: 14px; }
+
+  /* about */
+  .about-grid     { grid-template-columns: 1fr; gap: 36px; }
+  .about-portrait { max-width: 520px; margin: 0 auto; }
+
+  /* modal: single column */
+  .modal       { grid-template-columns: 1fr; max-height: 94vh; }
+  .modal-media { min-height: 220px; max-height: 38vh; }
+  .modal-body  { padding: 36px 28px; }
+
+  .contact-ring { width: 380px; height: 380px; }
+  .footer-line  { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+
+  /* scroll hint above bottom nav */
+  .scroll-hint { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ============================================================
+   768px — iPad portrait / large-phone landscape
+   No arc stage. Hide scroll hint on touch-first devices.
+   ============================================================ */
+@media (max-width: 768px) {
+  .section { padding: 0 20px; }
+  .hero    { padding: clamp(64px, 11vh, 100px) 20px clamp(80px, 12vh, 112px); }
+  .work    { padding: 64px 20px; }
+  .about   { padding: 56px 20px; }
+  .contact { padding: 64px 20px 60px; }
+
+  /* stack words + scale to fill width — single clamp handles all sizes below this point */
+  .hero-title { font-size: clamp(52px, 19vw, 148px); white-space: normal; }
+  .hero-title .grad { display: block; }
+
+  /* 2-col tiles with reduced height */
+  .h-lg, .h-md, .h-sm { height: 260px; }
+  .grid { gap: 12px; }
+
+  .about-portrait { max-width: 440px; }
+
+  .modal       { width: min(640px, 96vw); }
+  .modal-body  { padding: 28px 22px; }
+  .modal-body h2 { font-size: 26px; }
+
+  .topnav { top: 14px; right: 16px; }
+
+  /* hide scroll hint — touch devices don't need the scroll prompt */
+  .scroll-hint { display: none; }
+}
+
+/* Touch device in landscape (tablets rotated, phones rotated).
+   pointer: coarse = touch-primary; leaves mouse-driven laptops/desktops unaffected. */
+@media (orientation: landscape) and (pointer: coarse) {
+  /* hide scroll prompt — no need on touch in landscape */
+  .scroll-hint { display: none; }
+
+  /* move nav pill to bottom center, matching the ≤900px portrait behavior */
+  .page {
+    padding-left: 0;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* reset hero viewport-centering offset (only needed with side nav) */
+  .hero {
+    width: 100%;
+    margin-left: 0;
+    padding: clamp(52px, 8vh, 80px) 24px clamp(68px, 9vh, 96px);
+  }
+  .hero-copy  { width: min(96%, 1500px); }
+  /* landscape + touch: keep name on one line, sized to fit width */
+  .hero-title { font-size: clamp(44px, 9.5vw, 110px); white-space: nowrap; }
+  .hero-sub { font-size: clamp(13px, 2.6vw, 17px); margin-bottom: 22px; }
+  .hero-cta { flex-direction: row; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero-cta .cta,
+  .hero-cta .cta.ghost { width: auto; }
+
+  /* bottom nav pill */
+  .sidenav {
+    left: 50%; top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    flex-direction: row;
+    border-radius: var(--r-pill);
+    padding: 8px 12px;
+    gap: 6px;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+  }
+  .nav-item { width: 44px; height: 44px; }
+  .nav-item svg { width: 19px; height: 19px; }
+  .nav-tip { display: none; }
+}
+
+/* ============================================================
+   680px — large phone
+   ============================================================ */
+@media (max-width: 680px) {
+  .hero { padding: 72px 20px 80px; }
+  .hero-title { white-space: normal; } /* font-size inherited from 768px clamp */
+  .hero-sub   { font-size: clamp(14px, 3.6vw, 17px); }
+
+  .section { padding: 0 18px; }
+  .work    { padding: 60px 18px; }
+  .about   { padding: 52px 18px; }
+  .contact { padding: 64px 18px 56px; }
+
+  /* single-column work grid */
+  .col-7, .col-8, .col-5, .col-6, .col-4 { grid-column: span 12; }
+  .h-lg, .h-md, .h-sm { height: 260px; }
+  .grid { gap: 12px; }
+
+  .about-grid     { gap: 28px; }
+  .about-portrait { max-width: 100%; }
+
+  .modal-scrim { padding: 12px; }
+  .modal       { width: 100%; border-radius: var(--r-md); }
+  .modal-body  { padding: 24px 18px; }
   .modal-body h2 { font-size: 22px; }
+  .modal-media { min-height: 190px; max-height: 34vh; }
 
-  .stats   { gap: 24px; flex-wrap: wrap; }
-  .socials { gap: 8px; flex-wrap: wrap; }
+  .stats        { gap: 20px; flex-wrap: wrap; }
+  .socials      { gap: 8px;  flex-wrap: wrap; }
   .contact-ring { width: 240px; height: 240px; }
-  .topnav { top: 14px; right: 14px; }
+  .topnav       { top: 12px; right: 12px; }
+}
+
+/* ============================================================
+   480px — small phone (iPhone SE, Galaxy A-series)
+   ============================================================ */
+@media (max-width: 480px) {
+  .hero    { padding: 60px 16px 72px; }
+  /* hero-title font-size: inherited from 768px clamp(52px, 19vw, 148px) */
+  .hero-sub   { font-size: 13.5px; }
+
+  .section { padding: 0 16px; }
+  .work    { padding: 52px 16px; }
+  .about   { padding: 44px 16px; }
+  .contact { padding: 56px 16px 48px; }
+
+  .h-lg, .h-md, .h-sm { height: 230px; }
+  .grid { gap: 10px; }
+
+  .sec-title  { font-size: clamp(24px, 7.5vw, 40px); }
+  .contact h2 { font-size: clamp(36px, 11vw, 72px); }
+
+  .cta            { font-size: 12px; padding: 12px 12px 12px 18px; }
+  .cta .cta-arrow { width: 28px; height: 28px; }
+  .cta.ghost      { padding: 12px 18px; }
+
+  .modal-scrim { padding: 8px; }
+  .modal-body  { padding: 18px 14px; }
+  .modal-body h2 { font-size: 20px; }
+
+  .topnav       { top: 10px; right: 10px; }
+  .theme-toggle { width: 40px; height: 40px; }
+
+  .sidenav  { padding: 6px 10px; gap: 4px; }
+  .nav-item { width: 42px; height: 42px; }
+  .nav-item svg { width: 18px; height: 18px; }
+
+  .stats     { gap: 16px; }
+  .stat .num { font-size: 28px; }
+}
+
+/* ============================================================
+   380px — very small phone (iPhone SE 1st gen, narrow Android)
+   ============================================================ */
+@media (max-width: 380px) {
+  .hero    { padding: 52px 14px 64px; }
+  /* hero-title font-size: inherited from 768px clamp(52px, 19vw, 148px) */
+  .hero-sub   { font-size: 13px; }
+
+  .section { padding: 0 14px; }
+  .work    { padding: 44px 14px; }
+  .about   { padding: 40px 14px; }
+  .contact { padding: 48px 14px 44px; }
+
+  .h-lg, .h-md, .h-sm { height: 200px; }
+  .grid { gap: 8px; }
+
+  .cta            { font-size: 11px; padding: 10px 10px 10px 15px; letter-spacing: .04em; }
+  .cta .cta-arrow { width: 24px; height: 24px; }
+  .cta.ghost      { padding: 10px 15px; }
+
+  .contact h2 { font-size: clamp(30px, 10vw, 50px); }
+
+  .sidenav  { max-width: calc(100vw - 20px); padding: 5px 8px; gap: 2px; }
+  .nav-item { width: 38px; height: 38px; }
+  .nav-item svg { width: 17px; height: 17px; }
 }
