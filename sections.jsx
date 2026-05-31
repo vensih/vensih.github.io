@@ -162,9 +162,9 @@ function ContactSection({ name, email, socials }) {
         <div className="socials reveal d3">
           {socials.map((s) => <a className="social" key={s.label} href={s.href} target="_blank" rel="noreferrer">{s.label}</a>)}
         </div>
-        <div className="footer-line reveal">
+        <div className="footer-line">
           <span>© 2026 {name}</span>
-          <span>Built with light ✦ near-black + iridescence</span>
+          <span>Built in near-black, shaped by light, finished with iridescence.</span>
         </div>
       </div>
     </section>
