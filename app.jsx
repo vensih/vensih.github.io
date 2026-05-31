@@ -9,29 +9,34 @@ const NAV = [
   { id: "contact", icon: "mail", label: "Contact" },
 ];
 
+function NavBtn({ n, active, go }) {
+  return (
+    <button
+      className={`nav-item ${active === n.id ? "active" : ""}`}
+      onClick={() => go(n.id)}
+      aria-label={n.label}
+    >
+      <div className="irid-glow"></div>
+      <div className="irid-ring"></div>
+      <div className="nav-disc"></div>
+      <Icon name={n.icon} />
+      <span className="nav-tip">{n.label}</span>
+    </button>
+  );
+}
+
 function SideNav({ active, go, theme, toggleTheme }) {
+  const mid = Math.floor(NAV.length / 2);
   return (
     <>
       <nav className="sidenav">
+        {NAV.slice(0, mid).map((n) => <NavBtn key={n.id} n={n} active={active} go={go} />)}
         <div className="nav-logo">
           <div className="irid-glow"></div>
           <div className="irid-ring"></div>
           <Icon name="spark" />
         </div>
-        {NAV.map((n) => (
-          <button
-            key={n.id}
-            className={`nav-item ${active === n.id ? "active" : ""}`}
-            onClick={() => go(n.id)}
-            aria-label={n.label}
-          >
-            <div className="irid-glow"></div>
-            <div className="irid-ring"></div>
-            <div className="nav-disc"></div>
-            <Icon name={n.icon} />
-            <span className="nav-tip">{n.label}</span>
-          </button>
-        ))}
+        {NAV.slice(mid).map((n) => <NavBtn key={n.id} n={n} active={active} go={go} />)}
       </nav>
       <div className="topnav">
         <button className="theme-toggle" onClick={toggleTheme}
@@ -77,8 +82,16 @@ function Hero({ name, role, layout, autoplay, go }) {
   const [center, setCenter] = useState(0);
   const [hover, setHover] = useState(false);
   const stageRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 680);
+  const [touchStartX, setTouchStartX] = useState(null);
 
   const step = useCallback((dir) => setCenter((c) => (c + dir + N) % N), [N]);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 680);
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     if (!autoplay || hover) return;
@@ -105,42 +118,65 @@ function Hero({ name, role, layout, autoplay, go }) {
     return d;
   };
 
-  const copyShift = layout === "arc" ? -86 : (layout === "fan" ? -20 : -36);
+  const mobileTransform = (offset) => {
+    const a = Math.abs(offset);
+    const cardW = window.innerWidth * 0.78;
+    const x = offset * (cardW * 0.92);
+    return {
+      transform: `translateX(calc(-50% + ${x}px)) scale(${a === 0 ? 1 : 0.88})`,
+      opacity: a === 0 ? 1 : a === 1 ? 0.38 : 0,
+      zIndex: a === 0 ? 60 : 40,
+      filter: "none",
+      transition: "transform .48s cubic-bezier(.22,.61,.36,1), opacity .38s ease",
+    };
+  };
+
+  const onTouchStart = (e) => setTouchStartX(e.touches[0].clientX);
+  const onTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 44) step(diff > 0 ? 1 : -1);
+    setTouchStartX(null);
+  };
+
+  const copyShift = isMobile ? 0 : layout === "arc" ? -86 : layout === "fan" ? -20 : -36;
 
   return (
     <header className="hero" id="hero">
-      <div
-        className="arc-stage"
-        ref={stageRef}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        {PROJECTS.map((p, i) => {
-          const off = offsetOf(i);
-          const isC = off === 0;
-          const st = cardTransform(off, layout);
-          return (
-            <div
-              key={p.id}
-              className={`arc-card ${isC ? "is-center" : ""}`}
-              style={st}
-              onClick={() => { if (isC) go("work"); else setCenter(i); }}
-            >
-              <div className="ac-ring"></div>
-              <div className="ac-inner">
-                <image-slot id={`hero-${p.id}`} shape="rect" fit="cover"
-                  placeholder={p.name} style={{ width:"100%", height:"100%" }}></image-slot>
-                <div className="ph" data-ph={p.name}
-                  style={{ position:"absolute", inset:0, zIndex:-1, "--ph-a":p.phA, "--ph-b":p.phB }}></div>
+      {!isMobile && (
+        <div
+          className="arc-stage"
+          ref={stageRef}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
+          {PROJECTS.map((p, i) => {
+            const off = offsetOf(i);
+            const isC = off === 0;
+            const st = cardTransform(off, layout);
+            return (
+              <div
+                key={p.id}
+                className={`arc-card ${isC ? "is-center" : ""}`}
+                style={st}
+                onClick={() => { if (isC) go("work"); else setCenter(i); }}
+              >
+                <div className="ac-ring"></div>
+                <div className="ac-inner">
+                  <image-slot id={`hero-${p.id}`} shape="rect" fit="cover"
+                    placeholder={p.name} style={{ width:"100%", height:"100%" }}></image-slot>
+                  <div className="ph" data-ph={p.name}
+                    style={{ position:"absolute", inset:0, zIndex:-1, "--ph-a":p.phA, "--ph-b":p.phB }}></div>
+                </div>
+                <div className="ac-shade"></div>
+                <div className="ac-label">{p.name}</div>
               </div>
-              <div className="ac-shade"></div>
-              <div className="ac-label">{p.name}</div>
-            </div>
-          );
-        })}
-        <button className="arc-arrow prev" onClick={() => step(-1)} aria-label="Previous"><Icon name="arrowL" /></button>
-        <button className="arc-arrow next" onClick={() => step(1)} aria-label="Next"><Icon name="arrowR" /></button>
-      </div>
+            );
+          })}
+          <button className="arc-arrow prev" onClick={() => step(-1)} aria-label="Previous"><Icon name="arrowL" /></button>
+          <button className="arc-arrow next" onClick={() => step(1)} aria-label="Next"><Icon name="arrowR" /></button>
+        </div>
+      )}
 
       <div className={`hero-copy ${shown ? "shown" : ""}`} style={{ marginTop: copyShift }}>
         <h1 className="hero-title" style={{ transitionDelay: ".14s" }}>
