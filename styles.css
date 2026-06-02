@@ -435,14 +435,14 @@ body {
 .tile image-slot, .tile .ph { display: block; width: 100%; height: 100%; }
 .tile .tile-shade {
   position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,.05) 55%);
+  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 38%);
 }
 .tile .tile-meta {
   position: absolute; left: 22px; right: 22px; bottom: 20px; z-index: 3;
   transform: translateZ(40px);
   display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
 }
-.tile h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -.01em; color: #fff; }
+.tile h3 { font-family: var(--font-display); font-weight: 500; font-size: 24px; letter-spacing: -.01em; color: #fff; }
 .tile .tile-tag {
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
   text-transform: uppercase; color: rgba(255,255,255,.7); margin-top: 5px;
@@ -456,7 +456,7 @@ body {
 }
 .tile:hover .tile-plus { background: #fff; color: #0a0c12; transform: rotate(90deg); }
 .tile .tile-num {
-  position: absolute; top: 18px; left: 20px; z-index: 3;
+  position: absolute; bottom: 18px; right: 20px; z-index: 3;
   font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,.7);
   transform: translateZ(40px);
 }

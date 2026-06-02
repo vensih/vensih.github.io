@@ -11,24 +11,19 @@ function Tile({ project, layout, index, onOpen }) {
       onClick={() => onOpen(project)}
     >
       <div className="tile-media">
-        <image-slot
-          id={`work-${project.id}`}
-          shape="rect"
-          fit="cover"
-          placeholder={project.name}
-          style={{ width: "100%", height: "100%" }}
-        ></image-slot>
+        {project.thumb && (
+          <img src={project.thumb} alt={project.name}
+            style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", transform:"scale(1.25)", transformOrigin:"center center" }} />
+        )}
         <div className="ph" data-ph={project.name}
              style={{ position:"absolute", inset:0, zIndex:-1, "--ph-a":project.phA, "--ph-b":project.phB }}></div>
         <div className="tile-shade"></div>
       </div>
-      <span className="tile-num">{String(index + 1).padStart(2, "0")}</span>
-      <div className="tile-meta">
+<div className="tile-meta">
         <div>
           <h3>{project.name}</h3>
           <div className="tile-tag">{project.tag}</div>
         </div>
-        <div className="tile-plus"><Icon name="plus" /></div>
       </div>
     </article>
   );
@@ -77,8 +72,13 @@ function ProjectModal({ project, onClose }) {
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <button className="modal-close" onClick={onClose} aria-label="Close"><Icon name="close" /></button>
           <div className="modal-media">
-            <image-slot id={`modal-${p.id}`} shape="rect" fit="cover"
-              placeholder={p.name} style={{ width:"100%", height:"100%" }}></image-slot>
+            {p.url ? (
+              <iframe src={p.url} style={{ position:"absolute", inset:0, width:"100%", height:"100%", border:"none" }}
+                title={p.name}></iframe>
+            ) : p.thumb ? (
+              <img src={p.thumb} alt={p.name}
+                style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", transform:"scale(1.25)", transformOrigin:"center center" }} />
+            ) : null}
             <div className="ph" data-ph={p.name}
               style={{ position:"absolute", inset:0, zIndex:-1, "--ph-a":p.phA, "--ph-b":p.phB }}></div>
           </div>
@@ -90,8 +90,9 @@ function ProjectModal({ project, onClose }) {
               {p.tags.map((t) => <span className="chip" key={t}>{t}</span>)}
             </div>
             <div style={{ marginTop: 30 }}>
-              <a className="cta" href="#" onClick={(e)=>e.preventDefault()}>
-                View case study
+              <a className="cta" href={p.url || "#"} onClick={p.url ? undefined : (e)=>e.preventDefault()}
+                 target={p.url ? "_blank" : undefined} rel={p.url ? "noreferrer" : undefined}>
+                View project
                 <span className="cta-arrow"><Icon name="arrowR" width="14" height="14" /></span>
               </a>
             </div>
