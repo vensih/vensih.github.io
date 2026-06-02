@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shkopoly · Vensi Hajdari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("site-theme") || "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    html, body { scrollbar-width: none; }
+    ::-webkit-scrollbar { display: none; }
+
+    /* ── Page shell ── */
+    .shk-page {
+      position: relative; z-index: 3;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 120px;
+    }
+
+    /* ── Back button ── */
+    .shk-back {
+      position: fixed; top: 24px; left: 28px; z-index: 60;
+      width: 46px; height: 46px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--glass);
+      border: 1px solid var(--hairline);
+      color: var(--faint);
+      text-decoration: none;
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.06);
+      transition: color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
+      overflow: visible;
+    }
+    .shk-back:hover { color: var(--text); background: var(--surface); transform: scale(1.06); }
+    .shk-back:hover .irid-ring { opacity: 1; }
+    .shk-back:hover .irid-glow { opacity: .9; }
+    .shk-back svg { width: 20px; height: 20px; position: relative; z-index: 2; }
+
+    /* ── Hero banner ── */
+    .shk-hero {
+      padding-top: 72px; padding-bottom: 80px;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .shk-banner {
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 48px;
+    }
+    .shk-banner img {
+      max-width: min(640px, 88%);
+      width: 100%;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
+      margin-bottom: 48px;
+    }
+
+    /* ── Meta strip ── */
+    .shk-meta {
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      border: 1px solid var(--hairline);
+      border-radius: var(--r-lg);
+      background: var(--bg-2);
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+    .shk-meta-col {
+      padding: 44px 48px;
+    }
+    .shk-meta-col + .shk-meta-col {
+      border-left: 1px solid var(--hairline);
+    }
+    .shk-meta-col .eyebrow { margin-bottom: 18px; }
+    .shk-desc {
+      font-size: 16px; line-height: 1.75; color: var(--dim);
+      max-width: 500px; margin-bottom: 28px; text-align: justify;
+    }
+    .shk-details { display: flex; flex-wrap: wrap; gap: 28px 40px; }
+    .shk-detail { display: flex; flex-direction: column; gap: 5px; }
+    .shk-detail-label {
+      font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--faint);
+    }
+    .shk-detail-value { font-size: 14px; font-weight: 500; color: var(--text); }
+    .shk-detail-link {
+      font-size: 14px; font-weight: 500; color: #5bb8ff;
+      text-decoration: none; text-underline-offset: 3px;
+    }
+    .shk-detail-link:hover { text-decoration: underline; }
+
+    /* ── Sections ── */
+    .shk-section { padding: 80px 0; }
+    .shk-section + .shk-section { border-top: 1px solid var(--hairline); }
+
+    .shk-section-head { margin-bottom: 40px; }
+    .shk-section-head .eyebrow { margin-bottom: 14px; }
+    .shk-section-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 700; letter-spacing: -.02em; line-height: 1.15;
+      color: var(--text);
+    }
+
+    /* ── Board ── */
+    .shk-board {
+      border-radius: 0;
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+      box-shadow: var(--shadow-card);
+      position: relative; cursor: zoom-in;
+      max-width: 600px; margin: 0 auto;
+    }
+    .shk-board img { display: block; width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+    .shk-board-hint {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      background: rgba(20,22,31,.75); backdrop-filter: blur(8px);
+      border: 1px solid var(--hairline); border-radius: var(--r-pill);
+      color: var(--dim); font-size: 11px; letter-spacing: .06em;
+      padding: 6px 14px; pointer-events: none;
+      transition: opacity .3s; white-space: nowrap;
+    }
+    .shk-board:hover .shk-board-hint { opacity: 0; }
+
+    /* ── Lightbox ── */
+    .shk-lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(4,5,9,.92);
+      backdrop-filter: blur(6px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s var(--ease);
+      cursor: grab; overflow: hidden;
+      user-select: none; -webkit-user-select: none;
+    }
+    .shk-lightbox.open { opacity: 1; pointer-events: auto; }
+    .shk-lightbox.dragging { cursor: grabbing; }
+    .shk-lightbox-img {
+      position: absolute;
+      display: block;
+      image-rendering: high-quality;
+      pointer-events: none;
+    }
+    .shk-lightbox-close {
+      position: fixed; top: 20px; right: 24px; z-index: 10;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--glass); border: 1px solid var(--hairline);
+      color: var(--text); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(12px); transition: background .2s;
+    }
+    .shk-lightbox-close:hover { background: var(--surface-2); }
+    .shk-lightbox-close svg { width: 16px; height: 16px; }
+    .shk-lightbox-hint {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(20,22,31,.75); backdrop-filter: blur(8px);
+      border: 1px solid var(--hairline); border-radius: var(--r-pill);
+      color: var(--dim); font-size: 11px; letter-spacing: .06em;
+      padding: 6px 16px; pointer-events: none;
+      transition: opacity .4s; white-space: nowrap;
+    }
+
+    /* ── Deed fan ── */
+    .shk-deed-fan {
+      position: relative;
+      height: 420px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .shk-deed {
+      position: absolute;
+      width: 210px;
+      border-radius: 0;
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
+    .shk-deed img { display: block; width: 100%; }
+    .shk-deed:nth-child(1) {
+      transform: rotate(-10deg) translate(-140px, 18px);
+      z-index: 1;
+    }
+    .shk-deed:nth-child(2) {
+      transform: rotate(0deg);
+      z-index: 3;
+    }
+    .shk-deed:nth-child(3) {
+      transform: rotate(10deg) translate(140px, 18px);
+      z-index: 2;
+    }
+    @media (max-width: 540px) {
+      .shk-deed-fan { height: 320px; }
+      .shk-deed { width: 150px; }
+      .shk-deed:nth-child(1) { transform: rotate(-10deg) translate(-100px, 14px); }
+      .shk-deed:nth-child(3) { transform: rotate(10deg) translate(100px, 14px); }
+    }
+
+    /* ── Footer CTA ── */
+    .shk-footer {
+      padding: 96px 0 40px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 28px; text-align: center;
+      border-top: 1px solid var(--hairline);
+    }
+    .shk-footer-fish {
+      width: 64px; opacity: .6;
+      filter: brightness(0) invert(1);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    /* ── Icons grid ── */
+    .shk-icons {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    .shk-icon-card {
+      border-radius: var(--r-lg);
+      border: 1px solid var(--hairline);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      background: var(--bg-2);
+    }
+    .shk-icon-visual {
+      display: flex; align-items: center; justify-content: center;
+      padding: 28px 20px 24px;
+      height: 180px;
+      overflow: hidden;
+    }
+    .shk-icon-visual img {
+      width: 124px; height: 124px; object-fit: contain; object-position: center;
+      display: block; margin: auto;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,.35));
+    }
+    .shk-icon-body {
+      padding: 20px 28px 28px;
+      border-top: 1px solid var(--hairline);
+      flex: 1;
+    }
+    .shk-icon-replaces {
+      font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--faint); margin-bottom: 8px;
+    }
+    .shk-icon-name {
+      font-family: var(--font-display); font-size: 20px; font-weight: 700;
+      letter-spacing: -.01em; color: var(--text); margin-bottom: 8px;
+    }
+    .shk-icon-desc { font-size: 13px; line-height: 1.6; color: var(--dim); }
+
+    [data-theme="light"] .shk-footer-fish { filter: brightness(0); }
+    .shk-footer-copy { font-size: 14px; color: var(--dim); }
+    .shk-footer-legal { font-size: 12px; color: var(--faint); max-width: 420px; line-height: 1.6; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .shk-page { padding: 0 28px 80px; }
+      .shk-nav { padding: 16px 24px; }
+      .shk-banner { padding: 0 28px; }
+      .shk-meta { grid-template-columns: 1fr; }
+      .shk-meta-col + .shk-meta-col { border-left: none; border-top: 1px solid var(--hairline); }
+      .shk-meta-col { padding: 32px 28px; }
+      .shk-cards { grid-template-columns: 1fr; }
+      .shk-icons { grid-template-columns: 1fr 1fr; }
+      .shk-section { padding: 56px 0; }
+      .shk-logo-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 540px) {
+      .shk-page { padding: 0 18px 64px; }
+      .shk-banner { padding: 0 18px; }
+      .shk-icons { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-atmos"></div>
+  <div class="bg-grain"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- Back button -->
+  <a class="shk-back" href="../index.html" aria-label="Back to portfolio">
+    <div class="irid-glow"></div>
+    <div class="irid-ring"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>
+    </svg>
+  </a>
+
+  <div class="shk-page">
+
+    <!-- Hero -->
+    <div class="shk-hero">
+      <!-- Logo above meta -->
+      <div class="shk-banner">
+        <img src="../gallery/shkopoly/shkopoly_logo.png" alt="Shkopoly Logo">
+      </div>
+      <div class="shk-meta">
+        <div class="shk-meta-col">
+          <p class="eyebrow">About the project</p>
+          <p class="shk-desc">
+            The idea was not originally mine. Fatjon Kuçi had already done something like this
+            years before, quietly remapping a Monopoly set to Shkodra. When we played his
+            version I was hooked and knew I wanted to take it further. I kept the concept,
+            rewrote the locations, and built the design from the ground up with custom icons,
+            a new board layout, and my own visual direction. For the icons I started with rough
+            sketches, used AI to work out the shapes and proportions, then cleaned everything
+            up in Illustrator. The Monopoly Figma Community Kit by Cammy Hogg gave me the board
+            framework to build on, which kept things moving instead of rebuilding the structure from zero.
+            Colors and composition were done by hand throughout in Illustrator and Photoshop.
+          </p>
+        </div>
+        <div class="shk-meta-col">
+          <p class="eyebrow">Details</p>
+          <div class="shk-details">
+            <div class="shk-detail">
+              <span class="shk-detail-label">Year</span>
+              <span class="shk-detail-value">2026</span>
+            </div>
+            <div class="shk-detail">
+              <span class="shk-detail-label">Role</span>
+              <span class="shk-detail-value">Designer</span>
+            </div>
+            <div class="shk-detail">
+              <span class="shk-detail-label">Type</span>
+              <span class="shk-detail-value">Concept Project</span>
+            </div>
+            <div class="shk-detail">
+              <span class="shk-detail-label">Inspired by</span>
+              <span class="shk-detail-value">Shkodra, Albania</span>
+            </div>
+            <div class="shk-detail" style="flex-basis:100%">
+              <span class="shk-detail-label">Based on</span>
+              <a class="shk-detail-link" href="https://www.figma.com/community/file/1369415023799516229/monopoly-kit" target="_blank" rel="noreferrer">
+                Monopoly Figma Community Kit
+              </a>
+            </div>
+            <div class="shk-detail" style="flex-basis:100%">
+              <span class="shk-detail-label">Tools</span>
+              <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
+                <span class="chip">Game Design</span>
+                <span class="chip">Illustrator</span>
+                <span class="chip">Photoshop</span>
+                <span class="chip">Figma</span>
+                <span class="chip">AI Design</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- The Logo -->
+    <section class="shk-section">
+      <div class="shk-section-head">
+        <p class="eyebrow">The Logo</p>
+        <h2 class="shk-section-title">Meet the Shkopoly Carp</h2>
+      </div>
+      <div class="shk-logo-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;">
+        <div style="display:flex; align-items:center; justify-content:center;">
+          <img src="../gallery/shkopoly/shkopoly_carp.png" alt="Shkopoly Carp" style="max-width:280px; width:100%; filter:drop-shadow(0 1px 3px rgba(0,0,0,.4));">
+        </div>
+        <div>
+          <p class="eyebrow" style="margin-bottom:14px;">KRAPI I SHKODRËS</p>
+          <p style="font-family:var(--font-display); font-size:clamp(18px,2vw,26px); font-weight:700; letter-spacing:-.01em; color:var(--text); margin-bottom:16px; line-height:1.2;">Common Carp of Lake Shkodra</p>
+          <p style="font-size:15px; line-height:1.75; color:var(--dim); text-align:justify;">
+            The mascot is not a cartoon fish, but the carp of Lake Shkodra, an iconic freshwater
+            species often regarded locally as the king of the lake. Deeply tied to Shkodra's
+            identity, the carp is more than part of the lake; it is part of the city's memory,
+            cuisine, and family tradition. It is best known as the heart of Tavë Krapi, a
+            traditional baked dish layered with onions, garlic, tomatoes, and dried plums. Rich,
+            warm, and unmistakably Shkodran, it is the kind of meal served at a family table,
+            shared slowly, and remembered long after it is finished.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Icons -->
+    <section class="shk-section">
+      <div class="shk-section-head">
+        <p class="eyebrow">Custom Icons</p>
+        <h2 class="shk-section-title">Shkodra instead of squares</h2>
+      </div>
+      <div class="shk-icons">
+
+        <!-- Row 1: The City -->
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_bicikleta.png" alt="Biçikleta">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces Free Parking</p>
+            <p class="shk-icon-name">Biçikleta</p>
+            <p class="shk-icon-desc">Shkodra is known as the City of Bicycles, with more bikes per capita than anywhere in Albania. The bike is not a transport choice here, it is the default.</p>
+          </div>
+        </div>
+
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_pelikani.png" alt="Pelikani Kaçurrel">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces In Jail</p>
+            <p class="shk-icon-name">Pelikani Kaçurrel</p>
+            <p class="shk-icon-desc">The Dalmatian pelican breeds on Lake Shkodra, making it the city's unofficial emblem. The face says innocent, the bars say otherwise. Roll doubles to get out.</p>
+          </div>
+        </div>
+
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_prokuroria.png" alt="Prokuroria">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces Go to Jail</p>
+            <p class="shk-icon-name">Prokuroria</p>
+            <p class="shk-icon-desc">Shkodra's prosecution office takes the place of the classic board cop. Land here and someone is writing up the charges. If you end up in jail, you know who signed the papers.</p>
+          </div>
+        </div>
+
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_teatri.png" alt="Teatri Migjeni" style="width:144px;height:144px;">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces Community Chest</p>
+            <p class="shk-icon-name">Teatri Migjeni</p>
+            <p class="shk-icon-desc">Named after the poet Migjeni, born in Shkodra in 1911. The theatre has been the city's cultural anchor since 1949. Draw a card, hope the community is generous.</p>
+          </div>
+        </div>
+
+        <!-- Row 2: The Infrastructure -->
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_urbani.png" alt="Urbani" style="width:144px;height:144px;">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces Train / Station</p>
+            <p class="shk-icon-name">Urbani</p>
+            <p class="shk-icon-desc">April 2026 brought a full rehaul of Shkodra's urban bus network. New routes, new vehicles, redesigned for a modern city. The train station exists, but trains rarely stop.</p>
+          </div>
+        </div>
+
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_oshee.png" alt="OSHEE">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces Electric Company</p>
+            <p class="shk-icon-name">OSHEE</p>
+            <p class="shk-icon-desc">Albania's electricity operator, running the grid across the country. Own this and opponents pay based on the dice. Just like real bills, you never know how high it goes.</p>
+          </div>
+        </div>
+
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_truma.png" alt="TRUMA">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces Waterworks</p>
+            <p class="shk-icon-name">TRUMA</p>
+            <p class="shk-icon-desc">Shkodra's groundwater is so abundant that many families skip the city line entirely, digging their own truma çezmë for fresh water. Own it and rents double anyway.</p>
+          </div>
+        </div>
+
+        <div class="shk-icon-card">
+          <div class="shk-icon-visual" style="background:rgba(0,114,187,.08)">
+            <img src="../gallery/shkopoly/icon_napolon.png" alt="Napolon Ari">
+          </div>
+          <div class="shk-icon-body">
+            <p class="shk-icon-replaces">Replaces Luxury Tax</p>
+            <p class="shk-icon-name">Napolon Ari</p>
+            <p class="shk-icon-desc">French 20-franc gold coins circulated as real currency in Shkodra for generations. Savings were kept in gold, not banks. Landing here costs you exactly that.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Board -->
+    <section class="shk-section">
+      <div class="shk-section-head">
+        <p class="eyebrow">The Board</p>
+        <h2 class="shk-section-title">Shkodra, square by square</h2>
+      </div>
+      <div class="shk-board" id="shk-board-thumb">
+        <img src="../gallery/shkopoly/shkopoly_board.png" alt="Shkopoly Game Board">
+        <div class="shk-board-hint">Click to explore</div>
+      </div>
+
+      <!-- Lightbox -->
+      <div class="shk-lightbox" id="shk-lightbox">
+        <button class="shk-lightbox-close" id="shk-lb-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 6 12 12"/><path d="m18 6-12 12"/>
+          </svg>
+        </button>
+        <img class="shk-lightbox-img" id="shk-lb-img" src="../gallery/shkopoly/shkopoly_board.png" alt="Shkopoly Board">
+        <div class="shk-lightbox-hint" id="shk-lb-hint">Scroll to zoom · Drag to pan · Esc to close</div>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section class="shk-section">
+      <div class="shk-section-head">
+        <p class="eyebrow">Property Cards</p>
+        <h2 class="shk-section-title">Every neighborhood, a deed</h2>
+      </div>
+      <div class="shk-deed-fan">
+        <div class="shk-deed">
+          <img src="../gallery/shkopoly/deed_pedonale.png" alt="Rruga Pedonale deed">
+        </div>
+        <div class="shk-deed">
+          <img src="../gallery/shkopoly/deed_piaca.png" alt="Piaca deed">
+        </div>
+        <div class="shk-deed">
+          <img src="../gallery/shkopoly/deed_zdrale.png" alt="Zdrali deed">
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="shk-footer">
+      <img class="shk-footer-fish" src="../gallery/shkopoly/shkopoly_carp.png" alt="Shkopoly mascot">
+      <p class="footer-line" style="margin-top:0; border-top:none; padding-top:0; justify-content:center;">© 2026 VENSI HAJDARI</p>
+      <a class="cta" href="../index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>
+        </svg>
+        Back to portfolio
+      </a>
+      <p class="shk-footer-legal">Shkopoly is a concept project, not affiliated with or endorsed by Hasbro.</p>
+    </div>
+
+  </div>
+
+  <!-- lightbox -->
+  <script>
+    (function () {
+      const lb     = document.getElementById('shk-lightbox');
+      const img    = document.getElementById('shk-lb-img');
+      const close  = document.getElementById('shk-lb-close');
+      const hint   = document.getElementById('shk-lb-hint');
+      const thumb  = document.getElementById('shk-board-thumb');
+
+      let w, h, x, y, minW, maxW;
+      let dragging = false, px, py, ox, oy;
+
+      function fit() {
+        const vw = window.innerWidth, vh = window.innerHeight;
+        const nat = img.naturalWidth / img.naturalHeight;
+        const scale = Math.min(vw / img.naturalWidth, vh / img.naturalHeight) * 0.96;
+        w = img.naturalWidth * scale;
+        h = img.naturalHeight * scale;
+        minW = w; maxW = img.naturalWidth * 5;
+        x = (vw - w) / 2;
+        y = (vh - h) / 2;
+        apply();
+      }
+
+      function clamp() {
+        const vw = window.innerWidth, vh = window.innerHeight;
+        x = w <= vw ? (vw - w) / 2 : Math.max(vw - w, Math.min(0, x));
+        y = h <= vh ? (vh - h) / 2 : Math.max(vh - h, Math.min(0, y));
+      }
+
+      function apply() {
+        img.style.width  = w + 'px';
+        img.style.height = h + 'px';
+        img.style.left   = x + 'px';
+        img.style.top    = y + 'px';
+      }
+
+      function open() {
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if (img.complete && img.naturalWidth) fit();
+        else img.onload = fit;
+        setTimeout(() => { hint.style.opacity = '0'; }, 3000);
+      }
+
+      function closeLb() {
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      thumb.addEventListener('click', open);
+      close.addEventListener('click', closeLb);
+      lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLb(); });
+      window.addEventListener('resize', () => { if (lb.classList.contains('open')) fit(); });
+
+      lb.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+        const nw = Math.max(minW, Math.min(maxW, w * factor));
+        const nh = nw / (img.naturalWidth / img.naturalHeight);
+        const cx = e.clientX, cy = e.clientY;
+        x = cx - (cx - x) * (nw / w);
+        y = cy - (cy - y) * (nh / h);
+        w = nw; h = nh;
+        clamp(); apply();
+      }, { passive: false });
+
+      lb.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0 || e.target === close) return;
+        dragging = true; px = e.clientX; py = e.clientY; ox = x; oy = y;
+        lb.classList.add('dragging');
+        lb.setPointerCapture(e.pointerId);
+      });
+      lb.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        x = ox + (e.clientX - px);
+        y = oy + (e.clientY - py);
+        clamp(); apply();
+      });
+      lb.addEventListener('pointerup',     () => { dragging = false; lb.classList.remove('dragging'); });
+      lb.addEventListener('pointercancel', () => { dragging = false; lb.classList.remove('dragging'); });
+    })();
+  </script>
+
+  <!-- cursor-follow glow -->
+  <script>
+    (function () {
+      const g = document.getElementById("cursor-glow");
+      let raf;
+      window.addEventListener("pointermove", (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          g.style.left = e.clientX + "px";
+          g.style.top = e.clientY + "px";
+          g.style.opacity = "1";
+          raf = null;
+        });
+      });
+      window.addEventListener("pointerleave", () => { g.style.opacity = "0"; });
+    })();
+  </script>
+</body>
+</html>

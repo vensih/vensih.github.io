@@ -11,10 +11,18 @@ function Tile({ project, layout, index, onOpen }) {
       onClick={() => onOpen(project)}
     >
       <div className="tile-media">
-        {project.thumb && (
+        {project.brand ? (
+          <div style={{ position:"absolute", inset:0, background:project.brand.bg,
+            display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <img src={project.brand.icon} alt={project.name} className="brand-icon" />
+          </div>
+        ) : project.thumb ? (
           <img src={project.thumb} alt={project.name}
-            style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", transform:"scale(1.25)", transformOrigin:"center center" }} />
-        )}
+            style={{ position:"absolute", inset:0, width:"100%", height:"100%",
+              objectFit:"cover",
+              transform: project.thumbZoom ? "scale(1.25)" : "none",
+              transformOrigin:"center center" }} />
+        ) : null}
         <div className="ph" data-ph={project.name}
              style={{ position:"absolute", inset:0, zIndex:-1, "--ph-a":project.phA, "--ph-b":project.phB }}></div>
         <div className="tile-shade"></div>
@@ -73,11 +81,23 @@ function ProjectModal({ project, onClose }) {
           <button className="modal-close" onClick={onClose} aria-label="Close"><Icon name="close" /></button>
           <div className="modal-media">
             {p.url ? (
-              <iframe src={p.url} style={{ position:"absolute", inset:0, width:"100%", height:"100%", border:"none" }}
-                title={p.name}></iframe>
+              <div style={{ position:"absolute", inset:0, overflow:"hidden" }}>
+                <iframe src={p.url} title={p.name} style={{
+                  display:"block", width:"1006px", height:"1000px",
+                  border:"none", zoom:0.5
+                }}></iframe>
+              </div>
+            ) : p.brand ? (
+              <div style={{ position:"absolute", inset:0, background:p.brand.bg,
+                display:"flex", alignItems:"center", justifyContent:"center" }}>
+                <img src={p.brand.icon} alt={p.name} className="brand-icon" />
+              </div>
             ) : p.thumb ? (
               <img src={p.thumb} alt={p.name}
-                style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", transform:"scale(1.25)", transformOrigin:"center center" }} />
+                style={{ position:"absolute", inset:0, width:"100%", height:"100%",
+                  objectFit:"cover",
+                  transform: p.thumbZoom ? "scale(1.25)" : "none",
+                  transformOrigin:"center center" }} />
             ) : null}
             <div className="ph" data-ph={p.name}
               style={{ position:"absolute", inset:0, zIndex:-1, "--ph-a":p.phA, "--ph-b":p.phB }}></div>
