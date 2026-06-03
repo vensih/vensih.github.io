@@ -20,7 +20,7 @@ const PROJECTS = [
   { id: "p5", name: "Shkopoly",    tag: "Game Design · 2026", phA:"#102338", phB:"#0a1422",
     blurb: "A concept project. A Monopoly parody set in Shkodra, Albania, where famous streets, neighborhoods, and landmarks make up the board, with custom cards and rules designed for fun, not for sale.",
     tags:["Game Design","Illustrator","Figma","AI Design"], year:"2026", role:"Designer",
-    url:"projects/shkopoly.html", brand: { bg:"#0072BB", icon:"gallery/shkopoly/shkopoly_carp.png" } },
+    url:"projects/shkopoly", brand: { bg:"#0072BB", icon:"gallery/shkopoly/shkopoly_carp.png" } },
   { id: "p6", name: "Creative Tools",   tag: "Development · 2026", phA:"#1a2d5a", phB:"#0c162c",
     blurb: "JavaScript and Python utilities built to streamline creative workflows, from automated asset export pipelines to data-driven layout generators.",
     tags:["JavaScript","Python","Automation"], year:"2026", role:"Developer" },

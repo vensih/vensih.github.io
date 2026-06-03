@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pema Familjare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../family/styles.css" />
+  <style>
+    #password-gate {
+      background:
+        radial-gradient(58% 48% at 50% -8%, rgba(47,107,255,.18), transparent 70%),
+        radial-gradient(44% 40% at 88% 14%, rgba(79,157,255,.13), transparent 70%),
+        radial-gradient(50% 45% at 5% 90%, rgba(47,107,255,.12), transparent 70%),
+        #14161f;
+    }
+    #gate-card {
+      background: rgba(16,18,26,0.55);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 32px;
+      box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,.06);
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+    }
+    #gate-glyph {
+      font-size: 22px;
+      color: rgba(79,157,255,0.55);
+      font-family: 'Outfit', system-ui, sans-serif;
+    }
+    #gate-input {
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      color: #f4f6fb;
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      caret-color: rgba(79,157,255,0.8);
+      transition: border-color 0.24s, box-shadow 0.24s;
+    }
+    #gate-input::placeholder { color: rgba(97,102,122,0.6); }
+    #gate-input:focus {
+      border-color: rgba(79,157,255,0.42);
+      box-shadow: 0 0 0 3px rgba(79,157,255,0.09);
+      outline: none;
+    }
+    #gate-input.shake {
+      border-color: rgba(200,60,60,0.5);
+      box-shadow: 0 0 0 3px rgba(200,60,60,0.09);
+    }
+    #gate-error {
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      color: rgba(200,75,75,0.65);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Password Gate -->
+  <div id="password-gate">
+    <div id="gate-card">
+      <div id="gate-glyph">✦</div>
+      <input
+        id="gate-input"
+        type="password"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="···"
+        aria-label="Passphrase"
+      />
+      <p id="gate-error"></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const PASS = 'k9\x26L\x23vB2\x24p\x408\x21zQ\x25W\x237m';
+      const KEY  = 'fam_auth_v1';
+
+      function unlock() {
+        var gate = document.getElementById('password-gate');
+        if (gate) gate.classList.add('gate-hidden');
+      }
+
+      if (sessionStorage.getItem(KEY) === '1') {
+        document.addEventListener('DOMContentLoaded', unlock);
+        return;
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var gate  = document.getElementById('password-gate');
+        var input = document.getElementById('gate-input');
+        var error = document.getElementById('gate-error');
+
+        input.focus();
+
+        function attempt() {
+          if (input.value === PASS) {
+            sessionStorage.setItem(KEY, '1');
+            gate.style.transition = 'opacity 0.55s ease';
+            gate.style.opacity    = '0';
+            setTimeout(function () { gate.classList.add('gate-hidden'); }, 560);
+          } else {
+            input.classList.remove('shake');
+            void input.offsetWidth;
+            input.classList.add('shake');
+            error.textContent = 'incorrect';
+            setTimeout(function () {
+              input.classList.remove('shake');
+              error.textContent = '';
+            }, 900);
+            input.value = '';
+            input.focus();
+          }
+        }
+
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') attempt();
+        });
+      });
+    })();
+  </script>
+
+  <!-- Intro veil — fades out to reveal the star map -->
+  <div id="intro-veil"></div>
+
+  <!-- Comets — fired by JS timer -->
+  <div class="comet" id="comet-1"></div>
+  <div class="comet" id="comet-2"></div>
+  <div class="comet" id="comet-3"></div>
+
+  <!-- Full-screen pannable/zoomable viewport -->
+  <div id="viewport">
+    <div id="canvas">
+      <svg id="ribbon-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="nodes-layer"></div>
+    </div>
+  </div>
+
+  <!-- Star legend — appears on hover over ✦ nodes -->
+  <div id="star-legend">
+    <span class="sl-glyph">✦</span>
+    <span class="sl-text">Djalë i Vetëm</span>
+  </div>
+
+  <!-- Zoom meter + reset -->
+  <div id="bottom-bar">
+    <div id="zoom-meter"><span id="zm-val">25</span><span class="zm-unit">%</span></div>
+    <button id="btn-reset" title="Kthehu te Vensi">⌂</button>
+  </div>
+
+  <!-- Tooltip -->
+  <div id="tooltip">
+    <span class="tt-name"></span>
+    <span class="tt-dates"></span>
+    <span class="tt-title"></span>
+  </div>
+
+  <!-- Side Panel -->
+  <div id="side-panel">
+    <div id="panel-handle"></div>
+    <button id="panel-close">✕</button>
+    <div id="panel-scroll-area">
+      <div id="panel-header">
+        <div id="panel-avatar"></div>
+        <h2 id="panel-name"></h2>
+        <p id="panel-dates"></p>
+        <p id="panel-title"></p>
+      </div>
+      <div class="panel-divider"></div>
+      <p id="panel-bio"></p>
+    </div>
+    <div id="panel-scrollbar">
+      <div id="panel-scrollbar-thumb"></div>
+    </div>
+  </div>
+
+  <script src="../family/script.js"></script>
+</body>
+</html>
