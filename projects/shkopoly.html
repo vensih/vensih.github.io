@@ -44,6 +44,7 @@
       overflow: visible;
     }
     .shk-back:hover { color: var(--text); background: var(--surface); transform: scale(1.06); }
+    .lb-open .shk-back { opacity: 0; pointer-events: none; transition: opacity .2s; }
     .shk-back:hover .irid-ring { opacity: 1; }
     .shk-back:hover .irid-glow { opacity: .9; }
     .shk-back svg { width: 20px; height: 20px; position: relative; z-index: 2; }
@@ -110,61 +111,96 @@
       color: var(--text);
     }
 
-    /* ── Board ── */
-    .shk-board {
-      border-radius: 0;
-      overflow: hidden;
+    /* ── Board hero thumbnail ── */
+    .shk-board-hero {
+      position: relative; overflow: hidden;
       border: 1px solid var(--hairline);
-      box-shadow: var(--shadow-card);
-      position: relative; cursor: zoom-in;
-      max-width: 600px; margin: 0 auto;
+      cursor: pointer;
+      width: 100%; aspect-ratio: 1/1;
+      max-width: 680px; margin: 0 auto;
+      border-radius: 0;
     }
-    .shk-board img { display: block; width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-    .shk-board-hint {
-      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-      background: rgba(20,22,31,.75); backdrop-filter: blur(8px);
-      border: 1px solid var(--hairline); border-radius: var(--r-pill);
-      color: var(--dim); font-size: 11px; letter-spacing: .06em;
-      padding: 6px 14px; pointer-events: none;
-      transition: opacity .3s; white-space: nowrap;
+    .shk-board-hero img {
+      display: block; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform .5s cubic-bezier(.22,.68,0,1.2);
+      will-change: transform;
     }
-    .shk-board:hover .shk-board-hint { opacity: 0; }
+    .shk-board-hero:hover img { transform: scale(1.04); }
+    .shk-board-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,5,9,.72) 0%, transparent 55%);
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 28px;
+      opacity: 0; transition: opacity .3s;
+    }
+    .shk-board-hero:hover .shk-board-overlay { opacity: 1; }
+    .shk-board-open-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: var(--r-pill);
+      color: var(--text);
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+      text-transform: uppercase; padding: 10px 22px;
+      cursor: pointer; backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+      transition: transform .2s, background .2s;
+    }
+    .shk-board-open-btn svg { width: 14px; height: 14px; }
+    .shk-board-open-btn:hover { transform: translateY(-2px); background: var(--surface); }
 
     /* ── Lightbox ── */
     .shk-lightbox {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(4,5,9,.92);
-      backdrop-filter: blur(6px);
+      background: rgba(3,4,8,.94);
+      backdrop-filter: blur(8px);
       opacity: 0; pointer-events: none;
       transition: opacity .3s var(--ease);
-      cursor: grab; overflow: hidden;
+      overflow: hidden;
       user-select: none; -webkit-user-select: none;
+      cursor: grab;
     }
     .shk-lightbox.open { opacity: 1; pointer-events: auto; }
     .shk-lightbox.dragging { cursor: grabbing; }
     .shk-lightbox-img {
-      position: absolute;
-      display: block;
+      position: absolute; display: block;
       image-rendering: high-quality;
       pointer-events: none;
+      will-change: width, height, left, top;
     }
-    .shk-lightbox-close {
-      position: fixed; top: 20px; right: 24px; z-index: 10;
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--glass); border: 1px solid var(--hairline);
-      color: var(--text); cursor: pointer;
+    /* control bar */
+    .shk-lb-bar {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 10;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(10,12,22,.82);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      border: 1px solid var(--hairline);
+      border-radius: var(--r-pill);
+      padding: 6px 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+    .shk-lb-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: transparent; border: none;
+      color: var(--dim); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      backdrop-filter: blur(12px); transition: background .2s;
+      transition: background .15s, color .15s;
+      flex-shrink: 0;
     }
-    .shk-lightbox-close:hover { background: var(--surface-2); }
-    .shk-lightbox-close svg { width: 16px; height: 16px; }
-    .shk-lightbox-hint {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: rgba(20,22,31,.75); backdrop-filter: blur(8px);
-      border: 1px solid var(--hairline); border-radius: var(--r-pill);
-      color: var(--dim); font-size: 11px; letter-spacing: .06em;
-      padding: 6px 16px; pointer-events: none;
-      transition: opacity .4s; white-space: nowrap;
+    .shk-lb-btn:hover { background: var(--surface); color: var(--text); }
+    .shk-lb-btn svg { width: 16px; height: 16px; }
+    .shk-lb-divider { width: 1px; height: 22px; background: var(--hairline); margin: 0 2px; }
+    .shk-lb-zoom-label {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
+      color: var(--dim); min-width: 42px; text-align: center;
+      padding: 0 4px;
+    }
+    @media (max-width: 540px) {
+      .shk-lb-bar { bottom: 20px; padding: 4px 6px; gap: 2px; }
+      .shk-lb-btn { width: 32px; height: 32px; }
     }
 
     /* ── Deed fan ── */
@@ -180,6 +216,8 @@
       overflow: hidden;
       border: 1px solid var(--hairline);
       box-shadow: 0 12px 40px rgba(0,0,0,.45);
+      cursor: pointer;
+      transition: transform .35s cubic-bezier(.22,.68,0,1.2), box-shadow .35s;
     }
     .shk-deed img { display: block; width: 100%; }
     .shk-deed:nth-child(1) {
@@ -194,11 +232,28 @@
       transform: rotate(10deg) translate(140px, 18px);
       z-index: 2;
     }
+    .shk-deed:nth-child(1):hover {
+      transform: rotate(-5deg) translate(-125px, -14px) scale(1.04);
+      z-index: 4;
+      box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    }
+    .shk-deed:nth-child(2):hover {
+      transform: translateY(-18px) scale(1.04);
+      z-index: 4;
+      box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    }
+    .shk-deed:nth-child(3):hover {
+      transform: rotate(5deg) translate(125px, -14px) scale(1.04);
+      z-index: 4;
+      box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    }
     @media (max-width: 540px) {
       .shk-deed-fan { height: 320px; }
       .shk-deed { width: 150px; }
       .shk-deed:nth-child(1) { transform: rotate(-10deg) translate(-100px, 14px); }
       .shk-deed:nth-child(3) { transform: rotate(10deg) translate(100px, 14px); }
+      .shk-deed:nth-child(1):hover { transform: rotate(-5deg) translate(-88px, -10px) scale(1.04); }
+      .shk-deed:nth-child(3):hover { transform: rotate(5deg) translate(88px, -10px) scale(1.04); }
     }
 
     /* ── Footer CTA ── */
@@ -489,20 +544,46 @@
         <p class="eyebrow">The Board</p>
         <h2 class="shk-section-title">Shkodra, square by square</h2>
       </div>
-      <div class="shk-board" id="shk-board-thumb">
+      <div class="shk-board-hero" id="shk-board-thumb">
         <img src="../gallery/shkopoly/shkopoly_board.png" alt="Shkopoly Game Board">
-        <div class="shk-board-hint">Click to explore</div>
+        <div class="shk-board-overlay">
+          <button class="shk-board-open-btn" aria-label="Explore board">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            Explore Board
+          </button>
+        </div>
       </div>
 
       <!-- Lightbox -->
-      <div class="shk-lightbox" id="shk-lightbox">
-        <button class="shk-lightbox-close" id="shk-lb-close" aria-label="Close">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 6 12 12"/><path d="m18 6-12 12"/>
-          </svg>
-        </button>
+      <div class="shk-lightbox" id="shk-lightbox" role="dialog" aria-modal="true" aria-label="Board viewer">
         <img class="shk-lightbox-img" id="shk-lb-img" src="../gallery/shkopoly/shkopoly_board.png" alt="Shkopoly Board">
-        <div class="shk-lightbox-hint" id="shk-lb-hint">Scroll to zoom · Drag to pan · Esc to close</div>
+        <div class="shk-lb-bar">
+          <button class="shk-lb-btn" id="shk-lb-fit" title="Fit to screen (F)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+            </svg>
+          </button>
+          <div class="shk-lb-divider"></div>
+          <button class="shk-lb-btn" id="shk-lb-zout" title="Zoom out (-)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6"/>
+            </svg>
+          </button>
+          <span class="shk-lb-zoom-label" id="shk-lb-zoom">100%</span>
+          <button class="shk-lb-btn" id="shk-lb-zin" title="Zoom in (+)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
+            </svg>
+          </button>
+          <div class="shk-lb-divider"></div>
+          <button class="shk-lb-btn" id="shk-lb-close" title="Close (Esc)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 6 12 12"/><path d="m18 6-12 12"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -540,34 +621,27 @@
 
   </div>
 
-  <!-- lightbox -->
+  <!-- board viewer -->
   <script>
     (function () {
-      const lb     = document.getElementById('shk-lightbox');
-      const img    = document.getElementById('shk-lb-img');
-      const close  = document.getElementById('shk-lb-close');
-      const hint   = document.getElementById('shk-lb-hint');
-      const thumb  = document.getElementById('shk-board-thumb');
+      const lb        = document.getElementById('shk-lightbox');
+      const img       = document.getElementById('shk-lb-img');
+      const thumb     = document.getElementById('shk-board-thumb');
+      const btnClose  = document.getElementById('shk-lb-close');
+      const btnFit    = document.getElementById('shk-lb-fit');
+      const btnZin    = document.getElementById('shk-lb-zin');
+      const btnZout   = document.getElementById('shk-lb-zout');
+      const zoomLabel = document.getElementById('shk-lb-zoom');
+      const bar       = lb.querySelector('.shk-lb-bar');
 
-      let w, h, x, y, minW, maxW;
-      let dragging = false, px, py, ox, oy;
+      let w, h, x, y, fitW, fitH, minW, maxW;
+      let dragging = false, dragX, dragY, dragOX, dragOY;
+      let touches = [], pinchDist = 0;
+      let lastTap = 0;
+      const aspect = () => img.naturalWidth / img.naturalHeight;
 
-      function fit() {
-        const vw = window.innerWidth, vh = window.innerHeight;
-        const nat = img.naturalWidth / img.naturalHeight;
-        const scale = Math.min(vw / img.naturalWidth, vh / img.naturalHeight) * 0.96;
-        w = img.naturalWidth * scale;
-        h = img.naturalHeight * scale;
-        minW = w; maxW = img.naturalWidth * 5;
-        x = (vw - w) / 2;
-        y = (vh - h) / 2;
-        apply();
-      }
-
-      function clamp() {
-        const vw = window.innerWidth, vh = window.innerHeight;
-        x = w <= vw ? (vw - w) / 2 : Math.max(vw - w, Math.min(0, x));
-        y = h <= vh ? (vh - h) / 2 : Math.max(vh - h, Math.min(0, y));
+      function label() {
+        zoomLabel.textContent = Math.round((w / img.naturalWidth) * 100) + '%';
       }
 
       function apply() {
@@ -575,53 +649,130 @@
         img.style.height = h + 'px';
         img.style.left   = x + 'px';
         img.style.top    = y + 'px';
+        label();
+      }
+
+      function clamp() {
+        const vw = window.innerWidth, vh = window.innerHeight;
+        const padX = vw * 0.25, padY = vh * 0.25;
+        x = w <= vw ? (vw - w) / 2 : Math.max(vw - w - padX, Math.min(padX, x));
+        y = h <= vh ? (vh - h) / 2 : Math.max(vh - h - padY, Math.min(padY, y));
+      }
+
+      function fit() {
+        const vw = window.innerWidth, vh = window.innerHeight;
+        const scale = Math.min(vw / img.naturalWidth, vh / img.naturalHeight) * 0.94;
+        fitW = img.naturalWidth * scale;
+        fitH = img.naturalHeight * scale;
+        minW = fitW * 0.5;
+        maxW = img.naturalWidth * 5;
+        w = fitW; h = fitH;
+        x = (vw - w) / 2;
+        y = (vh - h) / 2;
+        apply();
+      }
+
+      function zoomTo(nw, cx, cy) {
+        nw = Math.max(minW, Math.min(maxW, nw));
+        const nh = nw / aspect();
+        if (cx != null) {
+          x = cx - (cx - x) * (nw / w);
+          y = cy - (cy - y) * (nh / h);
+        } else {
+          x += (w - nw) / 2;
+          y += (h - nh) / 2;
+        }
+        w = nw; h = nh;
+        clamp(); apply();
       }
 
       function open() {
         lb.classList.add('open');
+        document.body.classList.add('lb-open');
         document.body.style.overflow = 'hidden';
         if (img.complete && img.naturalWidth) fit();
         else img.onload = fit;
-        setTimeout(() => { hint.style.opacity = '0'; }, 3000);
       }
 
       function closeLb() {
         lb.classList.remove('open');
+        document.body.classList.remove('lb-open');
         document.body.style.overflow = '';
       }
 
       thumb.addEventListener('click', open);
-      close.addEventListener('click', closeLb);
-      lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
-      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLb(); });
+      btnClose.addEventListener('click', closeLb);
+      btnFit.addEventListener('click', fit);
+      btnZin.addEventListener('click',  () => zoomTo(w * 1.35));
+      btnZout.addEventListener('click', () => zoomTo(w / 1.35));
+
       window.addEventListener('resize', () => { if (lb.classList.contains('open')) fit(); });
 
+      window.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape')               closeLb();
+        if (e.key === 'f' || e.key === 'F' || e.key === '0') fit();
+        if (e.key === '+' || e.key === '=')   zoomTo(w * 1.2);
+        if (e.key === '-')                     zoomTo(w / 1.2);
+        if (e.key === 'ArrowLeft')  { x += 80; clamp(); apply(); }
+        if (e.key === 'ArrowRight') { x -= 80; clamp(); apply(); }
+        if (e.key === 'ArrowUp')    { y += 80; clamp(); apply(); }
+        if (e.key === 'ArrowDown')  { y -= 80; clamp(); apply(); }
+      });
+
+      /* scroll zoom */
       lb.addEventListener('wheel', (e) => {
         e.preventDefault();
-        const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-        const nw = Math.max(minW, Math.min(maxW, w * factor));
-        const nh = nw / (img.naturalWidth / img.naturalHeight);
-        const cx = e.clientX, cy = e.clientY;
-        x = cx - (cx - x) * (nw / w);
-        y = cy - (cy - y) * (nh / h);
-        w = nw; h = nh;
-        clamp(); apply();
+        zoomTo(w * (e.deltaY < 0 ? 1.12 : 1 / 1.12), e.clientX, e.clientY);
       }, { passive: false });
 
+      /* pointer drag */
       lb.addEventListener('pointerdown', (e) => {
-        if (e.button !== 0 || e.target === close) return;
-        dragging = true; px = e.clientX; py = e.clientY; ox = x; oy = y;
+        if (e.button !== 0 || e.target.closest('.shk-lb-bar')) return;
+        dragging = true; dragX = e.clientX; dragY = e.clientY; dragOX = x; dragOY = y;
         lb.classList.add('dragging');
         lb.setPointerCapture(e.pointerId);
       });
       lb.addEventListener('pointermove', (e) => {
         if (!dragging) return;
-        x = ox + (e.clientX - px);
-        y = oy + (e.clientY - py);
+        x = dragOX + (e.clientX - dragX);
+        y = dragOY + (e.clientY - dragY);
         clamp(); apply();
       });
       lb.addEventListener('pointerup',     () => { dragging = false; lb.classList.remove('dragging'); });
       lb.addEventListener('pointercancel', () => { dragging = false; lb.classList.remove('dragging'); });
+
+      /* double-click / double-tap toggle fit ↔ 2.5x */
+      lb.addEventListener('click', (e) => {
+        if (e.target.closest('.shk-lb-bar')) return;
+        const now = Date.now();
+        if (now - lastTap < 280) {
+          Math.abs(w - fitW) < 4 ? zoomTo(fitW * 2.5, e.clientX, e.clientY) : fit();
+        }
+        lastTap = now;
+      });
+
+      /* touch pinch-to-zoom */
+      lb.addEventListener('touchstart', (e) => {
+        touches = Array.from(e.touches);
+        if (touches.length === 2)
+          pinchDist = Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
+      }, { passive: true });
+
+      lb.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const t = Array.from(e.touches);
+        if (t.length === 2 && touches.length === 2) {
+          const d = Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+          const cx = (t[0].clientX + t[1].clientX) / 2;
+          const cy = (t[0].clientY + t[1].clientY) / 2;
+          zoomTo(w * (d / pinchDist), cx, cy);
+          pinchDist = d;
+        }
+        touches = t;
+      }, { passive: false });
+
+      lb.addEventListener('touchend', (e) => { touches = Array.from(e.touches); }, { passive: true });
     })();
   </script>
 
