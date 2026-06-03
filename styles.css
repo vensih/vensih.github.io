@@ -227,10 +227,7 @@ body {
 }
 .nav-item svg { width: 20px; height: 20px; position: relative; z-index: 2; }
 .nav-item:hover { color: var(--text); background: var(--surface); transform: scale(1.04); }
-.nav-item.active { color: var(--solid-fg); }
-.nav-item.active .nav-disc {
-  opacity: 1; transform: scale(1);
-}
+.nav-item.active { color: var(--text); }
 .nav-disc {
   position: absolute; inset: 4px; border-radius: 50%;
   background: var(--solid-bg);
@@ -495,7 +492,7 @@ body {
 .modal-body { padding: 48px 40px; overflow-y: auto; }
 .modal-body .eyebrow { margin-bottom: 16px; }
 .modal-body h2 { font-family: var(--font-display); font-weight: 700; font-size: 32px; letter-spacing: -.02em; margin-bottom: 16px; }
-.modal-body p { color: var(--dim); line-height: 1.7; font-size: 15px; margin-bottom: 18px; }
+.modal-body p { color: var(--dim); line-height: 1.7; font-size: 15px; margin-bottom: 18px; text-align: justify; }
 .modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .chip {
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
@@ -503,14 +500,16 @@ body {
   background: var(--surface); border: 1px solid var(--hairline);
 }
 .modal-close {
-  position: absolute; top: 16px; right: 16px; z-index: 5;
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--close-bg); border: 1px solid var(--hairline);
-  color: var(--text); cursor: pointer; display: grid; place-items: center;
-  backdrop-filter: blur(8px);
-  transition: background .3s var(--ease), transform .3s var(--ease);
+  position: absolute; top: 14px; right: 14px; z-index: 5;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--glass); border: 1px solid var(--hairline);
+  color: var(--faint); cursor: pointer; display: grid; place-items: center;
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  transition: color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
 }
-.modal-close:hover { background: var(--surface-2); transform: rotate(90deg); }
+.modal-close svg { width: 14px; height: 14px; }
+.modal-close:hover { color: var(--text); background: var(--surface); transform: rotate(90deg); }
 
 /* ============================================================
    ABOUT
@@ -717,7 +716,7 @@ body {
 
   /* modal: single column */
   .modal       { grid-template-columns: 1fr; max-height: 94vh; }
-  .modal-media { min-height: 220px; max-height: 38vh; }
+  .modal-media { display: none; }
   .modal-body  { padding: 36px 28px; }
 
   .contact-ring { width: 380px; height: 380px; }
@@ -822,8 +821,9 @@ body {
   .about-grid     { gap: 28px; }
   .about-portrait { max-width: 100%; }
 
-  .modal-scrim { padding: 12px; }
-  .modal       { width: 100%; border-radius: var(--r-md); }
+  .modal-scrim { padding: 16px; }
+  .modal       { width: 92%; max-width: 480px; border-radius: var(--r-md); }
+  .modal-close { width: 28px; height: 28px; top: 10px; right: 10px; }
   .modal-body  { padding: 24px 18px; }
   .modal-body h2 { font-size: 22px; }
   .modal-media { min-height: 190px; max-height: 34vh; }

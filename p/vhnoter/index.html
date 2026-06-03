@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vhnoter.al · Vensi Hajdari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Archivo:wght@400;500;700;800&family=Kaisei+Decol:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("site-theme") || "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    html, body { scrollbar-width: none; }
+    ::-webkit-scrollbar { display: none; }
+
+    .vh-page {
+      position: relative; z-index: 3;
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 48px 120px;
+    }
+
+    /* ── Back button ── */
+    .vh-back {
+      position: fixed; top: 24px; left: 28px; z-index: 60;
+      width: 46px; height: 46px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--glass); border: 1px solid var(--hairline);
+      color: var(--faint); text-decoration: none;
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.06);
+      transition: color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
+      overflow: visible;
+    }
+    .vh-back:hover { color: var(--text); background: var(--surface); transform: scale(1.06); }
+    .vh-back:hover .irid-ring { opacity: 1; }
+    .vh-back:hover .irid-glow { opacity: .9; }
+    .vh-back svg { width: 20px; height: 20px; position: relative; z-index: 2; }
+
+    /* ── Hero ── */
+    .vh-hero { padding-top: 72px; padding-bottom: 80px; border-bottom: 1px solid var(--hairline); }
+    .vh-logo-wrap {
+      display: flex; align-items: center; justify-content: center;
+      padding: 56px 48px 52px;
+    }
+    .vh-logo-wrap img {
+      width: 120px; height: 120px; object-fit: contain;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,.35));
+    }
+
+    /* ── Meta strip ── */
+    .vh-meta {
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      background: var(--bg-2); overflow: hidden;
+    }
+    .vh-meta-col { padding: 44px 48px; }
+    .vh-meta-col + .vh-meta-col { border-left: 1px solid var(--hairline); }
+    .vh-meta-col .eyebrow { margin-bottom: 18px; }
+    .vh-desc { font-size: 16px; line-height: 1.75; color: var(--dim); max-width: 500px; margin-bottom: 28px; text-align: justify; }
+    .vh-details { display: flex; flex-wrap: wrap; gap: 28px 40px; }
+    .vh-detail { display: flex; flex-direction: column; gap: 5px; }
+    .vh-detail-label { font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+    .vh-detail-value { font-size: 14px; font-weight: 500; color: var(--text); }
+    .vh-detail-link { font-size: 14px; font-weight: 500; color: #5bb8ff; text-decoration: none; text-underline-offset: 3px; }
+    .vh-detail-link:hover { text-decoration: underline; }
+
+    /* ── Sections ── */
+    .vh-section { padding: 80px 0; }
+    .vh-section + .vh-section { border-top: 1px solid var(--hairline); }
+    .vh-section-head { margin-bottom: 40px; }
+    .vh-section-head .eyebrow { margin-bottom: 14px; }
+    .vh-section-title {
+      font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: var(--text);
+    }
+
+    /* ── Site preview ── */
+    .vh-preview {
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      overflow: hidden; position: relative; cursor: pointer;
+    }
+    .vh-preview img { display: block; width: 100%; transition: transform .5s cubic-bezier(.22,.68,0,1.2); }
+    .vh-preview:hover img { transform: scale(1.02); }
+    .vh-preview-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,5,9,.7) 0%, transparent 50%);
+      display: flex; align-items: flex-end; padding: 32px;
+      opacity: 0; transition: opacity .3s;
+    }
+    .vh-preview:hover .vh-preview-overlay { opacity: 1; }
+
+    /* ── Colour palette ── */
+    .vh-palette { display: flex; gap: 12px; flex-wrap: wrap; }
+    .vh-swatch {
+      display: flex; flex-direction: column; gap: 12px;
+      flex: 1 1 18%; min-width: 80px;
+    }
+    .vh-swatch:nth-child(1), .vh-swatch:nth-child(2) { flex: 1 1 45%; }
+    .vh-swatch-block {
+      height: 80px; border-radius: var(--r-md);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .vh-swatch-name { font-size: 12px; font-weight: 600; color: var(--text); }
+    .vh-swatch-hex  { font-size: 11px; color: var(--faint); font-family: var(--font-mono); letter-spacing: .04em; }
+    .vh-swatch-role { font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+    /* ── Typography ── */
+    .vh-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .vh-type-card {
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      padding: 36px 40px; background: var(--bg-2); overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .vh-type-label {
+      font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--faint); margin-bottom: 6px;
+    }
+    .vh-type-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .vh-type-weights { font-size: 11px; color: var(--dim); margin-bottom: 28px; }
+    .vh-type-specimen-archivo {
+      font-family: 'Archivo', sans-serif;
+      font-size: clamp(28px, 3vw, 42px); font-weight: 800;
+      letter-spacing: -.02em; line-height: 1.05;
+      color: var(--text); text-transform: uppercase;
+    }
+    .vh-type-specimen-kaisei {
+      font-family: 'Kaisei Decol', serif;
+      font-size: clamp(20px, 2.2vw, 30px); font-weight: 400;
+      line-height: 1.6; color: var(--dim);
+      font-style: italic;
+    }
+    .vh-type-use { font-size: 12px; color: var(--faint); margin-top: auto; padding-top: 20px; line-height: 1.6; }
+
+    /* ── Feature cards ── */
+    .vh-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .vh-feature {
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      padding: 32px 36px; background: var(--bg-2);
+    }
+.vh-feature-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: -.01em; color: var(--text); margin-bottom: 10px; }
+    .vh-feature-desc { font-size: 14px; line-height: 1.7; color: var(--dim); }
+
+    /* ── Language pills ── */
+    .vh-langs { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .vh-lang {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: var(--r-pill);
+      border: 1px solid var(--hairline); background: var(--surface);
+      font-size: 13px; font-weight: 500; color: var(--dim);
+    }
+    .vh-lang-dot { width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(135deg, var(--a1), var(--a2)); }
+
+    /* ── Footer ── */
+    .vh-footer {
+      padding: 96px 0 40px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 28px; text-align: center; border-top: 1px solid var(--hairline);
+    }
+    .vh-footer-logo {
+      width: 56px; height: 56px; object-fit: contain; opacity: .5;
+      filter: brightness(0) invert(1);
+      animation: vh-float 4s ease-in-out infinite;
+    }
+    [data-theme="light"] .vh-footer-logo { filter: brightness(0); }
+    @keyframes vh-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    .vh-footer-legal { font-size: 12px; color: var(--faint); max-width: 420px; line-height: 1.6; }
+
+    /* ── Breakpoints mockup ── */
+    .vh-breakpoints { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+    .vh-bp-card { display: flex; flex-direction: column; gap: 14px; height: 100%; }
+    .vh-bp-frame {
+      border: 1px solid var(--hairline); border-radius: 12px;
+      background: var(--bg-2); overflow: hidden;
+      box-shadow: var(--shadow-soft); flex: 1;
+    }
+    .vh-bp-inner { padding: 10px 10px 14px; display: flex; flex-direction: column; gap: 7px; }
+    .vh-bp-topbar { height: 6px; background: var(--surface-2); border-radius: 3px; }
+    .vh-bp-topbar-sm { height: 4px; }
+    .vh-bp-navbar-full { display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: 6px; padding: 5px 8px; }
+    .vh-bp-navbar-burger { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border-radius: 6px; padding: 5px 8px; }
+    .vh-bp-logo { width: 24px; height: 8px; background: var(--hairline-strong); border-radius: 2px; }
+    .vh-bp-logo-sm { width: 18px; height: 6px; }
+    .vh-bp-links { display: flex; gap: 4px; margin-left: auto; }
+    .vh-bp-link { width: 22px; height: 5px; background: var(--hairline-strong); border-radius: 2px; }
+    .vh-bp-btn { width: 28px; height: 8px; background: var(--a1); border-radius: 4px; opacity: .6; }
+    .vh-bp-burger { display: flex; flex-direction: column; gap: 2px; }
+    .vh-bp-burger span { display: block; width: 14px; height: 1.5px; background: var(--dim); border-radius: 1px; }
+    .vh-bp-hero { display: flex; flex-direction: column; gap: 6px; padding: 4px 4px 0; }
+    .vh-bp-h1 { height: 10px; width: 70%; background: var(--hairline-strong); border-radius: 3px; }
+    .vh-bp-h1-sm { width: 45%; height: 7px; background: var(--hairline); }
+    .vh-bp-h1-lg { width: 90%; height: 12px; }
+    .vh-bp-cards3, .vh-bp-cards2, .vh-bp-cards1 { display: grid; gap: 4px; margin-top: 4px; }
+    .vh-bp-cards3 { grid-template-columns: repeat(3, 1fr); }
+    .vh-bp-cards2 { grid-template-columns: repeat(2, 1fr); }
+    .vh-bp-cards1 { grid-template-columns: 1fr; }
+    .vh-bp-c { height: 28px; background: var(--surface); border: 1px solid var(--hairline); border-radius: 5px; }
+    .vh-bp-label { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text); }
+    .vh-bp-sub { font-size: 13px; color: var(--dim); line-height: 1.55; }
+
+    /* ── Site map ── */
+    .vh-sitemap {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .vh-sitemap-col { display: flex; flex-direction: column; gap: 8px; }
+    .vh-sitemap-lang {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      color: var(--text); background: var(--surface-2);
+      border: 1px solid var(--hairline-strong);
+      border-radius: var(--r-sm); padding: 10px 0;
+      text-align: center;
+    }
+    .vh-sitemap-page {
+      font-size: 13px; color: var(--dim);
+      border: 1px solid var(--hairline); border-radius: var(--r-sm);
+      background: var(--bg-2); padding: 12px 0;
+      text-align: center;
+    }
+
+    /* ── Challenges ── */
+    .vh-challenges { display: flex; flex-direction: column; gap: 0; }
+    .vh-challenge { padding: 32px 0; border-top: 1px solid var(--hairline); display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start; }
+    .vh-challenge-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: var(--text); line-height: 1.3; }
+    .vh-challenge-body { font-size: 15px; line-height: 1.75; color: var(--dim); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .vh-page { padding: 0 28px 80px; }
+      .vh-logo-wrap { padding: 40px 28px 36px; }
+      .vh-meta { grid-template-columns: 1fr; }
+      .vh-meta-col + .vh-meta-col { border-left: none; border-top: 1px solid var(--hairline); }
+      .vh-meta-col { padding: 32px 28px; }
+      .vh-features { grid-template-columns: repeat(2, 1fr); }
+      .vh-type-grid { grid-template-columns: 1fr; }
+      .vh-section { padding: 56px 0; }
+    }
+    @media (max-width: 540px) {
+      .vh-page { padding: 0 18px 64px; }
+      .vh-palette { gap: 8px; }
+      .vh-swatch-block { height: 60px; }
+      .vh-features { grid-template-columns: 1fr; }
+      .vh-breakpoints { grid-template-columns: 1fr; }
+.vh-sitemap { grid-template-columns: repeat(2, 1fr); }
+      .vh-challenge { grid-template-columns: 1fr; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-atmos"></div>
+  <div class="bg-grain"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <a class="vh-back" href="../../index.html" aria-label="Back to portfolio">
+    <div class="irid-glow"></div>
+    <div class="irid-ring"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>
+    </svg>
+  </a>
+
+  <div class="vh-page">
+
+    <!-- Hero -->
+    <div class="vh-hero">
+      <div class="vh-meta">
+        <div class="vh-meta-col">
+          <p class="eyebrow">About the project</p>
+          <p class="vh-desc">
+            A professional website built from scratch for a notary office in Shkodër, Albania
+            with over 25 years of practice. The brief was a clean, trustworthy presence
+            that works for everyone: locals in Albanian, expats and international clients in
+            English, Italian, and German. Everything from the CSS architecture to the SEO
+            structured data was written by hand, no frameworks, no CMS. The services fee table,
+            language routing, animated interactions, and mobile nav drawer were all custom-built
+            to fit the client's workflow and the expectations of a legal services audience.
+          </p>
+        </div>
+        <div class="vh-meta-col">
+          <p class="eyebrow">Details</p>
+          <div class="vh-details">
+            <div class="vh-detail">
+              <span class="vh-detail-label">Year</span>
+              <span class="vh-detail-value">2024 – 2026</span>
+            </div>
+            <div class="vh-detail">
+              <span class="vh-detail-label">Role</span>
+              <span class="vh-detail-value">Web Developer</span>
+            </div>
+            <div class="vh-detail">
+              <span class="vh-detail-label">Type</span>
+              <span class="vh-detail-value">Professional Website</span>
+            </div>
+            <div class="vh-detail">
+              <span class="vh-detail-label">Client</span>
+              <span class="vh-detail-value">Valbona Hajdari</span>
+            </div>
+            <div class="vh-detail" style="flex-basis:100%">
+              <span class="vh-detail-label">Live at</span>
+              <a class="vh-detail-link" href="https://vhnoter.al" target="_blank" rel="noreferrer">vhnoter.al ↗</a>
+            </div>
+            <div class="vh-detail" style="flex-basis:100%">
+              <span class="vh-detail-label">Stack</span>
+              <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
+                <span class="chip">Multilingual</span>
+                <span class="chip">HTML/CSS</span>
+                <span class="chip">SEO</span>
+                <span class="chip">JavaScript</span>
+                <span class="chip">UI/UX</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <section class="vh-section">
+      <div class="vh-section-head">
+        <p class="eyebrow">The Site</p>
+        <h2 class="vh-section-title">Clean, direct, built for trust</h2>
+      </div>
+      <div class="vh-preview">
+        <img src="vhnoter_picture.png" alt="vhnoter.al preview">
+        <div class="vh-preview-overlay">
+          <a class="cta" href="https://vhnoter.al" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Open vhnoter.al
+            <span class="cta-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                <path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="vh-section">
+      <div class="vh-section-head">
+        <p class="eyebrow">What was built</p>
+        <h2 class="vh-section-title">Every detail considered</h2>
+      </div>
+      <div class="vh-features">
+
+        <div class="vh-feature">
+          <p class="vh-feature-title">Four Languages</p>
+          <p class="vh-feature-desc">Albanian, English, Italian, and German, each a separate set of pages with its own URLs and translated copy. Preferred language is remembered for returning visitors.</p>
+        </div>
+
+        <div class="vh-feature">
+          <p class="vh-feature-title">SEO Architecture</p>
+          <p class="vh-feature-desc">Full search and social metadata written by hand for every page in every language. No plugin, no generator. Every language version is indexed and discoverable independently.</p>
+        </div>
+
+        <div class="vh-feature">
+          <p class="vh-feature-title">Live Office Status</p>
+          <p class="vh-feature-desc">The contact page checks Tirana time on load and shows whether the office is currently open. Hours switch automatically between summer and standard schedules every year.</p>
+        </div>
+
+        <div class="vh-feature">
+          <p class="vh-feature-title">Clipboard Interactions</p>
+          <p class="vh-feature-desc">On desktop, clicking the phone or email copies it to the clipboard. A confirmation tooltip appears in whichever language the visitor is using at the time.</p>
+        </div>
+
+        <div class="vh-feature">
+          <p class="vh-feature-title">Slime Language Indicator</p>
+          <p class="vh-feature-desc">The active language pill has a sliding indicator where the leading edge snaps ahead and the trailing edge springs behind, creating a stretching effect as you switch languages.</p>
+        </div>
+
+        <div class="vh-feature">
+          <p class="vh-feature-title">Dynamic Years Counter</p>
+          <p class="vh-feature-desc">The years of experience shown on the page are calculated live from the founding year 1998. The number increments every January automatically, never needing a manual edit.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Responsive Breakpoints -->
+    <section class="vh-section">
+      <div class="vh-section-head">
+        <p class="eyebrow">Responsive Design</p>
+        <h2 class="vh-section-title">Works at every width</h2>
+      </div>
+      <div class="vh-breakpoints">
+        <div class="vh-bp-card">
+          <div class="vh-bp-frame vh-bp-desktop">
+            <div class="vh-bp-inner">
+              <div class="vh-bp-topbar"></div>
+              <div class="vh-bp-navbar vh-bp-navbar-full">
+                <div class="vh-bp-logo"></div>
+                <div class="vh-bp-links">
+                  <div class="vh-bp-link"></div>
+                  <div class="vh-bp-link"></div>
+                  <div class="vh-bp-link"></div>
+                </div>
+                <div class="vh-bp-btn"></div>
+              </div>
+              <div class="vh-bp-hero">
+                <div class="vh-bp-h1"></div>
+                <div class="vh-bp-h1 vh-bp-h1-sm"></div>
+                <div class="vh-bp-cards3">
+                  <div class="vh-bp-c"></div>
+                  <div class="vh-bp-c"></div>
+                  <div class="vh-bp-c"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="vh-bp-label">Desktop</p>
+          <p class="vh-bp-sub">Sticky dual header, 3-column cards, full brand name</p>
+        </div>
+        <div class="vh-bp-card">
+          <div class="vh-bp-frame vh-bp-tablet">
+            <div class="vh-bp-inner">
+              <div class="vh-bp-navbar vh-bp-navbar-burger">
+                <div class="vh-bp-logo"></div>
+                <div class="vh-bp-burger"><span></span><span></span><span></span></div>
+              </div>
+              <div class="vh-bp-hero">
+                <div class="vh-bp-h1"></div>
+                <div class="vh-bp-h1 vh-bp-h1-sm"></div>
+                <div class="vh-bp-cards2">
+                  <div class="vh-bp-c"></div>
+                  <div class="vh-bp-c"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="vh-bp-label">Tablet</p>
+          <p class="vh-bp-sub">Hamburger menu replaces nav links, 2-column cards</p>
+        </div>
+        <div class="vh-bp-card">
+          <div class="vh-bp-frame vh-bp-mobile">
+            <div class="vh-bp-inner">
+              <div class="vh-bp-topbar vh-bp-topbar-sm"></div>
+              <div class="vh-bp-navbar vh-bp-navbar-burger">
+                <div class="vh-bp-logo vh-bp-logo-sm"></div>
+                <div class="vh-bp-burger"><span></span><span></span><span></span></div>
+              </div>
+              <div class="vh-bp-hero">
+                <div class="vh-bp-h1 vh-bp-h1-lg"></div>
+                <div class="vh-bp-h1 vh-bp-h1-sm" style="width:85%"></div>
+                <div class="vh-bp-cards1">
+                  <div class="vh-bp-c"></div>
+                  <div class="vh-bp-c"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="vh-bp-label">Mobile</p>
+          <p class="vh-bp-sub">Compact topbar, single-column layout, scaled typography</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Site Map -->
+    <section class="vh-section">
+      <div class="vh-section-head">
+        <p class="eyebrow">Site Structure</p>
+        <h2 class="vh-section-title">16 pages, 4 languages</h2>
+      </div>
+      <div class="vh-sitemap">
+        <div class="vh-sitemap-col">
+          <div class="vh-sitemap-lang">AL</div>
+          <div class="vh-sitemap-page">Home</div>
+          <div class="vh-sitemap-page">Services</div>
+          <div class="vh-sitemap-page">Contact</div>
+          <div class="vh-sitemap-page">Location</div>
+        </div>
+        <div class="vh-sitemap-col">
+          <div class="vh-sitemap-lang">EN</div>
+          <div class="vh-sitemap-page">Home</div>
+          <div class="vh-sitemap-page">Services</div>
+          <div class="vh-sitemap-page">Contact</div>
+          <div class="vh-sitemap-page">—</div>
+        </div>
+        <div class="vh-sitemap-col">
+          <div class="vh-sitemap-lang">IT</div>
+          <div class="vh-sitemap-page">Home</div>
+          <div class="vh-sitemap-page">Services</div>
+          <div class="vh-sitemap-page">Contact</div>
+          <div class="vh-sitemap-page">—</div>
+        </div>
+        <div class="vh-sitemap-col">
+          <div class="vh-sitemap-lang">DE</div>
+          <div class="vh-sitemap-page">Home</div>
+          <div class="vh-sitemap-page">Services</div>
+          <div class="vh-sitemap-page">Contact</div>
+          <div class="vh-sitemap-page">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Palette -->
+    <section class="vh-section">
+      <div class="vh-section-head">
+        <p class="eyebrow">Colour Palette</p>
+        <h2 class="vh-section-title">Navy & gold on warm paper</h2>
+      </div>
+      <div class="vh-palette">
+        <div class="vh-swatch">
+          <div class="vh-swatch-block" style="background:#133951;"></div>
+          <div>
+            <div class="vh-swatch-name">Navy</div>
+            <div class="vh-swatch-hex">#133951</div>
+            <div class="vh-swatch-role">Brand primary, headings, buttons</div>
+          </div>
+        </div>
+        <div class="vh-swatch">
+          <div class="vh-swatch-block" style="background:#cbb77d;"></div>
+          <div>
+            <div class="vh-swatch-name">Gold</div>
+            <div class="vh-swatch-hex">#cbb77d</div>
+            <div class="vh-swatch-role">Accent, underlines, stars</div>
+          </div>
+        </div>
+        <div class="vh-swatch">
+          <div class="vh-swatch-block" style="background:#e4d6ad; border-color: rgba(0,0,0,.08);"></div>
+          <div>
+            <div class="vh-swatch-name">Gold Soft</div>
+            <div class="vh-swatch-hex">#e4d6ad</div>
+            <div class="vh-swatch-role">Hover states, tints</div>
+          </div>
+        </div>
+        <div class="vh-swatch">
+          <div class="vh-swatch-block" style="background:#f8f6f1; border-color: rgba(0,0,0,.08);"></div>
+          <div>
+            <div class="vh-swatch-name">Cream</div>
+            <div class="vh-swatch-hex">#f8f6f1</div>
+            <div class="vh-swatch-role">Page background</div>
+          </div>
+        </div>
+        <div class="vh-swatch">
+          <div class="vh-swatch-block" style="background:#fefdfb; border-color: rgba(0,0,0,.08);"></div>
+          <div>
+            <div class="vh-swatch-name">Paper</div>
+            <div class="vh-swatch-hex">#fefdfb</div>
+            <div class="vh-swatch-role">Cards, surfaces</div>
+          </div>
+        </div>
+        <div class="vh-swatch">
+          <div class="vh-swatch-block" style="background:#6d7d84;"></div>
+          <div>
+            <div class="vh-swatch-name">Ink Muted</div>
+            <div class="vh-swatch-hex">#6d7d84</div>
+            <div class="vh-swatch-role">Body text, captions</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="vh-section">
+      <div class="vh-section-head">
+        <p class="eyebrow">Typography</p>
+        <h2 class="vh-section-title">Structure meets warmth</h2>
+      </div>
+      <div class="vh-type-grid">
+        <div class="vh-type-card">
+          <p class="vh-type-label">Display & UI</p>
+          <p class="vh-type-name">Archivo</p>
+          <p class="vh-type-weights">400 · 500 · 600 · 700 · 800 · 900</p>
+          <div class="vh-type-specimen-archivo">Korrektësi<br>&amp; Siguri</div>
+          <p class="vh-type-use">Used for all navigation, headings, buttons, labels, and UI chrome. Its grotesque structure with slight warmth fits the professional yet approachable tone of a legal office.</p>
+        </div>
+        <div class="vh-type-card">
+          <p class="vh-type-label">Editorial & Body</p>
+          <p class="vh-type-name">Kaisei Decol</p>
+          <p class="vh-type-weights">400 · 500 · 700</p>
+          <div class="vh-type-specimen-kaisei">"Notere Valbona Hajdari ka një përvojë mbi 25 vite në ofrimin e shërbimeve noteriale."</div>
+          <p class="vh-type-use">Reserved for the mission statement and review quotes. The Japanese-influenced serif brings editorial weight and warmth to long-form passages, creating contrast against Archivo's sharpness.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenges -->
+    <section class="vh-section">
+      <div class="vh-section-head">
+        <p class="eyebrow">Challenges</p>
+        <h2 class="vh-section-title">What made it interesting</h2>
+      </div>
+      <div class="vh-challenges">
+        <div class="vh-challenge">
+          <p class="vh-challenge-title">Making legal content readable</p>
+          <p class="vh-challenge-body">A notary's fee schedule is not naturally engaging material. The challenge was presenting dozens of rows of tariff data in a way that felt organized and scannable without stripping out the detail clients actually need. Collapsible tables with smooth animation kept the page from feeling like a wall of text.</p>
+        </div>
+        <div class="vh-challenge">
+          <p class="vh-challenge-title">16 pages of metadata, done right</p>
+          <p class="vh-challenge-body">Every language version needed its own complete set of titles, descriptions, open graph tags, and cross-language links. Doing it by hand meant nothing was auto-generated or mismatched, but it also meant 16 opportunities to get something wrong. Consistency required a checklist approach for every new page.</p>
+        </div>
+        <div class="vh-challenge">
+          <p class="vh-challenge-title">Trust without heaviness</p>
+          <p class="vh-challenge-body">Legal services demand seriousness, but a site that feels stiff or overly formal loses people before they read a word. The navy and gold palette, the Kaisei Decol serif in the mission statement, and the warm cream backgrounds were all chosen to feel credible and human at the same time.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="vh-footer">
+<p class="footer-line" style="margin-top:0; border-top:none; padding-top:0; justify-content:center;">© 2026 VENSI HAJDARI</p>
+      <a class="cta" href="../../index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>
+        </svg>
+        Back to portfolio
+      </a>
+      <p class="vh-footer-legal">Built for Zyra Noteriale Valbona Hajdari, Shkodër, Albania.</p>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const g = document.getElementById("cursor-glow");
+      let raf;
+      window.addEventListener("pointermove", (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          g.style.left = e.clientX + "px";
+          g.style.top  = e.clientY + "px";
+          g.style.opacity = "1";
+          raf = null;
+        });
+      });
+      window.addEventListener("pointerleave", () => { g.style.opacity = "0"; });
+    })();
+  </script>
+</body>
+</html>
