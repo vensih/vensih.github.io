@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sigurime Shoqërore për të Vetëpunësuarit &middot; perllogarit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    :root {
+      --red:          #C62828;
+      --red-light:    #FFEBEE;
+      --red-border:   #EF9A9A;
+      --green:        #2e7d32;
+      --green-light:  #E8F5E9;
+      --green-border: #A5D6A7;
+      --orange:       #E65100;
+    }
+
+    /* ── Year toggle ── */
+    .year-wrap {
+      display: flex; gap: .6rem; margin-bottom: 1.25rem; justify-content: center;
+    }
+    .year-btn {
+      padding: .4rem 1.2rem; min-height: 38px;
+      border: 1.5px solid rgba(255,255,255,.6); border-radius: var(--r-pill);
+      background: rgba(255,255,255,.45);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      cursor: pointer; font-family: var(--font); font-size: .84rem;
+      font-weight: 700; color: var(--gray); transition: all .15s;
+    }
+    .year-btn.active {
+      border-color: var(--blue); color: var(--blue);
+      background: rgba(37,99,235,.12);
+    }
+
+    /* ── Input ── */
+    .field-label {
+      display: block; font-size: .82rem; font-weight: 700;
+      color: #555; margin-bottom: .4rem;
+    }
+    .input-row {
+      display: flex; align-items: stretch;
+      border: 1.5px solid rgba(255,255,255,.65); border-radius: var(--r-md);
+      overflow: hidden; background: rgba(255,255,255,.5);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      transition: border-color .18s;
+    }
+    .input-row:focus-within { border-color: var(--blue); }
+    .input-row input {
+      flex: 1; padding: .8rem 1rem; border: none; outline: none;
+      font-family: var(--font); font-size: 1.5rem; font-weight: 700;
+      color: var(--navy); background: transparent; min-width: 0;
+    }
+    .input-row input::placeholder { color: #d8d8d8; font-weight: 400; }
+    .input-row .unit {
+      padding: 0 1rem; display: flex; align-items: center;
+      font-weight: 800; font-size: .88rem; color: var(--gray);
+      background: rgba(255,255,255,.38); border-left: 1px solid rgba(255,255,255,.6);
+    }
+
+    /* ── Quick buttons ── */
+    .quick-row {
+      display: flex; align-items: center; gap: .5rem;
+      margin-top: .5rem; margin-bottom: 1.25rem; flex-wrap: wrap;
+    }
+    .quick-lbl { font-size: .78rem; color: var(--gray); }
+    .quick-btn {
+      padding: .22rem .7rem; border-radius: var(--r-pill);
+      border: 1.5px solid var(--blue); background: rgba(37,99,235,.08);
+      color: var(--blue); font-family: var(--font); font-size: .78rem;
+      font-weight: 700; cursor: pointer; transition: background .15s;
+    }
+    .quick-btn:hover { background: rgba(37,99,235,.18); }
+
+    /* ── Warning ── */
+    .warn-box {
+      background: rgba(255,243,224,.75); border: 1.5px solid #FFCC80;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-radius: var(--r-sm); padding: .65rem .9rem;
+      font-size: .8rem; color: var(--orange); margin-top: .75rem;
+    }
+
+    /* ── Family stepper ── */
+    .family-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.25rem; gap: 1rem;
+    }
+    .family-label { font-size: .82rem; font-weight: 700; color: #555; }
+    .family-sub   { font-size: .74rem; color: var(--gray); margin-top: .15rem; }
+    .stepper {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      background: rgba(255,255,255,.5);
+      border: 1.5px solid rgba(255,255,255,.65); border-radius: var(--r-pill);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .stepper button {
+      width: 34px; height: 34px; border: none; background: transparent;
+      font-size: 1.1rem; font-weight: 700; color: var(--blue);
+      cursor: pointer; font-family: var(--font); transition: background .15s;
+    }
+    .stepper button:hover { background: rgba(37,99,235,.1); }
+    .stepper input {
+      width: 38px; height: 34px; text-align: center;
+      font-size: .9rem; font-weight: 800; color: var(--navy);
+      font-family: var(--font); border: none;
+      border-left: 1px solid rgba(255,255,255,.7);
+      border-right: 1px solid rgba(255,255,255,.7);
+      background: transparent; outline: none; padding: 0;
+    }
+    .stepper input::-webkit-inner-spin-button,
+    .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; appearance: none; }
+    .stepper input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+    /* ── Result box ── */
+    .result-box {
+      background: rgba(232,245,233,.75); border: 1.5px solid var(--green-border);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--r-md); padding: 1.1rem 1.3rem;
+      margin: 1.25rem 0; display: flex; justify-content: space-between;
+      align-items: center; gap: 1rem; min-height: 80px;
+    }
+    .result-box .rl       { color: var(--green); }
+    .result-box .rl-title { font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; }
+    .result-box .rl-sub   { font-size: .78rem; opacity: .75; margin-top: .15rem; }
+    .result-box .rr       { text-align: right; color: var(--green); flex-shrink: 0; }
+    .result-box .rr-val   { font-size: 1.9rem; font-weight: 800; line-height: 1.1; min-height: calc(1.9rem * 1.1); }
+
+    /* ── Breakdown table ── */
+    .breakdown { width: 100%; border-collapse: collapse; }
+    .breakdown tr { border-bottom: 1px solid rgba(226,232,240,.6); }
+    .breakdown tr:last-child { border-bottom: none; }
+    .breakdown td { padding: .55rem .2rem; vertical-align: middle; }
+    .breakdown td:nth-child(2) { font-size: .76rem; color: #999; padding: 0 .5rem; }
+    .breakdown td:last-child   { text-align: right; font-weight: 600; white-space: nowrap; }
+    .breakdown .row-deduct td:last-child { color: var(--red); }
+    .breakdown .row-separator td {
+      padding-top: .3rem; padding-bottom: 0;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gray); opacity: .55;
+    }
+    .breakdown .row-total td {
+      font-weight: 800; font-size: 1rem; color: var(--navy);
+      padding-top: .7rem; padding-bottom: .7rem;
+    }
+    .breakdown .row-total td:last-child { color: var(--green); }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-flex; align-items: center; font-size: .7rem;
+      line-height: 1; padding: .18rem .42rem; border-radius: 4px;
+      font-weight: 600; margin-left: .35rem; vertical-align: middle;
+    }
+    .badge-red  { background: var(--red-light);  color: var(--red); }
+    .badge-gray { background: rgba(248,250,252,.8); color: var(--gray); border: 1px solid rgba(226,232,240,.7); }
+
+    /* ── Period grid ── */
+    .period-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: .75rem; margin-top: 1.25rem;
+    }
+    .period-item {
+      background: rgba(255,255,255,.42);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.65);
+      border-radius: var(--r-md); padding: .75rem 1rem; text-align: center;
+    }
+    .period-item .pi-label { font-size: .78rem; color: var(--gray); }
+    .period-item .pi-val   { font-size: 1.1rem; font-weight: 800; margin-top: .2rem; color: var(--navy); }
+    .period-item .pi-sub   { font-size: .7rem; color: var(--gray); margin-top: .1rem; }
+
+    /* ── Rates card ── */
+    .rates-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: .75rem; margin-bottom: 1rem;
+    }
+    .rate-item {
+      background: rgba(255,255,255,.42);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.65);
+      border-radius: var(--r-md); padding: .8rem .75rem; text-align: center;
+    }
+    .rate-item .ri-lbl { font-size: .72rem; color: var(--gray); line-height: 1.3; }
+    .rate-item .ri-val { font-size: 1.35rem; font-weight: 900; color: var(--blue); margin: .25rem 0; }
+    .rate-item .ri-who {
+      display: inline-block; font-size: .67rem;
+      padding: .1rem .35rem; border-radius: 3px;
+      font-weight: 700; text-transform: uppercase;
+    }
+    .ri-ss { background: var(--red-light);  color: var(--red); }
+    .ri-hi { background: #E3F2FD; color: #1565C0; }
+
+    .deduction-note {
+      background: rgba(255,255,255,.4);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.62);
+      border-radius: var(--r-md); padding: .9rem 1rem;
+      font-size: .82rem; line-height: 1.75; color: #555;
+    }
+    .deduction-note strong { color: var(--navy); }
+
+    /* ── Tooltip ── */
+    .tip {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: rgba(100,116,139,.15); color: var(--gray);
+      font-size: .62rem; font-weight: 700; cursor: help;
+      margin-left: .4rem; vertical-align: middle;
+      position: relative; flex-shrink: 0;
+    }
+    .tip::after {
+      content: attr(data-tip);
+      position: absolute; bottom: calc(100% + 7px); left: 50%;
+      transform: translateX(-50%);
+      background: var(--navy); color: white;
+      border-radius: var(--r-sm); padding: .45rem .7rem;
+      font-size: .73rem; font-weight: 500; line-height: 1.45;
+      width: 210px; text-align: left;
+      opacity: 0; pointer-events: none;
+      transition: opacity .15s; z-index: 100;
+    }
+    .tip:hover::after, .tip.tip--open::after { opacity: 1; }
+
+    /* ── Responsive ── */
+    @media (max-width: 520px) {
+      .period-grid { grid-template-columns: 1fr 1fr; }
+      .breakdown td:nth-child(2) { display: none; }
+    }
+    @media (max-width: 380px) {
+      .result-box     { flex-direction: column; align-items: flex-start; gap: .4rem; }
+      .result-box .rr { text-align: left; }
+      .result-box .rr-val { font-size: 1.5rem; }
+      .period-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <ul class="nav-links">
+      <li><a href="../index.html">Kryefaqe</a></li>
+      <li><a href="../llogaritesit.html">Llogaritësit</a></li>
+      <li><a href="../rreth-nesh.html">Rreth Nesh</a></li>
+      <li><a href="#">Burimet</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="fab-wrap">
+  <div class="fab-menu" id="nav-mobile">
+    <a href="../index.html" class="fab-item">
+      <span class="fab-label">Kryefaqe</span>
+      <span class="fab-btn"><i class="fi fi-br-home"></i></span>
+    </a>
+    <a href="../llogaritesit.html" class="fab-item nav-active">
+      <span class="fab-label">Llogaritësit</span>
+      <span class="fab-btn"><i class="fi fi-br-calculator"></i></span>
+    </a>
+    <a href="../rreth-nesh.html" class="fab-item">
+      <span class="fab-label">Rreth Nesh</span>
+      <span class="fab-btn"><i class="fi fi-br-info"></i></span>
+    </a>
+  </div>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <i class="fi fi-br-menu-burger" id="hamburger-icon"></i>
+  </button>
+</div>
+
+<div class="page-header">
+  <div class="page-header-inner" style="text-align:center">
+    <h1>SIGURIME SHOQËRORE<br>PËR TË VETËPUNËSUARIT</h1>
+  </div>
+</div>
+
+<div class="calc-container">
+
+  <!-- ═══════════════════════════════════════════
+       CALCULATOR CARD
+  ═══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-body">
+
+      <!-- Year -->
+      <div class="year-wrap">
+        <button class="year-btn active" id="btn-2026" onclick="setYear(2026)">2026</button>
+        <button class="year-btn"        id="btn-2025" onclick="setYear(2025)">2025</button>
+      </div>
+
+      <!-- SS base input -->
+      <label class="field-label" for="base-input">Baza e Deklaruar për Sigurime Shoqërore</label>
+      <div class="input-row">
+        <input type="number" id="base-input" placeholder="p.sh. 50 000" min="0" step="1000" oninput="calculate()">
+        <span class="unit">ALL</span>
+      </div>
+      <div class="quick-row">
+        <span class="quick-lbl">Bjeri shkurt:</span>
+        <button class="quick-btn" id="btn-minwage" onclick="setMinWage()">Paga Minimale</button>
+        <button class="quick-btn" onclick="setMaxBase()">Tavan SS</button>
+      </div>
+
+      <!-- Unpaid family workers -->
+      <div class="family-row">
+        <div>
+          <div class="family-label">Punonjës të papaguar të familjes
+            <span class="tip" data-tip="Anëtarë të familjes që punojnë bashkë me të vetëpunësuarin pa marrë pagë. Për secilin paguhet kontribut i veçantë bazuar në pagën minimale.">?</span>
+          </div>
+          <div class="family-sub">Anëtarë familjare që punojnë pa pagë</div>
+        </div>
+        <div class="stepper">
+          <button onclick="changeFamily(-1)">−</button>
+          <input type="number" id="family-count" value="0" min="0" max="10" oninput="onFamilyInput()">
+          <button onclick="changeFamily(1)">+</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="result-box">
+        <div class="rl">
+          <div class="rl-title">Kontributi Mujor Total</div>
+          <div class="rl-sub" id="result-sub">Sigurime shoqërore dhe shëndetësore</div>
+        </div>
+        <div class="rr">
+          <div class="rr-val" id="result-val"></div>
+        </div>
+      </div>
+
+      <!-- Below-minimum warning -->
+      <div class="warn-box" id="min-warn" style="display:none">
+        Baza e deklaruar është nën pagën minimale. Kontributi llogaritet mbi minimumin e detyrueshëm: <strong id="min-wage-lbl"></strong> ALL.
+      </div>
+
+      <!-- Breakdown -->
+      <table class="breakdown">
+        <tbody id="breakdown-body"></tbody>
+      </table>
+
+      <!-- Period grid -->
+      <div class="period-grid" id="period-grid" style="display:none">
+        <div class="period-item">
+          <div class="pi-label">Mujore</div>
+          <div class="pi-val" id="period-monthly"></div>
+          <div class="pi-sub">× 1 muaj</div>
+        </div>
+        <div class="period-item">
+          <div class="pi-label">Tremujore</div>
+          <div class="pi-val" id="period-quarterly"></div>
+          <div class="pi-sub">× 3 muaj</div>
+        </div>
+        <div class="period-item">
+          <div class="pi-label">Vjetore</div>
+          <div class="pi-val" id="period-annual"></div>
+          <div class="pi-sub">× 12 muaj</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       REFERENCE RATES CARD
+  ═══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fi fi-br-stats"></i>
+      <h2>Normat e Kontributeve &middot; <span id="rates-year-label">2026</span></h2>
+    </div>
+    <div class="card-body">
+      <div class="rates-grid">
+        <div class="rate-item">
+          <div class="ri-lbl">Sig. Shoqëror</div>
+          <div class="ri-val">23%</div>
+          <span class="ri-who ri-ss">Mbi bazën</span>
+        </div>
+        <div class="rate-item">
+          <div class="ri-lbl">Sig. Shëndetësor</div>
+          <div class="ri-val">3.4%</div>
+          <span class="ri-who ri-hi">Mbi 2×min</span>
+        </div>
+        <div class="rate-item">
+          <div class="ri-lbl">Paga Minimale</div>
+          <div class="ri-val" id="ref-minwage">50,000</div>
+          <span class="ri-who ri-ss">ALL/muaj</span>
+        </div>
+        <div class="rate-item">
+          <div class="ri-lbl">Tavan SS</div>
+          <div class="ri-val" id="ref-sscap">186K</div>
+          <span class="ri-who ri-hi">ALL/muaj</span>
+        </div>
+      </div>
+
+      <div class="deduction-note">
+        <strong>Si llogariten kontributet (bazuar në VKM nr.77, dt.28.01.2015):</strong><br>
+        <strong>Sig. Shoqëror:</strong> 23% &times; baza e deklaruar<br>
+        &nbsp;&nbsp;&nbsp;Baza min. = paga minimale &nbsp;|&nbsp; Baza max. = tavani i SS<br>
+        <strong>Sig. Shëndetësor:</strong> 3.4% &times; (2 &times; paga minimale) (<em>shumë fikse</em>)<br><br>
+        <strong>Punonjës të papaguar të familjes:</strong> Për secilin, paguhet SS = 23% &times; paga minimale dhe HI = 3.4% &times; (2 &times; paga minimale).<br><br>
+        <strong>Kontribut minimal mujor (<span id="note-year">2026</span>, vetëm vetëpunësuari):</strong><br>
+        SS: 23% &times; <span id="note-minwage">50,000</span> = <strong><span id="note-ss-min"></span> ALL</strong><br>
+        HI: 3.4% &times; <span id="note-hi-base"></span> = <strong><span id="note-hi-val"></span> ALL</strong><br>
+        <strong>Totali minimal: <span id="note-total-min"></span> ALL/muaj</strong>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo-row">
+        <span class="footer-logo">per<span>llogarit</span></span>
+      </div>
+      <p class="footer-tagline">Llogaritjet financiare për shqiptarët, nga paga te taksat dhe shumë të tjera, gjithmonë falas e pa regjistrim.</p>
+      <a class="kofi-btn" href="https://ko-fi.com/vensi" target="_blank" rel="noopener"><img src="../icons/zg/ic-kofi.png" alt="" class="kofi-icon"> NA BLI NJE KAFE</a>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <p class="footer-col-label">Llogaritësit</p>
+        <ul>
+          <li><a href="paga.html">Llogaritësi i Pagës</a></li>
+          <li><a href="sigurime-vetepunesuar.html">Sigurime Vetëpunësuarit</a></li>
+          <li><a href="import-makine.html">Taksa e Importit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Burimet</p>
+        <ul>
+          <li><a href="https://qbz.gov.al/eli/ligj/2023/03/30/29/e0b4e6c5-bf37-4102-a57c-fd51244a2d5f" target="_blank" rel="noopener">Ligji i Tatimit mbi të Ardhurat</a></li>
+          <li><a href="https://qbz.gov.al/eli/ligj/1993/05/11/7703/f85f44fc-aaba-4b6d-8ea1-7f00f6b3e670" target="_blank" rel="noopener">Ligji i Sigurimeve Shoqërore</a></li>
+          <li><a href="https://eurofast.eu/wp-content/uploads/2025/02/Payroll-Guide-2025_Albania-1.pdf" target="_blank" rel="noopener">Eurofast Payroll Guide 2025</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Kompania</p>
+        <ul>
+          <li><a href="../rreth-nesh.html">Rreth Nesh</a></li>
+          <li><a href="#">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 PERLLOGARIT</span>
+    <div class="footer-bottom-links">
+      <a href="#">Kushtet e Përdorimit</a>
+      <a href="#">Politika e Privatësisë</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+const SS_RATE = 0.23;
+const HI_RATE = 0.034;
+
+const YEAR_DATA = {
+  2025: { ssCap: 176416, minWage: 40000 },
+  2026: { ssCap: 186416, minWage: 50000 },
+};
+
+let selectedYear = 2026;
+let familyCount  = 0;
+
+function getYD() { return YEAR_DATA[selectedYear]; }
+
+function calc(rawBase, nFamily) {
+  const { ssCap, minWage } = getYD();
+  const base = Math.min(Math.max(rawBase, minWage), ssCap);
+
+  const ssSelf   = base          * SS_RATE;
+  const hiSelf   = 2 * minWage   * HI_RATE;
+  const ssFamily = nFamily * minWage       * SS_RATE;
+  const hiFamily = nFamily * 2 * minWage   * HI_RATE;
+  const ssTotal  = ssSelf  + ssFamily;
+  const hiTotal  = hiSelf  + hiFamily;
+  const monthly  = ssTotal + hiTotal;
+
+  return { base, ssSelf, hiSelf, ssFamily, hiFamily, ssTotal, hiTotal, monthly };
+}
+
+function fmtALL(n) { return Math.round(n).toLocaleString("sq-AL") + " ALL"; }
+function fmtNum(n) { return Math.round(n).toLocaleString("sq-AL"); }
+
+function setYear(yr) {
+  selectedYear = yr;
+  document.getElementById("btn-2025").classList.toggle("active", yr === 2025);
+  document.getElementById("btn-2026").classList.toggle("active", yr === 2026);
+  document.getElementById("rates-year-label").textContent = yr;
+  document.getElementById("note-year").textContent        = yr;
+
+  const { minWage, ssCap } = getYD();
+  document.getElementById("ref-minwage").textContent    = minWage.toLocaleString("sq-AL");
+  document.getElementById("ref-sscap").textContent      = Math.round(ssCap / 1000) + "K";
+  document.getElementById("note-minwage").textContent   = minWage.toLocaleString("sq-AL");
+  document.getElementById("note-hi-base").textContent   = (2 * minWage).toLocaleString("sq-AL");
+  document.getElementById("note-ss-min").textContent    = fmtNum(minWage * SS_RATE);
+  document.getElementById("note-hi-val").textContent    = fmtNum(2 * minWage * HI_RATE);
+  document.getElementById("note-total-min").textContent = fmtNum(minWage * SS_RATE + 2 * minWage * HI_RATE);
+  document.getElementById("min-wage-lbl").textContent   = minWage.toLocaleString("sq-AL");
+  document.getElementById("btn-minwage").textContent    = "Paga Min. (" + minWage.toLocaleString("sq-AL") + ")";
+
+  calculate();
+}
+
+function setMinWage() {
+  document.getElementById("base-input").value = getYD().minWage;
+  calculate();
+}
+
+function setMaxBase() {
+  document.getElementById("base-input").value = getYD().ssCap;
+  calculate();
+}
+
+function changeFamily(d) {
+  familyCount = Math.max(0, Math.min(10, familyCount + d));
+  document.getElementById("family-count").value = familyCount;
+  calculate();
+}
+
+function onFamilyInput() {
+  const v = parseInt(document.getElementById("family-count").value, 10);
+  if (!isNaN(v) && v >= 0 && v <= 10) { familyCount = v; calculate(); }
+}
+
+function calculate() {
+  const raw = parseFloat(document.getElementById("base-input").value);
+  const { minWage } = getYD();
+
+  const belowMin = raw > 0 && raw < minWage;
+  document.getElementById("min-warn").style.display = belowMin ? "block" : "none";
+
+  if (!raw || raw <= 0 || isNaN(raw)) {
+    document.getElementById("result-val").textContent = "";
+    document.getElementById("breakdown-body").innerHTML = "";
+    document.getElementById("period-grid").style.display = "none";
+    return;
+  }
+
+  const r = calc(raw, familyCount);
+  const { ssCap, minWage: mw } = getYD();
+
+  document.getElementById("result-val").textContent         = fmtALL(r.monthly);
+  document.getElementById("period-monthly").textContent     = fmtNum(r.monthly)      + " ALL";
+  document.getElementById("period-quarterly").textContent   = fmtNum(r.monthly * 3)  + " ALL";
+  document.getElementById("period-annual").textContent      = fmtNum(r.monthly * 12) + " ALL";
+  document.getElementById("period-grid").style.display      = "grid";
+
+  const belowMinNote = raw < mw
+    ? ` <span class="badge badge-gray">llogaritet mbi ${fmtNum(mw)} ALL</span>`
+    : "";
+
+  let familyRows = "";
+  if (familyCount > 0) {
+    familyRows = `
+      <tr class="row-separator"><td colspan="3">Punonjës të papaguar (${familyCount})</td></tr>
+      <tr class="row-deduct">
+        <td>Sig. Shoqëror familjarë <span class="badge badge-red">23%</span></td>
+        <td>${fmtNum(mw)} &times; 23% &times; ${familyCount}</td>
+        <td>- ${fmtALL(r.ssFamily)}</td>
+      </tr>
+      <tr class="row-deduct">
+        <td>Sig. Shëndetësor familjarë <span class="badge badge-red">3.4%</span></td>
+        <td>${fmtNum(2 * mw)} &times; 3.4% &times; ${familyCount}</td>
+        <td>- ${fmtALL(r.hiFamily)}</td>
+      </tr>`;
+  }
+
+  document.getElementById("breakdown-body").innerHTML = `
+    <tr class="row-separator"><td colspan="3">I vetëpunësuari</td></tr>
+    <tr class="row-deduct">
+      <td>Sig. Shoqëror <span class="badge badge-red">23%</span>${belowMinNote}<span class="tip" data-tip="Kontribut i detyrueshëm mbi bazën e deklaruar. Minimumi është paga minimale; maksimumi është tavani i SS-së.">?</span></td>
+      <td>${fmtNum(r.base)} &times; 23%</td>
+      <td>- ${fmtALL(r.ssSelf)}</td>
+    </tr>
+    <tr class="row-deduct">
+      <td>Sig. Shëndetësor <span class="badge badge-red">3.4%</span><span class="tip" data-tip="Llogaritet mbi dyfishin e pagës minimale mujore (${fmtNum(2 * mw)} ALL), pavarësisht nga baza e deklaruar për SS.">?</span></td>
+      <td>${fmtNum(2 * mw)} &times; 3.4%</td>
+      <td>- ${fmtALL(r.hiSelf)}</td>
+    </tr>
+    ${familyRows}
+    <tr class="row-total">
+      <td colspan="2">KONTRIBUTI MUJOR TOTAL</td>
+      <td>${fmtALL(r.monthly)}</td>
+    </tr>`;
+}
+
+document.addEventListener("click", e => {
+  const tip = e.target.closest(".tip");
+  document.querySelectorAll(".tip--open").forEach(t => { if (t !== tip) t.classList.remove("tip--open"); });
+  if (tip) { tip.classList.toggle("tip--open"); e.stopPropagation(); }
+});
+
+document.getElementById("base-input").addEventListener("keydown", e => {
+  if (e.key === "Enter") calculate();
+});
+
+setYear(2026);
+
+(function() {
+  const fab = document.querySelector('.fab-wrap');
+  if (!fab) return;
+  let t;
+  function dim() { fab.style.opacity = '0.12'; }
+  function wake() { fab.style.opacity = '1'; clearTimeout(t); t = setTimeout(dim, 10000); }
+  fab.addEventListener('pointerdown', wake);
+  wake();
+})();
+
+function toggleMenu() {
+  const menu = document.getElementById('nav-mobile');
+  const icon = document.getElementById('hamburger-icon');
+  const open = menu.classList.toggle('open');
+  icon.className = 'fi ' + (open ? 'fi-br-cross-small' : 'fi-br-menu-burger');
+}
+document.querySelectorAll('#nav-mobile a').forEach(a => a.addEventListener('click', () => {
+  document.getElementById('nav-mobile').classList.remove('open');
+  document.getElementById('hamburger-icon').className = 'fi fi-br-menu-burger';
+}));
+</script>
+</body>
+</html>

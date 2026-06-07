@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>perllogarit &middot; Llogaritësit Financiare për Shqipërinë</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-active">Kryefaqe</a></li>
+      <li><a href="llogaritesit.html">Llogaritësit</a></li>
+      <li><a href="rreth-nesh.html">Rreth Nesh</a></li>
+      <li><a href="#">Burimet</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="fab-wrap">
+  <div class="fab-menu" id="nav-mobile">
+    <a href="index.html" class="fab-item nav-active">
+      <span class="fab-label">Kryefaqe</span>
+      <span class="fab-btn"><i class="fi fi-br-home"></i></span>
+    </a>
+    <a href="llogaritesit.html" class="fab-item">
+      <span class="fab-label">Llogaritësit</span>
+      <span class="fab-btn"><i class="fi fi-br-calculator"></i></span>
+    </a>
+    <a href="rreth-nesh.html" class="fab-item">
+      <span class="fab-label">Rreth Nesh</span>
+      <span class="fab-btn"><i class="fi fi-br-info"></i></span>
+    </a>
+  </div>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <i class="fi fi-br-menu-burger" id="hamburger-icon"></i>
+  </button>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <h1 class="hero-brand">per<span>llogarit</span></h1>
+    <p class="hero-sub">Llogaritës të saktë, të thjeshtë dhe falas për shqiptarët. Llogarit pagën, taksat e importit dhe shumë kosto të tjera të përditshme në një vend të vetëm.</p>
+    <div class="hero-badges">
+      <span class="hero-badge"><i class="fi fi-br-check"></i> Falas gjithmonë</span>
+      <span class="hero-badge"><i class="fi fi-br-check"></i> Pa regjistrim</span>
+      <span class="hero-badge"><i class="fi fi-br-check"></i> Bazuar në ligj shqiptar</span>
+    </div>
+    <p class="calc-grid-label">Llogaritësit më të përdorur</p>
+    <div class="calc-grid hero-calc-grid">
+
+      <a class="calc-card calc-card--simple" href="calculators/paga.html">
+        <div class="calc-icon"><i class="fi fi-br-user-salary"></i></div>
+        <div class="calc-card-title">Llogaritësi i Pagës</div>
+      </a>
+
+      <a class="calc-card calc-card--simple" href="calculators/sigurime-vetepunesuar.html">
+        <div class="calc-icon"><i class="fi fi-br-briefcase"></i></div>
+        <div class="calc-card-title">Sigurime Shoqërore për të Vetëpunësuarit</div>
+      </a>
+
+      <a class="calc-card calc-card--simple" href="calculators/import-makine.html">
+        <div class="calc-icon"><i class="fi fi-br-car"></i></div>
+        <div class="calc-card-title">Taksa e Importit të Makinës</div>
+      </a>
+
+      <a class="calc-card calc-card--simple calc-card--all" href="llogaritesit.html">
+        <div class="calc-icon calc-icon--all"><i class="fi fi-br-grid"></i></div>
+        <div class="calc-card-title">Të gjithë llogaritësit</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo-row">
+        <span class="footer-logo">per<span>llogarit</span></span>
+      </div>
+      <p class="footer-tagline">Llogaritjet financiare për shqiptarët, nga paga te taksat dhe shumë të tjera, gjithmonë falas e pa regjistrim.</p>
+      <a class="kofi-btn" href="https://ko-fi.com/vensi" target="_blank" rel="noopener"><img src="icons/zg/ic-kofi.png" alt="" class="kofi-icon"> NA BLI NJE KAFE</a>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <p class="footer-col-label">Llogaritësit</p>
+        <ul>
+          <li><a href="calculators/paga.html">Llogaritësi i Pagës</a></li>
+          <li><a href="calculators/sigurime-vetepunesuar.html">Sigurime Vetëpunësuarit</a></li>
+          <li><a href="calculators/import-makine.html">Taksa e Importit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Burimet</p>
+        <ul>
+          <li><a href="https://qbz.gov.al/eli/ligj/2023/03/30/29/e0b4e6c5-bf37-4102-a57c-fd51244a2d5f" target="_blank" rel="noopener">Ligji i Tatimit mbi të Ardhurat</a></li>
+          <li><a href="https://qbz.gov.al/eli/ligj/1993/05/11/7703/f85f44fc-aaba-4b6d-8ea1-7f00f6b3e670" target="_blank" rel="noopener">Ligji i Sigurimeve Shoqërore</a></li>
+          <li><a href="https://eurofast.eu/wp-content/uploads/2025/02/Payroll-Guide-2025_Albania-1.pdf" target="_blank" rel="noopener">Eurofast Payroll Guide 2025</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Kompania</p>
+        <ul>
+          <li><a href="rreth-nesh.html">Rreth Nesh</a></li>
+          <li><a href="#">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 PERLLOGARIT</span>
+    <div class="footer-bottom-links">
+      <a href="#">Kushtet e Përdorimit</a>
+      <a href="#">Politika e Privatësisë</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const fab = document.querySelector('.fab-wrap');
+  if (!fab) return;
+  let t;
+  function dim() { fab.style.opacity = '0.12'; }
+  function wake() { fab.style.opacity = '1'; clearTimeout(t); t = setTimeout(dim, 10000); }
+  fab.addEventListener('pointerdown', wake);
+  wake();
+})();
+
+function toggleMenu() {
+  const menu = document.getElementById('nav-mobile');
+  const icon = document.getElementById('hamburger-icon');
+  const open = menu.classList.toggle('open');
+  icon.className = 'fi ' + (open ? 'fi-br-cross-small' : 'fi-br-menu-burger');
+}
+document.querySelectorAll('#nav-mobile a').forEach(a => a.addEventListener('click', () => {
+  document.getElementById('nav-mobile').classList.remove('open');
+  document.getElementById('hamburger-icon').className = 'fi fi-br-menu-burger';
+}));
+</script>
+
+</body>
+</html>

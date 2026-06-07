@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rreth Nesh &middot; perllogarit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .about-wrap {
+      margin: 2.5rem auto 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* ── About card ── */
+    .about-card {
+      background: rgba(255,255,255,.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255,255,255,.65);
+      border-radius: var(--r-lg);
+      padding: 2rem 2.25rem;
+    }
+
+    .about-card-icon {
+      font-size: 1.6rem;
+      color: var(--blue);
+      margin-bottom: .9rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .about-card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: .75rem;
+      line-height: 1.25;
+    }
+
+    .about-card-body {
+      font-size: .95rem;
+      line-height: 1.75;
+      color: #444;
+    }
+
+    .about-card-body p + p {
+      margin-top: .85rem;
+    }
+
+    .about-card-body strong {
+      color: var(--navy);
+    }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-item {
+      background: rgba(255,255,255,.5);
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: var(--r-md);
+      padding: 1rem .75rem;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: .75rem;
+      color: var(--gray);
+      margin-top: .35rem;
+      line-height: 1.3;
+    }
+
+    /* ── Source list ── */
+    .source-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .source-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      font-size: .88rem;
+      color: #555;
+      line-height: 1.45;
+    }
+
+    .source-list li i {
+      color: var(--blue);
+      flex-shrink: 0;
+      margin-top: .15rem;
+    }
+
+    .source-list a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .source-list a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Support card ── */
+    .support-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .75rem;
+      margin-top: 1.25rem;
+    }
+
+    .support-actions .kofi-btn {
+      margin-top: 0;
+    }
+
+    .kofi-btn-lg {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      padding: .75rem 1.4rem;
+      background: #FF5E5B;
+      color: white;
+      border-radius: var(--r-pill);
+      font-family: var(--font);
+      font-size: .9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+
+    .kofi-btn-lg:hover { opacity: .88; }
+
+    .kofi-btn-lg img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .feedback-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .38rem 1.4rem;
+      border: 1.5px solid rgba(255,255,255,.65);
+      background: rgba(255,255,255,.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: var(--r-pill);
+      font-family: var(--font);
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .feedback-btn:hover { background: rgba(255,255,255,.65); }
+    .feedback-btn .fi { line-height: 0; display: inline-flex; align-items: center; }
+
+    @media (max-width: 520px) {
+      .about-card { padding: 1.5rem 1.25rem; }
+      .stats-row  { grid-template-columns: repeat(3, 1fr); }
+      .stat-val   { font-size: 1.3rem; }
+    }
+
+    @media (max-width: 380px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Kryefaqe</a></li>
+      <li><a href="llogaritesit.html">Llogaritësit</a></li>
+      <li><a href="rreth-nesh.html" class="nav-active">Rreth Nesh</a></li>
+      <li><a href="#">Burimet</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="fab-wrap">
+  <div class="fab-menu" id="nav-mobile">
+    <a href="index.html" class="fab-item">
+      <span class="fab-label">Kryefaqe</span>
+      <span class="fab-btn"><i class="fi fi-br-home"></i></span>
+    </a>
+    <a href="llogaritesit.html" class="fab-item">
+      <span class="fab-label">Llogaritësit</span>
+      <span class="fab-btn"><i class="fi fi-br-calculator"></i></span>
+    </a>
+    <a href="rreth-nesh.html" class="fab-item nav-active">
+      <span class="fab-label">Rreth Nesh</span>
+      <span class="fab-btn"><i class="fi fi-br-info"></i></span>
+    </a>
+  </div>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <i class="fi fi-br-menu-burger" id="hamburger-icon"></i>
+  </button>
+</div>
+
+<div class="page-header">
+  <div class="page-header-inner" style="text-align:center">
+    <h1>RRETH NESH</h1>
+  </div>
+</div>
+
+<div class="about-wrap container">
+
+  <!-- Misioni -->
+  <div class="about-card">
+    <div class="about-card-icon"><i class="fi fi-br-target"></i></div>
+    <div class="about-card-title">Llogaritje të thjeshta, për të gjithë</div>
+    <div class="about-card-body">
+      <p>Llogaritjet financiare në Shqipëri janë shpesh të shpërndara nëpër ligje dhe vendime që ndryshojnë çdo vit. Por edhe kur i gjen, informacioni është i shpërndarë nëpër faqe të ndryshme që shpesh herë nuk pajtohen me njëra-tjetrën, dhe nuk e di sa të besueshme janë. Për shumë njerëz, gjetja e përgjigjes së saktë kërkon orë kërkimi ose një vizitë te specialisti.</p>
+      <p><strong>perllogarit</strong> u krijua me një qëllim të thjeshtë: t'i bëjë këto llogaritje të arritshme për çdo shqiptar. Pa regjistrim, pa pagesë dhe gjithmonë të aktualizuara me normat më të fundit.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-val">3</div>
+        <div class="stat-lbl">Llogaritës aktivë</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">100%</div>
+        <div class="stat-lbl">Falas gjithmonë</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">0</div>
+        <div class="stat-lbl">Regjistrime të nevojshme</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metodologjia -->
+  <div class="about-card">
+    <div class="about-card-icon"><i class="fi fi-br-document"></i></div>
+    <div class="about-card-title">Bazuar në legjislacionin shqiptar</div>
+    <div class="about-card-body">
+      <p>Çdo llogaritës ndërtohet drejtpërdrejt mbi ligjet dhe vendimet në fuqi. Normat dhe formulat janë gjithmonë të dukshme brenda çdo llogaritësi, kështu që mund të verifikoni çdo rezultat.</p>
+
+      <ul class="source-list">
+        <li>
+          <i class="fi fi-br-file-invoice"></i>
+          <span><strong>Ligji nr.29/2023</strong> "Për tatimin mbi të ardhurat" <a href="https://qbz.gov.al/eli/ligj/2023/03/30/29/e0b4e6c5-bf37-4102-a57c-fd51244a2d5f" target="_blank" rel="noopener">Hap burimin</a></span>
+        </li>
+        <li>
+          <i class="fi fi-br-file-invoice"></i>
+          <span><strong>Ligji nr.7703/1993</strong> "Për sigurimet shoqërore në Republikën e Shqipërisë" <a href="https://qbz.gov.al/eli/ligj/1993/05/11/7703/f85f44fc-aaba-4b6d-8ea1-7f00f6b3e670" target="_blank" rel="noopener">Hap burimin</a></span>
+        </li>
+        <li>
+          <i class="fi fi-br-file-invoice"></i>
+          <span><strong>VKM nr.77/2015</strong> "Për kontributet e detyrueshme dhe përfitimet nga sistemi i sigurimeve shoqërore"</span>
+        </li>
+        <li>
+          <i class="fi fi-br-file-invoice"></i>
+          <span>Vendime të Këshillit të Ministrave për pagën minimale dhe tavanin e kontributeve, të aktualizuara çdo vit.</span>
+        </li>
+      </ul>
+
+      <p style="margin-top:1rem; font-size:.82rem; color:#888;">perllogarit ofron llogaritje informative. Për vendime specifike financiare ose tatimore, konsultohuni me një specialist të licencuar.</p>
+    </div>
+  </div>
+
+  <!-- Mbështete -->
+  <div class="about-card">
+    <div class="about-card-icon"><i class="fi fi-br-heart"></i></div>
+    <div class="about-card-title">Na mbështet</div>
+    <div class="about-card-body">
+      <p>perllogarit është dhe do të mbetet plotësisht falas. Nëse e gjeni të dobishme, mund të na ndihmoni me një kafe simbolike. Çdo kontribut shkon direkt për mbajtjen dhe zgjerimin e faqes me llogaritës të rinj.</p>
+      <p>Keni sugjerime, gabime për të raportuar ose llogaritës që dëshironi të shihni? Na shkruani.</p>
+    </div>
+    <div class="support-actions">
+      <a class="kofi-btn" href="https://ko-fi.com/vensi" target="_blank" rel="noopener">
+        <img src="icons/zg/ic-kofi.png" alt="" class="kofi-icon"> NA BLI NJE KAFE
+      </a>
+      <a class="feedback-btn" href="mailto:feedback@perllogarit.al">
+        <i class="fi fi-br-envelope"></i> NA SHKRUANI
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo-row">
+        <span class="footer-logo">per<span>llogarit</span></span>
+      </div>
+      <p class="footer-tagline">Llogaritjet financiare për shqiptarët, nga paga te taksat dhe shumë të tjera, gjithmonë falas e pa regjistrim.</p>
+      <a class="kofi-btn" href="https://ko-fi.com/vensi" target="_blank" rel="noopener"><img src="icons/zg/ic-kofi.png" alt="" class="kofi-icon"> NA BLI NJE KAFE</a>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <p class="footer-col-label">Llogaritësit</p>
+        <ul>
+          <li><a href="calculators/paga.html">Llogaritësi i Pagës</a></li>
+          <li><a href="calculators/sigurime-vetepunesuar.html">Sigurime Vetëpunësuarit</a></li>
+          <li><a href="calculators/import-makine.html">Taksa e Importit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Burimet</p>
+        <ul>
+          <li><a href="https://qbz.gov.al/eli/ligj/2023/03/30/29/e0b4e6c5-bf37-4102-a57c-fd51244a2d5f" target="_blank" rel="noopener">Ligji i Tatimit mbi të Ardhurat</a></li>
+          <li><a href="https://qbz.gov.al/eli/ligj/1993/05/11/7703/f85f44fc-aaba-4b6d-8ea1-7f00f6b3e670" target="_blank" rel="noopener">Ligji i Sigurimeve Shoqërore</a></li>
+          <li><a href="https://eurofast.eu/wp-content/uploads/2025/02/Payroll-Guide-2025_Albania-1.pdf" target="_blank" rel="noopener">Eurofast Payroll Guide 2025</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Kompania</p>
+        <ul>
+          <li><a href="rreth-nesh.html">Rreth Nesh</a></li>
+          <li><a href="mailto:feedback@perllogarit.al">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 PERLLOGARIT</span>
+    <div class="footer-bottom-links">
+      <a href="kushtet-e-perdorimit.html">Kushtet e Përdorimit</a>
+      <a href="#">Politika e Privatësisë</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const fab = document.querySelector('.fab-wrap');
+  if (!fab) return;
+  let t;
+  function dim() { fab.style.opacity = '0.12'; }
+  function wake() { fab.style.opacity = '1'; clearTimeout(t); t = setTimeout(dim, 10000); }
+  fab.addEventListener('pointerdown', wake);
+  wake();
+})();
+
+function toggleMenu() {
+  const menu = document.getElementById('nav-mobile');
+  const icon = document.getElementById('hamburger-icon');
+  const open = menu.classList.toggle('open');
+  icon.className = 'fi ' + (open ? 'fi-br-cross-small' : 'fi-br-menu-burger');
+}
+document.querySelectorAll('#nav-mobile a').forEach(a => a.addEventListener('click', () => {
+  document.getElementById('nav-mobile').classList.remove('open');
+  document.getElementById('hamburger-icon').className = 'fi fi-br-menu-burger';
+}));
+</script>
+
+</body>
+</html>
