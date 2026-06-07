@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keynest · Vensi Hajdari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("site-theme") || "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
+    })();
+  </script>
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    html, body { scrollbar-width: none; }
+    ::-webkit-scrollbar { display: none; }
+
+    .kn-page {
+      position: relative; z-index: 3;
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 48px 120px;
+    }
+
+    /* Back button */
+    .kn-back {
+      position: fixed; top: 24px; left: 28px; z-index: 60;
+      width: 46px; height: 46px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--glass); border: 1px solid var(--hairline);
+      color: var(--faint); text-decoration: none;
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.06);
+      transition: color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
+      overflow: visible;
+    }
+    .kn-back:hover { color: var(--text); background: var(--surface); transform: scale(1.06); }
+    .kn-back:hover .irid-ring { opacity: 1; }
+    .kn-back:hover .irid-glow { opacity: .9; }
+    .kn-back svg { width: 20px; height: 20px; position: relative; z-index: 2; }
+
+    /* Hero */
+    .kn-hero { padding-top: 72px; padding-bottom: 80px; border-bottom: 1px solid var(--hairline); }
+
+    /* Meta strip */
+    .kn-meta {
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      background: var(--bg-2); overflow: hidden;
+    }
+    .kn-meta-col { padding: 44px 48px; }
+    .kn-meta-col + .kn-meta-col { border-left: 1px solid var(--hairline); }
+    .kn-meta-col .eyebrow { margin-bottom: 18px; }
+    .kn-desc { font-size: 16px; line-height: 1.75; color: var(--dim); max-width: 500px; margin-bottom: 28px; text-align: justify; }
+    .kn-details { display: flex; flex-wrap: wrap; gap: 28px 40px; }
+    .kn-detail { display: flex; flex-direction: column; gap: 5px; }
+    .kn-detail-label { font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+    .kn-detail-value { font-size: 14px; font-weight: 500; color: var(--text); }
+    .kn-detail-link { font-size: 14px; font-weight: 500; color: #5bb8ff; text-decoration: none; text-underline-offset: 3px; }
+    .kn-detail-link:hover { text-decoration: underline; }
+
+    /* Sections */
+    .kn-section { padding: 80px 0; }
+    .kn-section + .kn-section { border-top: 1px solid var(--hairline); }
+    .kn-section-head { margin-bottom: 40px; }
+    .kn-section-head .eyebrow { margin-bottom: 14px; }
+    .kn-section-title {
+      font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: var(--text);
+    }
+
+    /* Feature cards */
+    .kn-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .kn-feature {
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      padding: 32px 36px; background: var(--bg-2);
+    }
+    .kn-feature-icon {
+      width: 40px; height: 40px; border-radius: var(--r-md);
+      background: var(--surface); border: 1px solid var(--hairline);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; color: var(--dim);
+    }
+    .kn-feature-icon svg { width: 18px; height: 18px; }
+    .kn-feature-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: -.01em; color: var(--text); margin-bottom: 10px; }
+    .kn-feature-desc { font-size: 14px; line-height: 1.7; color: var(--dim); }
+
+    /* Architecture block */
+    .kn-arch {
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      background: var(--bg-2); overflow: hidden;
+    }
+    .kn-arch-layer {
+      padding: 32px 40px;
+      display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start;
+    }
+    .kn-arch-layer + .kn-arch-layer { border-top: 1px solid var(--hairline); }
+    .kn-arch-name {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+      letter-spacing: .04em; color: var(--text);
+    }
+    .kn-arch-sublabel {
+      font-size: 11px; color: var(--faint); margin-top: 6px; line-height: 1.5;
+    }
+    .kn-arch-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .kn-arch-item {
+      font-family: var(--font-mono); font-size: 12px;
+      background: var(--surface); border: 1px solid var(--hairline);
+      border-radius: var(--r-sm); padding: 6px 12px; color: var(--dim);
+    }
+/* Security items */
+    .kn-security { display: flex; flex-direction: column; gap: 0; }
+    .kn-sec-item {
+      padding: 32px 0; border-top: 1px solid var(--hairline);
+      display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start;
+    }
+    .kn-sec-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: var(--text); line-height: 1.3; }
+    .kn-sec-body { font-size: 15px; line-height: 1.75; color: var(--dim); }
+
+    /* Note block */
+    .kn-note {
+      border: 1px solid var(--hairline); border-radius: var(--r-lg);
+      background: var(--bg-2); padding: 28px 36px;
+      font-size: 14px; line-height: 1.7; color: var(--dim);
+    }
+    .kn-note strong { color: var(--text); font-weight: 600; }
+
+    /* Footer */
+    .kn-footer {
+      padding: 96px 0 40px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 28px; text-align: center; border-top: 1px solid var(--hairline);
+    }
+    .kn-footer-legal { font-size: 12px; color: var(--faint); max-width: 420px; line-height: 1.6; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .kn-page { padding: 0 28px 80px; }
+      .kn-meta { grid-template-columns: 1fr; }
+      .kn-meta-col + .kn-meta-col { border-left: none; border-top: 1px solid var(--hairline); }
+      .kn-meta-col { padding: 32px 28px; }
+      .kn-features { grid-template-columns: repeat(2, 1fr); }
+      .kn-arch-layer { grid-template-columns: 1fr; gap: 16px; }
+      .kn-section { padding: 56px 0; }
+    }
+    @media (max-width: 540px) {
+      .kn-page { padding: 0 18px 64px; }
+      .kn-features { grid-template-columns: 1fr; }
+      .kn-sec-item { grid-template-columns: 1fr; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-atmos"></div>
+  <div class="bg-grain"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <a class="kn-back" href="../../index.html" aria-label="Back to portfolio">
+    <div class="irid-glow"></div>
+    <div class="irid-ring"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>
+    </svg>
+  </a>
+
+  <div class="kn-page">
+
+    <!-- Hero -->
+    <div class="kn-hero">
+      <div class="kn-meta">
+        <div class="kn-meta-col">
+          <p class="eyebrow">About the project</p>
+          <p class="kn-desc">
+            Keynest is a minimal, offline desktop password manager. No cloud sync.
+            No accounts. No telemetry. Every credential you store is encrypted on
+            disk and never transmitted anywhere.
+          </p>
+          <p class="kn-desc">
+            The goal was a native experience built on real platform APIs rather than
+            a browser runtime. WinUI 3 handles the UI and a platform-agnostic C#
+            core handles all crypto and storage, keeping the two layers cleanly
+            separated.
+          </p>
+          <p class="kn-desc">
+            This is not a vault for secrets that cannot afford to be wrong. It was
+            built for the mundane stuff: the streaming service password, the Wi-Fi
+            code on a sticky note, the API token nobody rotates. The goal was to
+            keep that kind of thing off plaintext files without adding friction.
+          </p>
+        </div>
+        <div class="kn-meta-col">
+          <p class="eyebrow">Details</p>
+          <div class="kn-details">
+            <div class="kn-detail">
+              <span class="kn-detail-label">Year</span>
+              <span class="kn-detail-value">2026</span>
+            </div>
+            <div class="kn-detail">
+              <span class="kn-detail-label">Role</span>
+              <span class="kn-detail-value">Developer</span>
+            </div>
+            <div class="kn-detail">
+              <span class="kn-detail-label">Type</span>
+              <span class="kn-detail-value">Desktop Application</span>
+            </div>
+            <div class="kn-detail">
+              <span class="kn-detail-label">Platform</span>
+              <span class="kn-detail-value">Windows</span>
+            </div>
+            <div class="kn-detail" style="flex-basis:100%">
+              <span class="kn-detail-label">Source</span>
+              <a class="kn-detail-link" href="https://github.com/vensih/keynest" target="_blank" rel="noreferrer">github.com/vensih/keynest ↗</a>
+            </div>
+            <div class="kn-detail" style="flex-basis:100%">
+              <span class="kn-detail-label">Stack</span>
+              <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
+                <span class="chip">C#</span>
+                <span class="chip">.NET 10</span>
+                <span class="chip">WinUI 3</span>
+                <span class="chip">AES-128</span>
+                <span class="chip">PBKDF2</span>
+                <span class="chip">MVVM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="kn-section">
+      <div class="kn-section-head">
+        <p class="eyebrow">What it does</p>
+        <h2 class="kn-section-title">Every feature considered</h2>
+      </div>
+      <div class="kn-features">
+
+        <div class="kn-feature">
+          <div class="kn-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M3.6 9h16.8M3.6 15h16.8"/>
+              <path d="M12 3c-2 2.5-3 5-3 9s1 6.5 3 9M12 3c2 2.5 3 5 3 9s-1 6.5-3 9"/>
+            </svg>
+          </div>
+          <p class="kn-feature-title">Offline First</p>
+          <p class="kn-feature-desc">No network dependency whatsoever. Everything runs locally. No accounts to create, no sync service to trust, and no telemetry leaving your machine.</p>
+        </div>
+
+        <div class="kn-feature">
+          <div class="kn-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <p class="kn-feature-title">Encrypted at Rest</p>
+          <p class="kn-feature-desc">Entries are encrypted using a C# implementation of the Fernet format: AES-128-CBC with HMAC-SHA256. The HMAC is verified before decryption on every read.</p>
+        </div>
+
+        <div class="kn-feature">
+          <div class="kn-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <p class="kn-feature-title">Browse Without a Password</p>
+          <p class="kn-feature-desc">The vault opens automatically on every launch. No password is required to read entries or copy credentials. The master password only gates add, edit, and delete.</p>
+        </div>
+
+        <div class="kn-feature">
+          <div class="kn-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <p class="kn-feature-title">App Lock and Auto-lock</p>
+          <p class="kn-feature-desc">App Lock secures the entire app behind your master password on next launch. The edit gate also locks automatically whenever the app loses focus, with no manual step required.</p>
+        </div>
+
+        <div class="kn-feature">
+          <div class="kn-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <p class="kn-feature-title">Export and Import</p>
+          <p class="kn-feature-desc">Export your vault to a plaintext JSON file you control. Import merges entries by UUID so duplicates are skipped automatically. Your data stays yours, no migration ceremony.</p>
+        </div>
+
+        <div class="kn-feature">
+          <div class="kn-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <p class="kn-feature-title">Native Windows UI</p>
+          <p class="kn-feature-desc">Built with WinUI 3 and the Windows App SDK 2.0. No Electron, no browser runtime, no web stack underneath. The UI is exactly what the OS renders natively.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="kn-section">
+      <div class="kn-section-head">
+        <p class="eyebrow">Architecture</p>
+        <h2 class="kn-section-title">Two layers, cleanly separated</h2>
+      </div>
+      <div class="kn-arch">
+        <div class="kn-arch-layer">
+          <div>
+            <p class="kn-arch-name">Keynest.Windows</p>
+            <p class="kn-arch-sublabel">WinUI 3 / MVVM<br>Windows App SDK 2.0</p>
+          </div>
+          <div class="kn-arch-items">
+            <span class="kn-arch-item">WindowsVaultStorage</span>
+            <span class="kn-arch-item">WindowsCredentialVerifier</span>
+            <span class="kn-arch-item">MainViewModel</span>
+            <span class="kn-arch-item">EntryViewModel</span>
+            <span class="kn-arch-item">EntriesPage.xaml</span>
+            <span class="kn-arch-item">UpdateChecker</span>
+          </div>
+        </div>
+<div class="kn-arch-layer">
+          <div>
+            <p class="kn-arch-name">Keynest.Core</p>
+            <p class="kn-arch-sublabel">Platform-agnostic C# library<br>No UI dependency</p>
+          </div>
+          <div class="kn-arch-items">
+            <span class="kn-arch-item">VaultService</span>
+            <span class="kn-arch-item">CryptoHelper</span>
+            <span class="kn-arch-item">VaultEntry</span>
+            <span class="kn-arch-item">IVaultStorage</span>
+            <span class="kn-arch-item">IOsCredentialVerifier</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security model -->
+    <section class="kn-section">
+      <div class="kn-section-head">
+        <p class="eyebrow">Security Model</p>
+        <h2 class="kn-section-title">What protects the data</h2>
+      </div>
+      <div class="kn-security">
+        <div class="kn-sec-item">
+          <p class="kn-sec-title">Fernet encryption</p>
+          <p class="kn-sec-body">Entries are stored as a Fernet token: AES-128-CBC for confidentiality and HMAC-SHA256 for integrity. The HMAC is always verified before decryption, so a tampered vault file is caught before any data is read. The 32-byte encryption key lives only in <code style="font-family:var(--font-mono); font-size:13px;">vault.key</code> on your machine and never leaves it. If that file is lost, the vault is unrecoverable.</p>
+        </div>
+        <div class="kn-sec-item">
+          <p class="kn-sec-title">PBKDF2 password hashing</p>
+          <p class="kn-sec-body">The master password is never stored in plaintext. A random 16-byte salt is generated at vault creation and the password is hashed with PBKDF2-SHA256 at 480,000 iterations. On every unlock attempt, the entered password is re-derived with the stored salt and compared using a constant-time equality check. The master password does not affect encryption at all: it only gates whether write operations are permitted.</p>
+        </div>
+        <div class="kn-sec-item">
+          <p class="kn-sec-title">Windows Hello vault reset</p>
+          <p class="kn-sec-body">After five consecutive wrong unlock attempts, the only option is a full vault reset. Before any data is deleted, the app triggers a Windows Hello prompt: PIN, fingerprint, or face. If you cannot pass the OS credential check, the reset is blocked. Passing it permanently deletes <code style="font-family:var(--font-mono); font-size:13px;">vault.key</code> and <code style="font-family:var(--font-mono); font-size:13px;">vault.json</code>. All stored entries are gone and cannot be recovered.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scope note -->
+    <section class="kn-section">
+      <div class="kn-section-head">
+        <p class="eyebrow">A note on scope</p>
+        <h2 class="kn-section-title">Built for the everyday, not the extreme</h2>
+      </div>
+      <div class="kn-note">
+        <strong>Keynest handles everyday credentials well.</strong> It is not built to withstand a targeted attack. Keep banking details, private keys, and seed phrases somewhere purpose-built for that threat level. The encryption is genuine and nothing leaves your machine, but the design assumption is accidental exposure, not an adversary.
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="kn-footer">
+      <p class="footer-line" style="margin-top:0; border-top:none; padding-top:0; justify-content:center;">© 2026 VENSI HAJDARI</p>
+      <a class="cta" href="../../index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>
+        </svg>
+        Back to portfolio
+      </a>
+      <p class="kn-footer-legal">Keynest is an open source project. MIT License.</p>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      const g = document.getElementById("cursor-glow");
+      let raf;
+      window.addEventListener("pointermove", (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          g.style.left = e.clientX + "px";
+          g.style.top  = e.clientY + "px";
+          g.style.opacity = "1";
+          raf = null;
+        });
+      });
+      window.addEventListener("pointerleave", () => { g.style.opacity = "0"; });
+    })();
+  </script>
+</body>
+</html>
