@@ -8,6 +8,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .rates-card {
+      margin-top: 1.2rem;
+      display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.32);
+      border-radius: 1.2rem; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      padding: .75rem 1.1rem;
+    }
+    .rates-card-lbl {
+      display: flex; align-items: center; gap: .3rem; white-space: nowrap;
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--navy); opacity: .55;
+    }
+    .rates-pairs { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; }
+    .rate-chip {
+      display: flex; align-items: baseline; gap: .2rem;
+      background: rgba(255,255,255,.32); border: 1px solid rgba(255,255,255,.55);
+      border-radius: 2rem; padding: .2rem .65rem;
+    }
+    .rate-chip-ccy { font-size: .67rem; font-weight: 700; color: var(--navy); opacity: .5; }
+    .rate-chip-val { font-size: .88rem; font-weight: 800; color: var(--navy); }
+    .rate-chip-unit { font-size: .67rem; font-weight: 600; color: var(--navy); opacity: .45; }
+    .rates-ts { font-size: .62rem; color: var(--gray); opacity: .4; margin-left: auto; white-space: nowrap; }
+  </style>
 </head>
 <body>
 
@@ -79,6 +103,28 @@
       </a>
 
     </div>
+
+    <div class="rates-card">
+      <span class="rates-card-lbl"><i class="fi fi-br-chart-line-up"></i> Kursi sot</span>
+      <div class="rates-pairs">
+        <div class="rate-chip">
+          <span class="rate-chip-ccy">EUR</span>
+          <span class="rate-chip-val" id="r-eur">…</span>
+          <span class="rate-chip-unit">ALL</span>
+        </div>
+        <div class="rate-chip">
+          <span class="rate-chip-ccy">USD</span>
+          <span class="rate-chip-val" id="r-usd">…</span>
+          <span class="rate-chip-unit">ALL</span>
+        </div>
+        <div class="rate-chip">
+          <span class="rate-chip-ccy">GBP</span>
+          <span class="rate-chip-val" id="r-gbp">…</span>
+          <span class="rate-chip-unit">ALL</span>
+        </div>
+      </div>
+      <span class="rates-ts" id="rates-ts">duke ngarkuar…</span>
+    </div>
   </div>
 </section>
 
@@ -98,6 +144,7 @@
           <li><a href="calculators/paga.html">Llogaritësi i Pagës</a></li>
           <li><a href="calculators/sigurime-vetepunesuar.html">Sigurime Vetëpunësuarit</a></li>
           <li><a href="calculators/import-makine.html">Taksa e Importit</a></li>
+          <li><a href="calculators/qiraja.html">Tatim mbi Qiranë</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -147,6 +194,26 @@ document.querySelectorAll('#nav-mobile a').forEach(a => a.addEventListener('clic
   document.getElementById('nav-mobile').classList.remove('open');
   document.getElementById('hamburger-icon').className = 'fi fi-br-menu-burger';
 }));
+
+(async function loadRates() {
+  try {
+    const res  = await fetch('https://v6.exchangerate-api.com/v6/607e597871b436c321a387b3/latest/EUR');
+    const data = await res.json();
+    if (data.result !== 'success') throw new Error();
+    const r = data.conversion_rates;
+    document.getElementById('r-eur').textContent = r.ALL.toFixed(2);
+    document.getElementById('r-usd').textContent = (r.ALL / r.USD).toFixed(2);
+    document.getElementById('r-gbp').textContent = (r.ALL / r.GBP).toFixed(2);
+    const now = new Date();
+    document.getElementById('rates-ts').textContent =
+      'aktualizuar ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  } catch {
+    ['r-eur','r-usd','r-gbp'].forEach(id => {
+      document.getElementById(id).textContent = '–';
+    });
+    document.getElementById('rates-ts').textContent = '';
+  }
+})();
 </script>
 
 </body>
