@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/shared.js" defer></script>
   <style>
     .about-wrap {
       margin: 2.5rem auto 5rem;
@@ -188,6 +189,17 @@
       .stats-row { grid-template-columns: 1fr 1fr; }
     }
   </style>
+
+  <!-- Google Analytics 4 — replace GA_MEASUREMENT_ID with your G-XXXXXXXXXX -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+  <!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -245,7 +257,7 @@
 
     <div class="stats-row">
       <div class="stat-item">
-        <div class="stat-val">3</div>
+        <div class="stat-val">6</div>
         <div class="stat-lbl">Llogaritës aktivë</div>
       </div>
       <div class="stat-item">
@@ -309,71 +321,23 @@
 
 </div>
 
-<footer class="footer">
-  <div class="footer-main">
-    <div class="footer-brand">
-      <div class="footer-logo-row">
-        <span class="footer-logo">per<span>llogarit</span></span>
-      </div>
-      <p class="footer-tagline">Llogaritjet financiare për shqiptarët, nga paga te taksat dhe shumë të tjera, gjithmonë falas e pa regjistrim.</p>
-      <a class="kofi-btn" href="https://ko-fi.com/vensi" target="_blank" rel="noopener"><img src="icons/zg/ic-kofi.png" alt="" class="kofi-icon"> NA BLI NJE KAFE</a>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-col">
-        <p class="footer-col-label">Llogaritësit</p>
-        <ul>
-          <li><a href="calculators/paga.html">Llogaritësi i Pagës</a></li>
-          <li><a href="calculators/sigurime-vetepunesuar.html">Sigurime Vetëpunësuarit</a></li>
-          <li><a href="calculators/import-makine.html">Taksa e Importit</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">Burimet</p>
-        <ul>
-          <li><a href="https://qbz.gov.al/eli/ligj/2023/03/30/29/e0b4e6c5-bf37-4102-a57c-fd51244a2d5f" target="_blank" rel="noopener">Ligji i Tatimit mbi të Ardhurat</a></li>
-          <li><a href="https://qbz.gov.al/eli/ligj/1993/05/11/7703/f85f44fc-aaba-4b6d-8ea1-7f00f6b3e670" target="_blank" rel="noopener">Ligji i Sigurimeve Shoqërore</a></li>
-          <li><a href="https://eurofast.eu/wp-content/uploads/2025/02/Payroll-Guide-2025_Albania-1.pdf" target="_blank" rel="noopener">Eurofast Payroll Guide 2025</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">Kompania</p>
-        <ul>
-          <li><a href="rreth-nesh.html">Rreth Nesh</a></li>
-          <li><a href="mailto:feedback@perllogarit.al">Kontakt</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 PERLLOGARIT</span>
-    <div class="footer-bottom-links">
-      <a href="kushtet-e-perdorimit.html">Kushtet e Përdorimit</a>
-      <a href="#">Politika e Privatësisë</a>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
 <script>
 (function() {
-  const fab = document.querySelector('.fab-wrap');
-  if (!fab) return;
-  let t;
-  function dim() { fab.style.opacity = '0.12'; }
-  function wake() { fab.style.opacity = '1'; clearTimeout(t); t = setTimeout(dim, 10000); }
-  fab.addEventListener('pointerdown', wake);
-  wake();
-})();
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -40px 0px', threshold: 0.08 });
 
-function toggleMenu() {
-  const menu = document.getElementById('nav-mobile');
-  const icon = document.getElementById('hamburger-icon');
-  const open = menu.classList.toggle('open');
-  icon.className = 'fi ' + (open ? 'fi-br-cross-small' : 'fi-br-menu-burger');
-}
-document.querySelectorAll('#nav-mobile a').forEach(a => a.addEventListener('click', () => {
-  document.getElementById('nav-mobile').classList.remove('open');
-  document.getElementById('hamburger-icon').className = 'fi fi-br-menu-burger';
-}));
+  document.querySelectorAll('.about-card').forEach((card, i) => {
+    card.classList.add('reveal');
+    card.style.transitionDelay = (0.08 + i * 0.15) + 's';
+    io.observe(card);
+  });
+})();
 </script>
 
 </body>

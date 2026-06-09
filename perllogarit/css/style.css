@@ -144,8 +144,8 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .nav {
   background: rgba(255,255,255,.78);
-  backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
   border-bottom: 1px solid rgba(255,255,255,.88);
   box-shadow: 0 1px 12px rgba(15,23,42,.06);
   position: sticky; top: 0; z-index: 100;
@@ -190,8 +190,8 @@ a { color: inherit; text-decoration: none; }
 }
 .fab-label {
   background: rgba(15,23,42,.82);
-  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   color: white; padding: .32rem .9rem;
   border-radius: var(--r-pill);
   font-size: .85rem; font-weight: 600; white-space: nowrap;
@@ -240,8 +240,8 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid rgba(37,99,235,.22);
   padding: .3rem 1rem; border-radius: var(--r-pill);
   margin-bottom: 1.75rem; text-transform: uppercase; letter-spacing: .6px;
-  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 .hero-brand {
   font-size: clamp(3.5rem, 2rem + 8vw, 8rem);
@@ -264,8 +264,8 @@ a { color: inherit; text-decoration: none; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: .38rem;
   background: rgba(255,255,255,.58);
-  backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
   border: 1px solid rgba(255,255,255,.8);
   border-radius: var(--r-pill);
   padding: .38rem 1rem;
@@ -296,8 +296,8 @@ a { color: inherit; text-decoration: none; }
 .btn-ghost {
   display: inline-flex; align-items: center; gap: .45rem;
   background: rgba(255,255,255,.55);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   color: var(--blue);
   padding: .72rem 1.5rem; border-radius: var(--r-pill);
   font-family: var(--font); font-size: .88rem; font-weight: 600;
@@ -346,8 +346,8 @@ a { color: inherit; text-decoration: none; }
 
 .calc-card {
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   border-radius: var(--r-xl);
   box-shadow: var(--shadow-card);
@@ -404,7 +404,7 @@ a { color: inherit; text-decoration: none; }
 .calc-card--simple .calc-card-title { font-size: 1rem; width: 100%; text-align: center; }
 
 .calc-card-title  { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
-.calc-card-desc   { font-size: .87rem; color: var(--gray); line-height: 1.55; flex: 1; text-align: justify; hyphens: auto; text-align-last: left; overflow-wrap: break-word; }
+.calc-card-desc   { font-size: .87rem; color: var(--gray); line-height: 1.55; flex: 1; text-align: justify; -webkit-hyphens: auto; hyphens: auto; text-align-last: left; overflow-wrap: break-word; }
 .calc-card-footer {
   display: flex; align-items: center; justify-content: space-between;
   margin-top: .5rem; padding-top: .75rem;
@@ -443,8 +443,8 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .page-header {
   background: linear-gradient(135deg, rgba(37,99,235,.88) 0%, rgba(29,78,216,.92) 100%);
-  backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(255,255,255,.22);
   box-shadow: 0 4px 24px rgba(37,99,235,.22);
   color: white;
@@ -472,8 +472,8 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .card {
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   border-radius: var(--r-xl);
   box-shadow: var(--shadow-card);
@@ -507,8 +507,8 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .footer {
   background: rgba(255,255,255,.6);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255,255,255,.82);
   padding: 3rem 2.5rem 0;
   font-size: .82rem; color: var(--gray);
@@ -538,7 +538,7 @@ a { color: inherit; text-decoration: none; }
 
 .footer-tagline {
   font-size: .8rem; color: var(--gray);
-  line-height: 1.65; white-space: nowrap;
+  line-height: 1.65; text-align: justify; -webkit-hyphens: auto; hyphens: auto; text-align-last: left;
 }
 
 .kofi-btn {
@@ -613,6 +613,83 @@ a { color: inherit; text-decoration: none; }
   outline-offset: 3px;
   border-radius: var(--r-sm);
 }
+
+/* ============================================================
+   Animations & Microinteractions
+   ============================================================ */
+
+/* -- Keyframes --------------------------------------------- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleUp {
+  from { opacity: 0; transform: translateY(10px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0)    translateX(0); }
+  40%       { transform: translateY(-18px) translateX(8px); }
+  75%       { transform: translateY(10px)  translateX(-7px); }
+}
+@keyframes orbFloatB {
+  0%, 100% { transform: translateY(0)   translateX(0); }
+  50%       { transform: translateY(15px) translateX(-10px); }
+}
+
+/* -- Background orb floats (very subtle) ------------------- */
+.bg-orb-1 { animation: orbFloat  20s ease-in-out infinite; }
+.bg-orb-2 { animation: orbFloatB 26s ease-in-out infinite; }
+.bg-orb-3 { animation: orbFloat  32s ease-in-out infinite reverse; }
+
+/* -- Nav entrance ------------------------------------------ */
+.nav { animation: fadeIn .45s ease both; }
+
+/* -- Page-header entrance ---------------------------------- */
+.page-header      { animation: fadeIn .4s ease both; }
+.page-header h1   { animation: fadeUp .5s ease .1s both; }
+.page-header p    { animation: fadeUp .5s ease .2s both; }
+.page-header-back { animation: fadeIn .45s ease .15s both; }
+
+/* -- Calc-page card stagger -------------------------------- */
+.calc-container > .card:nth-child(1) { animation: scaleUp .45s ease .06s both; }
+.calc-container > .card:nth-child(2) { animation: scaleUp .45s ease .16s both; }
+.calc-container > .card:nth-child(3) { animation: scaleUp .45s ease .24s both; }
+.calc-container > .card:nth-child(4) { animation: scaleUp .45s ease .30s both; }
+
+/* -- Calc card icon scale on hover ------------------------- */
+.calc-icon { transition: transform .22s cubic-bezier(.34,1.56,.64,1); }
+.calc-card:not(.calc-card--soon):hover .calc-icon {
+  transform: scale(1.14) translateY(-2px);
+}
+
+/* -- Calc card link arrow nudge on hover ------------------- */
+.calc-card-link .fi { transition: transform .18s ease; }
+.calc-card:hover .calc-card-link .fi { transform: translateX(3px); }
+
+/* -- Scroll-reveal utility (IntersectionObserver) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .28s ease, transform .28s ease;
+  will-change: opacity, transform;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Must sit after .reveal.visible to win the cascade on hovered revealed cards */
+.calc-card:not(.calc-card--soon):hover { transform: translateY(-4px); }
+
+/* -- FAB speed-dial open stagger --------------------------- */
+.fab-menu.open .fab-item              { animation: fadeUp .2s ease both; }
+.fab-menu.open .fab-item:nth-child(1) { animation-delay: .03s; }
+.fab-menu.open .fab-item:nth-child(2) { animation-delay: .09s; }
+.fab-menu.open .fab-item:nth-child(3) { animation-delay: .15s; }
 
 /* ============================================================
    Responsive
@@ -698,6 +775,7 @@ a { color: inherit; text-decoration: none; }
   .nav, .card, .calc-card, .footer {
     background: Canvas;
     border: 1px solid ButtonText;
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
   .page-header            { background: Highlight; color: HighlightText; }

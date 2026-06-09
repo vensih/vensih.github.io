@@ -8,12 +8,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/shared.js" defer></script>
   <style>
     .rates-card {
       margin-top: 1.2rem;
       display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
       background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.32);
-      border-radius: 1.2rem; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-radius: 1.2rem; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
       padding: .75rem 1.1rem;
     }
     .rates-card-lbl {
@@ -31,7 +32,31 @@
     .rate-chip-val { font-size: .88rem; font-weight: 800; color: var(--navy); }
     .rate-chip-unit { font-size: .67rem; font-weight: 600; color: var(--navy); opacity: .45; }
     .rates-ts { font-size: .62rem; color: var(--gray); opacity: .4; margin-left: auto; white-space: nowrap; }
+
+    /* Hero section entrance */
+    .hero-brand      { animation: fadeUp .65s cubic-bezier(.22,1,.36,1) .05s both; }
+    .hero-sub        { animation: fadeUp .6s  ease .2s  both; }
+    .hero-badges     { animation: fadeUp .55s ease .35s both; }
+    .calc-grid-label { animation: fadeUp .5s  ease .48s both; }
+    .rates-card      { animation: fadeUp .5s  ease .72s both; }
+
+    /* Hero calc cards stagger */
+    .hero-calc-grid .calc-card:nth-child(1) { animation: scaleUp .5s ease .52s both; }
+    .hero-calc-grid .calc-card:nth-child(2) { animation: scaleUp .5s ease .60s both; }
+    .hero-calc-grid .calc-card:nth-child(3) { animation: scaleUp .5s ease .66s both; }
+    .hero-calc-grid .calc-card:nth-child(4) { animation: scaleUp .5s ease .72s both; }
   </style>
+
+  <!-- Google Analytics 4 — replace GA_MEASUREMENT_ID with your G-XXXXXXXXXX -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+  <!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -87,12 +112,12 @@
         <div class="calc-card-title">Llogaritësi i Pagës</div>
       </a>
 
-      <a class="calc-card calc-card--simple" href="calculators/sigurime-vetepunesuar.html">
+      <a class="calc-card calc-card--simple" href="calculators/sigurime.html">
         <div class="calc-icon"><i class="fi fi-br-briefcase"></i></div>
         <div class="calc-card-title">Sigurime Shoqërore për të Vetëpunësuarit</div>
       </a>
 
-      <a class="calc-card calc-card--simple" href="calculators/import-makine.html">
+      <a class="calc-card calc-card--simple" href="calculators/makina.html">
         <div class="calc-icon"><i class="fi fi-br-car"></i></div>
         <div class="calc-card-title">Taksa e Importit të Makinës</div>
       </a>
@@ -128,73 +153,9 @@
   </div>
 </section>
 
-<footer class="footer">
-  <div class="footer-main">
-    <div class="footer-brand">
-      <div class="footer-logo-row">
-        <span class="footer-logo">per<span>llogarit</span></span>
-      </div>
-      <p class="footer-tagline">Llogaritjet financiare për shqiptarët, nga paga te taksat dhe shumë të tjera, gjithmonë falas e pa regjistrim.</p>
-      <a class="kofi-btn" href="https://ko-fi.com/vensi" target="_blank" rel="noopener"><img src="icons/zg/ic-kofi.png" alt="" class="kofi-icon"> NA BLI NJE KAFE</a>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-col">
-        <p class="footer-col-label">Llogaritësit</p>
-        <ul>
-          <li><a href="calculators/paga.html">Llogaritësi i Pagës</a></li>
-          <li><a href="calculators/sigurime-vetepunesuar.html">Sigurime Vetëpunësuarit</a></li>
-          <li><a href="calculators/import-makine.html">Taksa e Importit</a></li>
-          <li><a href="calculators/qiraja.html">Tatim mbi Qiranë</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">Burimet</p>
-        <ul>
-          <li><a href="https://qbz.gov.al/eli/ligj/2023/03/30/29/e0b4e6c5-bf37-4102-a57c-fd51244a2d5f" target="_blank" rel="noopener">Ligji i Tatimit mbi të Ardhurat</a></li>
-          <li><a href="https://qbz.gov.al/eli/ligj/1993/05/11/7703/f85f44fc-aaba-4b6d-8ea1-7f00f6b3e670" target="_blank" rel="noopener">Ligji i Sigurimeve Shoqërore</a></li>
-          <li><a href="https://eurofast.eu/wp-content/uploads/2025/02/Payroll-Guide-2025_Albania-1.pdf" target="_blank" rel="noopener">Eurofast Payroll Guide 2025</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">Kompania</p>
-        <ul>
-          <li><a href="rreth-nesh.html">Rreth Nesh</a></li>
-          <li><a href="#">Kontakt</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 PERLLOGARIT</span>
-    <div class="footer-bottom-links">
-      <a href="#">Kushtet e Përdorimit</a>
-      <a href="#">Politika e Privatësisë</a>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
 <script>
-(function() {
-  const fab = document.querySelector('.fab-wrap');
-  if (!fab) return;
-  let t;
-  function dim() { fab.style.opacity = '0.12'; }
-  function wake() { fab.style.opacity = '1'; clearTimeout(t); t = setTimeout(dim, 10000); }
-  fab.addEventListener('pointerdown', wake);
-  wake();
-})();
-
-function toggleMenu() {
-  const menu = document.getElementById('nav-mobile');
-  const icon = document.getElementById('hamburger-icon');
-  const open = menu.classList.toggle('open');
-  icon.className = 'fi ' + (open ? 'fi-br-cross-small' : 'fi-br-menu-burger');
-}
-document.querySelectorAll('#nav-mobile a').forEach(a => a.addEventListener('click', () => {
-  document.getElementById('nav-mobile').classList.remove('open');
-  document.getElementById('hamburger-icon').className = 'fi fi-br-menu-burger';
-}));
-
 (async function loadRates() {
   try {
     const res  = await fetch('https://v6.exchangerate-api.com/v6/607e597871b436c321a387b3/latest/EUR');

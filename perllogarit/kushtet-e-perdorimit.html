@@ -113,6 +113,17 @@
       .legal-disclaimer { padding: 1.25rem 1rem; }
     }
   </style>
+
+  <!-- Google Analytics 4 — replace GA_MEASUREMENT_ID with your G-XXXXXXXXXX -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+  <!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -290,50 +301,7 @@
 
 </div>
 
-<footer class="footer">
-  <div class="footer-main">
-    <div class="footer-brand">
-      <div class="footer-logo-row">
-        <span class="footer-logo">per<span>llogarit</span></span>
-      </div>
-      <p class="footer-tagline">Llogaritjet financiare për shqiptarët, nga paga te taksat dhe shumë të tjera, gjithmonë falas e pa regjistrim.</p>
-      <a class="kofi-btn" href="https://ko-fi.com/vensi" target="_blank" rel="noopener"><img src="icons/zg/ic-kofi.png" alt="" class="kofi-icon"> NA BLI NJE KAFE</a>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-col">
-        <p class="footer-col-label">Llogaritësit</p>
-        <ul>
-          <li><a href="calculators/paga.html">Llogaritësi i Pagës</a></li>
-          <li><a href="calculators/sigurime-vetepunesuar.html">Sigurime Vetëpunësuarit</a></li>
-          <li><a href="calculators/import-makine.html">Taksa e Importit</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">Burimet</p>
-        <ul>
-          <li><a href="https://qbz.gov.al/eli/ligj/2023/03/30/29/e0b4e6c5-bf37-4102-a57c-fd51244a2d5f" target="_blank" rel="noopener">Ligji i Tatimit mbi të Ardhurat</a></li>
-          <li><a href="https://qbz.gov.al/eli/ligj/1993/05/11/7703/f85f44fc-aaba-4b6d-8ea1-7f00f6b3e670" target="_blank" rel="noopener">Ligji i Sigurimeve Shoqërore</a></li>
-          <li><a href="https://eurofast.eu/wp-content/uploads/2025/02/Payroll-Guide-2025_Albania-1.pdf" target="_blank" rel="noopener">Eurofast Payroll Guide 2025</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">Kompania</p>
-        <ul>
-          <li><a href="rreth-nesh.html">Rreth Nesh</a></li>
-          <li><a href="kushtet-e-perdorimit.html">Kushtet e Përdorimit</a></li>
-          <li><a href="mailto:feedback@perllogarit.al">Kontakt</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 PERLLOGARIT</span>
-    <div class="footer-bottom-links">
-      <a href="kushtet-e-perdorimit.html">Kushtet e Përdorimit</a>
-      <a href="#">Politika e Privatësisë</a>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
 </body>
 </html>

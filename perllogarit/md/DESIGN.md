@@ -2,18 +2,19 @@
 
 ## Overview
 
-perllogarit is a multi-calculator platform for Albanian financial tools. All pages share a glassmorphism aesthetic: frosted semi-transparent cards floating over a soft gradient background with colored orbs. The single shared stylesheet is `css/style.css`. Calculator pages extend the shared system with inline calculator-specific styles only.
+perllogarit is a multi-calculator platform for Albanian financial tools. All pages share a glassmorphism aesthetic: frosted semi-transparent cards floating over a soft gradient background with colored orbs. The single shared stylesheet is `css/style.css`. Calculator pages extend the shared system with `css/calc.css` and inline calculator-specific styles only.
 
 ---
 
 ## Visual Language
 
 **Glassmorphism rules:**
-- Cards: `background: rgba(255,255,255,.55)` + `backdrop-filter: blur(22px) saturate(180%)`
+- Cards: `background: rgba(255,255,255,.55)` + `-webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%)`
 - Borders: `rgba(255,255,255,.75)` — light, not harsh
 - Shadows: soft ambient, not punchy
 - Background: gradient base + 3 fixed blurred orbs (indigo, blue, violet)
 - Nav: stronger glass, `rgba(255,255,255,.78)` + blur(28px)
+- Always write `-webkit-backdrop-filter` before `backdrop-filter` for Safari support
 
 ---
 
@@ -26,7 +27,7 @@ All defined in `css/style.css :root`:
 | `--blue`         | `#2563EB`                  | Primary actions, links, active states    |
 | `--blue-dark`    | `#1D4ED8`                  | Hover on primary buttons                 |
 | `--blue-mid`     | `#3B82F6`                  | Secondary accents                        |
-| `--blue-light`   | `#EFF6FF`                  | Tinted boxes, tag chips                  |
+| `--blue-light`   | `#EFF6FF`                  | Tinted boxes, tag chips, active pill bg  |
 | `--blue-border`  | `#BFDBFE`                  | Borders on blue-tinted elements          |
 | `--blue-glow`    | `rgba(37,99,235,.35)`      | Button box-shadow                        |
 | `--navy`         | `#0F172A`                  | Headings, primary body text              |
@@ -58,7 +59,7 @@ All defined in `css/style.css :root`:
 
 ## Background Orbs
 
-Three fixed `div.bg-orb` elements placed at the top of `<body>` in every page. They stay fixed during scroll, creating depth behind glass panels.
+Three fixed `div.bg-orb` elements placed at the top of `<body>` in every page.
 
 ```html
 <div class="bg-orb bg-orb-1"></div>
@@ -95,6 +96,8 @@ Import pattern (every page head):
 | label        | .82rem   | 700    | Form labels                    |
 | small / tag  | .75-.77rem | 700  | Badges, section labels         |
 | input value  | 1.5rem   | 700    | Main number input              |
+| currency pill | .84rem  | 700    | `.ccy-pill` buttons            |
+| currency unit | 1.1rem  | 800    | `.input-ccy-unit` inside input |
 
 ---
 
@@ -119,7 +122,7 @@ Import pattern (every page head):
 | `--r-md`   | 12px   | Inputs, toggles, inner glass panels |
 | `--r-lg`   | 18px   | Cards, page-header inner content    |
 | `--r-xl`   | 24px   | Main cards, calc-cards on home      |
-| `--r-pill` | 999px  | Buttons, year selector, tags        |
+| `--r-pill` | 999px  | Buttons, year selector, tags, pills |
 
 ---
 
@@ -130,8 +133,6 @@ Import pattern (every page head):
 | `--shadow-card`  | `0 4px 24px rgba(15,23,42,.07), 0 1px 0 rgba(255,255,255,.6) inset` | Resting glass cards |
 | `--shadow-hover` | `0 12px 40px rgba(15,23,42,.13), 0 1px 0 rgba(255,255,255,.6) inset` | Hovered cards |
 | `--shadow-blue`  | `0 4px 18px rgba(37,99,235,.38)` | Primary button glow |
-
-The `inset` white highlight at the top of cards reinforces the glass rim effect.
 
 ---
 
@@ -148,50 +149,61 @@ The `inset` white highlight at the top of cards reinforces the glass rim effect.
 ## Component Patterns
 
 ### Nav (`.nav`)
-Sticky, frosted glass (`rgba(255,255,255,.78)` + `blur(28px) saturate(180%)`). Logo left — `perl` in `--navy`, `llogarit` in `--blue`. Links right, hidden on mobile.
+Sticky, frosted glass. Logo left — `perl` in `--navy`, `llogarit` in `--blue`. Links right, hidden on mobile.
 
 ### Hero (`.hero`)
-Centered. Tag chip > H1 > subtitle > `.btn-primary`. Background comes from body gradient + orbs — no extra bg on hero itself.
+Centered. Tag chip > H1 > subtitle > `.btn-primary`.
 
 ### Calculator Card (`.calc-card`, home grid)
-Full `<a>` tag for live calculators, `<div class="calc-card calc-card--soon">` for coming-soon. Contains: icon box > title > description > footer with link or `.badge-soon`. Cards lift on hover (`translateY(-4px)`) and glass intensifies.
+Full `<a>` for live calculators, `<div class="calc-card calc-card--soon">` for coming-soon.
 
 ### Page Header (`.page-header`)
-Blue gradient glass (`rgba(37,99,235,.88)` to `rgba(29,78,216,.92)`), full width. Back link `&#8592; Kthehu` in muted white above H1. Inner content max-width 800px.
+Blue gradient glass, full width. Back link above H1.
 
 ### Card Shell (`.card`)
-Glass card (`--glass-bg`, `--glass-blur`, `--glass-border`, `--r-xl`). Optional `.card-header` with slightly stronger white fill. Content in `.card-body`.
+Glass card with optional `.card-header` and `.card-body`.
 
 ### Buttons
 
-- `.btn-primary`: Solid blue fill, pill shape, blue glow shadow, lifts on hover
-- `.btn-ghost`: Semi-transparent glass, blue text + border, stronger glass on hover
+- `.btn-primary`: Solid blue fill, pill shape, blue glow
+- `.btn-ghost`: Semi-transparent glass, blue text + border
+
+### Year / Mode Toggle (`.year-wrap` / `.toggle-wrap`)
+Horizontal row of `.year-btn` or `.toggle-btn` pill buttons. Used for year selection (2025/2026) and bruto/neto mode. **Not used for currency** — see below.
+
+### Currency Label Row (`.ccy-label-row`)
+The standard currency picker pattern. Label and pills on the same line, blue unit text inside the input.
+
+```html
+<div class="ccy-label-row">
+  <label class="field-label">Label</label>
+  <div class="ccy-pills">
+    <button class="ccy-pill active" id="opt-all" onclick="setCurrency('ALL')">ALL</button>
+    <button class="ccy-pill"        id="opt-eur" onclick="setCurrency('EUR')">EUR</button>
+  </div>
+</div>
+<div class="input-row input-row--ccy">
+  <input type="number" ...>
+  <span class="input-ccy-unit" id="currency-unit">ALL</span>
+</div>
+```
+
+- Active pill: `color: --blue`, `border-color: --blue-border`, `background: --blue-light`
+- Inactive pill: `color: --gray`, transparent border
+- Currency unit: `1.1rem / 800`, `color: --blue`, absolutely positioned right inside the input
+- Adding more currencies = add more `<button class="ccy-pill">` — no JS changes required
 
 ### Footer (`.footer`)
-Glass footer (`rgba(255,255,255,.6)` + blur(20px)), top glass border, centered text in `--gray`.
+Glass footer, centered text in `--gray`.
 
 ---
 
 ## Adding a New Calculator
 
 1. Create `calculators/<slug>.html`
-2. Copy the head block from `calculators/paga.html` — same fonts + `../css/style.css`
-3. Paste the 3 bg-orb divs, nav, page-header, and footer from any existing calculator
-4. Add inline `<style>` for page-specific styles only
-5. Add a new `.calc-card` to the grid in `index.html` (remove `calc-card--soon` when ready)
-6. Update `DESIGN.md` with any new semantic color or component introduced
-
----
-
-## File Structure
-
-```
-perllogarit/
-├── index.html                  Home page
-├── DESIGN.md                   This file
-├── css/
-│   └── style.css               Shared design system (glassmorphism tokens + components)
-└── calculators/
-    ├── paga.html               Salary calculator (bruto/neto, 2025/2026, cliff detection)
-    └── import-makine.html      Vehicle import tax (coming soon)
-```
+2. Copy the head block from any existing calculator — same fonts + `../css/style.css` + `../css/calc.css`
+3. Paste the 3 bg-orb divs, nav, and page-header from any existing calculator
+4. Add `<div id="site-footer"></div>` where the footer should appear — `shared.js` injects it automatically
+5. Use `.ccy-label-row` + `.ccy-pills` for currency selection
+6. Add a new `.calc-card` to the grid in `llogaritesit.html` and update the footer link list in `shared.js`
+7. Update `DESIGN.md` with any new semantic color or component introduced
