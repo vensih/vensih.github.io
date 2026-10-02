@@ -1,15 +1,15 @@
-/* ============================================================
-   lib.jsx — shared data, icons, and interaction hooks
+﻿/* ============================================================
+   lib.jsx - shared data, icons, and interaction hooks
    ============================================================ */
 const { useState, useEffect, useRef, useCallback } = React;
 
 /* ---- project data (swap freely) ---- */
 const PROJECTS = [
-  { id: "p1", name: "nodesign",         tag: "Design Brand · 2026", phA:"#16294d", phB:"#0b1322",
-    blurb: "My own design brand creating visual identity systems, social media content, product placement designs, layouts, and branding elements for clients across creative industries.",
-    tags:["Visual Identity","Brand","Graphic Design"], year:"2026", role:"Creative Director" },
+  { id: "p1", name: "perllogarit",      tag: "Web App · 2026", phA:"#16294d", phB:"#0b1322",
+    blurb: "A suite of free, accurate financial calculators for Albania - salary, car import tax, self-employment insurance, VAT, rental tax, and dividends. No registration, no paywall, live exchange rates. Based on current Albanian law.",
+    tags:["HTML","CSS","JavaScript","Albanian Law"], year:"2026", role:"Developer", url:"p/perllogarit/" },
   { id: "p2", name: "Keynest", tag: "App Dev · 2026", phA:"#1a1530", phB:"#0d0b1a",
-    blurb: "A minimal, offline desktop password manager for Windows. No cloud sync, no accounts, no telemetry. Every credential is encrypted on disk using AES-128 Fernet and never transmitted anywhere.",
+    blurb: "A minimal, offline desktop password manager for Windows, with a macOS port in development. No cloud sync, no accounts, no telemetry. Every credential is encrypted on disk using AES-128 Fernet and never transmitted anywhere.",
     tags:["C#",".NET 10","WinUI 3","Desktop App"], year:"2026", role:"Developer", url:"p/keynest/" },
   { id: "p3", name: "Brand Identity",   tag: "Visual Identity · 2026", phA:"#13335c", phB:"#0a1828",
     blurb: "A complete visual identity for a client spanning logo design, brand guidelines, color and typography systems, and a full suite of social and print-ready assets.",

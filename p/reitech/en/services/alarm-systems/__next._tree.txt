@@ -1,0 +1,4 @@
+:HL["/reitech/_next/static/chunks/0vz662m1w1u6e.css","style"]
+:HL["/reitech/_next/static/media/21ca8f3f56c22ca2-s.p.1cp9-4nby68jc.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/reitech/_next/static/media/4ae66b896b591e96-s.p.0_kz_z3o_slvt.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"locale","param":{"type":"d","key":"en","siblings":[]},"prefetchHints":4128,"slots":{"children":{"name":"path","param":{"type":"c","key":"services/alarm-systems","siblings":[]},"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"7PLW9987qbs_Py35Kdc1R"}

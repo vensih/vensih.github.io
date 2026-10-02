@@ -1,5 +1,5 @@
-/* ============================================================
-   app.jsx — Side nav, arc hero, app shell, tweaks
+﻿/* ============================================================
+   app.jsx - Side nav, arc hero, app shell, tweaks
    ============================================================ */
 
 const NAV = [
@@ -90,7 +90,7 @@ function App() {
   });
   useReveal();
 
-  // apply theme — disable transitions and force a style flush so var()-based
+  // apply theme - disable transitions and force a style flush so var()-based
   // colors commit instantly (Chromium leaves transitioned var() backgrounds
   // stuck on the old value otherwise)
   useEffect(() => {

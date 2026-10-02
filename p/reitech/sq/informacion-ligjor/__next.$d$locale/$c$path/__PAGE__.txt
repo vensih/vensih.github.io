@@ -1,0 +1,33 @@
+1:"$Sreact.fragment"
+2:I[22016,["/reitech/_next/static/chunks/3fntmmi971322.js","/reitech/_next/static/chunks/1-_8t80t0cgcl.js","/reitech/_next/static/chunks/1mfikjw19x0sh.js"],""]
+3:I[97367,["/reitech/_next/static/chunks/3fntmmi971322.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[97367,["/reitech/_next/static/chunks/3fntmmi971322.js"],"ViewportBoundary"]
+9:I[97367,["/reitech/_next/static/chunks/3fntmmi971322.js"],"MetadataBoundary"]
+7:X
+18:X
+18:C
+0:{"buildId":"7PLW9987qbs_Py35Kdc1R","data":[{"rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"page-hero page-hero--plain","children":["$","div",null,{"className":"container","children":[["$","nav",null,{"className":"breadcrumbs","aria-label":"Shtegu i navigimit","children":["$","ol",null,{"children":[["$","li","0",{"children":["$","$L2",null,{"href":"/sq/","children":"Kreu"}]}],["$","li","1",{"children":["$","span",null,{"aria-current":"page","children":"Informacion Ligjor"}]}]]}]}],["$","h1",null,{"className":"page-hero__title","children":"Informacion Ligjor"}],["$","p",null,{"className":"page-hero__meta","children":["Përditësuar më"," ",["$","time",null,{"dateTime":"2026-10-01","children":"1 tetor 2026"}]]}]]}]}],["$","section",null,{"className":"section section--flush-top","children":["$","div",null,{"className":"container","children":["$","div",null,{"className":"prose legal","children":[["$","section","Administratori i Faqes",{"children":[["$","h2",null,{"children":"Administratori i Faqes"}],[["$","p","0",{"children":"REITECH Electrosystem, Elvis Shqau, Shkodër, Shqipëri. Email: shqauelvis@yahoo.it."}]]]}],["$","section","Informacioni në Këtë Faqe",{"children":[["$","h2",null,{"children":"Informacioni në Këtë Faqe"}],[["$","p","0",{"children":"Përshkrimet e shërbimeve janë informacion i përgjithshëm. Çmimet, objekti dhe afatet e punës bien dakord për çdo punë dhe janë detyruese vetëm kur konfirmohen me shkrim nga REITECH."}]]]}],["$","section","Markat dhe Imazhet",{"children":[["$","h2",null,{"children":"Markat dhe Imazhet"}],[["$","p","0",{"children":"Emrat e markave janë marka tregtare të pronarëve përkatës. Përmendja e një marke do të thotë që punojmë me produktet e saj dhe nuk nënkupton partneritet ose miratim. Disa fotografi janë ilustruese."}]]]}],["$","section","Përdorimi i Përmbajtjes",{"children":[["$","h2",null,{"children":"Përdorimi i Përmbajtjes"}],[["$","p","0",{"children":"Tekstet, emri dhe logoja REITECH dhe dizajni i kësaj faqeje nuk mund të kopjohen ose ripërdoren pa leje."}]]]}],["$","section","Ligji i Zbatueshëm",{"children":[["$","h2",null,{"children":"Ligji i Zbatueshëm"}],[["$","p","0",{"children":"Kjo faqe dhe këto kushte rregullohen nga ligjet e Republikës së Shqipërisë."}]]]}]]}]}]}]],[["$","script","script-0",{"src":"/reitech/_next/static/chunks/1mfikjw19x0sh.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#ffffff"}],["$","meta","3",{"name":"color-scheme","content":"light"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Informacion Ligjor | REITECH"}],["$","meta","1",{"name":"description","content":"Të dhënat e administratorit të faqes dhe kushtet e përdorimit."}],["$","meta","2",{"name":"application-name","content":"REITECH"}],["$","link","3",{"rel":"manifest","href":"/reitech/manifest.webmanifest"}],["$","meta","4",{"name":"robots","content":"noindex, nofollow"}],["$","link","5",{"rel":"canonical","href":"https://vensi.xyz/reitech/sq/informacion-ligjor/"}],["$","link","6",{"rel":"alternate","hrefLang":"sq","href":"https://vensi.xyz/reitech/sq/informacion-ligjor/"}],["$","link","7",{"rel":"alternate","hrefLang":"en","href":"https://vensi.xyz/reitech/en/legal/"}],["$","link","8",{"rel":"alternate","hrefLang":"it","href":"https://vensi.xyz/reitech/it/note-legali/"}],["$","link","9",{"rel":"alternate","hrefLang":"x-default","href":"https://vensi.xyz/reitech/sq/informacion-ligjor/"}],["$","meta","10",{"name":"format-detection","content":"telephone=no, address=no, email=no"}],["$","meta","11",{"property":"og:title","content":"Informacion Ligjor | REITECH"}],["$","meta","12",{"property":"og:description","content":"Të dhënat e administratorit të faqes dhe kushtet e përdorimit."}],["$","meta","13",{"property":"og:url","content":"https://vensi.xyz/reitech/sq/informacion-ligjor/"}],["$","meta","14",{"property":"og:site_name","content":"REITECH"}],["$","meta","15",{"property":"og:locale","content":"sq_AL"}],"$La","$Lb","$Lc","$Ld","$Le","$Lf","$L10","$L11","$L12","$L13"]}]}]}],"$L14"]}],"isPartial":"$@15","staleTime":"$7","varyParams":null},{"rsc":"$L16","isPartial":"$@17","staleTime":"$7","varyParams":"$18"}],"isUpgradeableISRFallback":false,"a":"$@19","rootVaryParams":null,"needsRuntimeRequest":"$@1a"}
+1b:I[27201,["/reitech/_next/static/chunks/3fntmmi971322.js"],"IconMark"]
+1c:I[39756,["/reitech/_next/static/chunks/3fntmmi971322.js"],"default"]
+1d:I[37457,["/reitech/_next/static/chunks/3fntmmi971322.js"],"default"]
+5:null
+a:["$","meta","16",{"property":"og:locale:alternate","content":"en_GB"}]
+b:["$","meta","17",{"property":"og:locale:alternate","content":"it_IT"}]
+c:["$","meta","18",{"property":"og:type","content":"website"}]
+d:["$","meta","19",{"name":"twitter:card","content":"summary_large_image"}]
+e:["$","meta","20",{"name":"twitter:title","content":"Informacion Ligjor | REITECH"}]
+f:["$","meta","21",{"name":"twitter:description","content":"Të dhënat e administratorit të faqes dhe kushtet e përdorimit."}]
+10:["$","link","22",{"rel":"icon","href":"/reitech/favicon.ico?favicon.1xvt33wqtn84w.ico","sizes":"48x48","type":"image/x-icon"}]
+11:["$","link","23",{"rel":"icon","href":"/reitech/icon.svg?icon.2f1r-hw9cjcnv.svg","sizes":"any","type":"image/svg+xml"}]
+12:["$","link","24",{"rel":"apple-touch-icon","href":"/reitech/apple-icon.png?apple-icon.1grriufqp9a-y.png","sizes":"180x180","type":"image/png"}]
+13:["$","$L1b","25",{}]
+14:["$","meta",null,{"name":"next-size-adjust","content":""}]
+16:["$","$1","c",{"children":[null,["$","$L1c",null,{"parallelRouterKey":"children","template":["$","$L1d",null,{}]}]]}]
+1a:true
+7:300
+7:C
+19:0
+15:"$undefined"
+17:"$undefined"
+6:"$undefined"

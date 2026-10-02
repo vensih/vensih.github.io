@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -209,8 +209,12 @@
               <span class="kn-detail-value">Desktop Application</span>
             </div>
             <div class="kn-detail">
+              <span class="kn-detail-label">Version</span>
+              <span class="kn-detail-value">0.2.1-alpha</span>
+            </div>
+            <div class="kn-detail">
               <span class="kn-detail-label">Platform</span>
-              <span class="kn-detail-value">Windows</span>
+              <span class="kn-detail-value">Windows · macOS <span style="font-size:11px;color:var(--faint);">(coming)</span></span>
             </div>
             <div class="kn-detail" style="flex-basis:100%">
               <span class="kn-detail-label">Source</span>
@@ -361,6 +365,17 @@
           <p class="kn-sec-title">Windows Hello vault reset</p>
           <p class="kn-sec-body">After five consecutive wrong unlock attempts, the only option is a full vault reset. Before any data is deleted, the app triggers a Windows Hello prompt: PIN, fingerprint, or face. If you cannot pass the OS credential check, the reset is blocked. Passing it permanently deletes <code style="font-family:var(--font-mono); font-size:13px;">vault.key</code> and <code style="font-family:var(--font-mono); font-size:13px;">vault.json</code>. All stored entries are gone and cannot be recovered.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- macOS -->
+    <section class="kn-section">
+      <div class="kn-section-head">
+        <p class="eyebrow">What's next</p>
+        <h2 class="kn-section-title">macOS port in development</h2>
+      </div>
+      <div class="kn-note">
+        <strong>A native macOS version is in development.</strong> Built in Swift and SwiftUI for macOS 26, it will read and write the exact same vault files as the Windows version - copy your <code style="font-family:var(--font-mono); font-size:13px;">Keynest/</code> folder between machines and it just works. The architecture was always designed for this: <code style="font-family:var(--font-mono); font-size:13px;">Keynest.Core</code> has no platform dependency, so the macOS port only needs to implement the two platform interfaces (<code style="font-family:var(--font-mono); font-size:13px;">IVaultStorage</code> and <code style="font-family:var(--font-mono); font-size:13px;">IOsCredentialVerifier</code>) in Swift, plug them into the same vault logic, and wrap them in a native SwiftUI shell.
       </div>
     </section>
 

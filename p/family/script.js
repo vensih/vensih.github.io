@@ -1,4 +1,4 @@
-/* ── FAN CHART GEOMETRY ──────────────────────────────────────────────────────
+﻿/* ── FAN CHART GEOMETRY ──────────────────────────────────────────────────────
    Canvas: 5500 × 5200 px   |   Origin (Vensi): CX=3000, CY=4800
    Radial step per generation: R_STEP = 350 px  (same for all generations)
 
@@ -33,20 +33,20 @@ function mkNode(id, name, dates, title, gen, angleDeg, labelPos, icon, photo) {
 }
 
 const people = [
-  /* Gen 0 — VENSI */
+  /* Gen 0 - VENSI */
   mkNode("vensi",    "Vensi Hajdari",       "21/05/2004", "",                0,   0,   "below", "star"),
 
-  /* Gen 1 — Prindërit */
+  /* Gen 1 - Prindërit */
   mkNode("father",   "Bahri Hajdari",       "18/12/1955", "",               1, 130,  "below", "star"),
   mkNode("mother",   "Valbona Hajdari",     "04/01/1967", "",               1,  50,  "below"),
 
-  /* Gen 2 — Gjyshërit */
+  /* Gen 2 - Gjyshërit */
   mkNode("pat-gf",   "Vehbi Hajdari",       "01/05/1927",     "",                     2, 150,  "below"),
   mkNode("pat-gm",   "Nazire Hajdari",      "01/06/1930",     "",                     2, 110,  "above"),
   mkNode("mat-gf",   "Xhemal Fishta",       "",     "",                     2,  70,  "above"),
   mkNode("mat-gm",   "Naxhije Fishta",      "",     "",                     2,  30,  "below"),
 
-  /* Gen 3 — Stërgjyshërit */
+  /* Gen 3 - Stërgjyshërit */
   mkNode("pp-ggf",   "Halim Hajdari",       "14/02/1891", "",               3, 160,  "below"),
   mkNode("pp-ggm",   "Hamide Hajdari",      "",     "",                     3, 140,  "above"),
   mkNode("pm-ggf",   "Musa Nurja",          "",     "",                     3, 120,  "above"),
@@ -56,18 +56,18 @@ const people = [
   mkNode("mm-ggf",   "Toefik Rexha",        "",     "",                     3,  40,  "above"),
   mkNode("mm-ggm",   "Bedrije Rexha",       "",     "",                     3,  20,  "below"),
 
-  /* Gen 4 — Stër-stërgjyshërit */
+  /* Gen 4 - Stër-stërgjyshërit */
   mkNode("rustem",   "Rustem Hajdari",      "",     "",                     4, 165,  "below"),
   mkNode("sebije",   "Sebije Hajdari",      "",     "",                     4, 155,  "above"),
   mkNode("hassan",   "Hassan Kahari",       "",     "",                     4, 145,  "above"),
   mkNode("vace-k",   "Vace Kahari",         "",     "",                     4, 135,  "above"),
 
-  /* Gen 5 — Rustem's and Sebije's parents */
+  /* Gen 5 - Rustem's and Sebije's parents */
   mkNode("ibrahim",  "Ibrahim Hajdari",     "",     "",                     5, 165,  "below"),
   mkNode("mani",     "Mani Preza",          "",     "",                     5, 157.5,"above"),
   mkNode("laje",     "Laje Preza",          "",     "",                     5, 152.5,"above"),
 
-  /* Gen 6 — Hajdar (Ibrahim's father) */
+  /* Gen 6 - Hajdar (Ibrahim's father) */
   mkNode("hajdar",   "Hajdar Hajdari",      "",     "",                     6, 165,  "below"),
 ];
 
@@ -161,7 +161,7 @@ let state = { tx: 0, ty: 0, scale: 1 };
 
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
-/* ── Zoom meter helpers — cached so zero DOM lookup on hot path ── */
+/* ── Zoom meter helpers - cached so zero DOM lookup on hot path ── */
 let _zmEl = null, _zmValEl = null, _zmTimer = null, _zmBtn = null;
 function updateZoomMeter(scale) {
   if (!_zmEl) {
@@ -641,7 +641,7 @@ function generateNebulae(svg) {
   // [cx, cy, rx, ry, fill, opacity]
   const patches = [
     // ── Core fan-chart area ──────────────────────────────────────────
-    [3000, 4900,  820, 620,  "#b87018", 0.20],  // Vensi — warm amber core
+    [3000, 4900,  820, 620,  "#b87018", 0.20],  // Vensi - warm amber core
     [3000, 4600, 1500, 1100, "#201460", 0.28],  // large purple base
     [2700, 3900,  820, 600,  "#1425a8", 0.22],  // left-upper blue
     [3300, 3900,  820, 600,  "#1c14a8", 0.20],  // right-upper blue-purple
@@ -650,7 +650,7 @@ function generateNebulae(svg) {
     [3800, 3300,  680, 500,  "#161460", 0.17],  // right mid
     [2800, 2400,  580, 400,  "#0e1870", 0.20],  // upper left
     [3200, 2300,  580, 400,  "#160e70", 0.18],  // upper right
-    // ── Edges — make roaming interesting ────────────────────────────
+    // ── Edges - make roaming interesting ────────────────────────────
     [ 900, 3600,  520, 360,  "#0c1660", 0.15],  // far left
     [4700, 3600,  520, 360,  "#0c1460", 0.14],  // far right
     [1100, 1900,  600, 400,  "#0a1250", 0.13],  // upper-far-left
@@ -660,7 +660,7 @@ function generateNebulae(svg) {
     [5100, 2700,  380, 280,  "#080e3a", 0.11],  // far-right mid
     [1400, 5100,  500, 340,  "#120e3c", 0.12],  // bottom left
     [4600, 5100,  500, 340,  "#100e3c", 0.11],  // bottom right
-    // ── Corners — deep space colour so it never looks empty ─────────
+    // ── Corners - deep space colour so it never looks empty ─────────
     [ 350,  500,  380, 260,  "#07092e", 0.10],
     [5200,  380,  380, 260,  "#06082c", 0.09],
     [ 300, 4800,  320, 220,  "#08092e", 0.09],
@@ -669,7 +669,7 @@ function generateNebulae(svg) {
     [1600, 2800,  480, 320,  "#5c0e28", 0.08],
     // ── Accent: faint teal wisp upper right ──────────────────────────
     [4200, 1400,  400, 280,  "#083c48", 0.09],
-    // ── Below Vensi — the 2200 px that were previously void ──────────
+    // ── Below Vensi - the 2200 px that were previously void ──────────
     [3000, 5300,  950, 680,  "#1a1040", 0.22],  // direct below, warm-purple
     [2500, 5700,  700, 480,  "#0e103a", 0.18],  // lower-left
     [3500, 5700,  700, 480,  "#0c0e38", 0.17],  // lower-right
@@ -681,7 +681,7 @@ function generateNebulae(svg) {
     [5300, 6600,  400, 280,  "#060820", 0.09],  // bottom-right corner
   ];
 
-  // Use radialGradient rects — no blur filter, fully GPU-composited
+  // Use radialGradient rects - no blur filter, fully GPU-composited
   const defsEl = svg.querySelector("defs");
   patches.forEach(([cx, cy, rx, ry, fill, opacity], i) => {
     const gid = `ng${i}`;
@@ -738,7 +738,7 @@ function generateStarField(svg) {
     group.appendChild(star);
   }
 
-  // ── Milky Way band — static diagonal river of dim fine stars ──────
+  // ── Milky Way band - static diagonal river of dim fine stars ──────
   const rng2 = mulberry32(4421);
   for (let i = 0; i < 200; i++) {
     const t  = rng2();
@@ -759,14 +759,14 @@ function generateStarField(svg) {
   svg.appendChild(group);
 }
 
-/* ── MARRIAGE WEDGE — sector from child to two parents (arc at parent radius) */
+/* ── MARRIAGE WEDGE - sector from child to two parents (arc at parent radius) */
 function buildMarriageWedge(cx, cy, p1x, p1y, p2x, p2y) {
   const R = Math.round(Math.sqrt((p1x - CX) ** 2 + (p1y - CY) ** 2));
   // sweep=1 (clockwise in SVG) traces the arc away from Vensi (the outer arc)
   return `M ${cx} ${cy} L ${p1x} ${p1y} A ${R} ${R} 0 0 1 ${p2x} ${p2y} Z`;
 }
 
-/* ── RIBBON GEOMETRY — uniform-width curved band ──────────────────────────── */
+/* ── RIBBON GEOMETRY - uniform-width curved band ──────────────────────────── */
 function buildRibbon(x1, y1, x2, y2, w) {
   const dx = x2-x1, dy = y2-y1;
   const len = Math.sqrt(dx*dx + dy*dy) || 1;
@@ -796,7 +796,7 @@ function triggerPulse(sourceId) {
   svgEl.querySelectorAll(".pulse-overlay").forEach(el => el.remove());
   document.querySelectorAll(".node.ring-flashing").forEach(n => n.classList.remove("ring-flashing"));
 
-  // BFS — bidirectional so wave travels up AND down the tree
+  // BFS - bidirectional so wave travels up AND down the tree
   const nodeDist = new Map([[sourceId, 0]]);
   const connDist = new Map();
   const queue    = [sourceId];

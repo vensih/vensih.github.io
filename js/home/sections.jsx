@@ -1,5 +1,5 @@
-/* ============================================================
-   sections.jsx — Work grid, project modal, About, Contact
+﻿/* ============================================================
+   sections.jsx - Work grid, project modal, About, Contact
    ============================================================ */
 
 function Tile({ project, layout, index, onOpen }) {

@@ -1,5 +1,5 @@
-/* ============================================================
-   Iridescent Blue — personal site design system
+﻿/* ============================================================
+   Iridescent Blue - personal site design system
    Cobalt-blue spectrum · light + dark themes · rounded · Lexend
    ============================================================ */
 
@@ -30,7 +30,7 @@
   --solid-bg: #f4f6fb;
   --solid-fg: #0a0c12;
 
-  /* iridescent spectrum — all blue */
+  /* iridescent spectrum - all blue */
   --a1: #2f6bff;  /* cobalt */
   --a2: #4f9dff;  /* azure  */
   --a3: #86c4ff;  /* sky    */
@@ -49,7 +49,7 @@
   --shadow-soft: 0 24px 60px -20px rgba(0,0,0,0.7);
   --shadow-card: 0 30px 70px -24px rgba(0,0,0,0.85);
 
-  /* radii — rounder */
+  /* radii - rounder */
   --r-sm: 16px;
   --r-md: 26px;
   --r-lg: 32px;
@@ -98,7 +98,7 @@
   --shadow-card: 0 34px 70px -26px rgba(40,70,150,0.34);
 }
 
-/* small uppercase labels (formerly mono) — weight + spacing for crisp rhythm in Lexend */
+/* small uppercase labels (formerly mono) - weight + spacing for crisp rhythm in Lexend */
 .eyebrow, .pill-btn, .cta, .tile-tag, .nav-tip, .social, .stat .lbl, .footer-line, .scroll-hint, .ac-label {
   font-weight: 500;
 }
@@ -606,17 +606,17 @@ body {
 @keyframes floatUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 .load-stagger > * { opacity: 0; animation: floatUp .9s var(--ease-out) forwards; }
 
-/* hero entrance — transition-based so it settles to a visible state */
+/* hero entrance - transition-based so it settles to a visible state */
 .hero-copy > * { opacity: 0; transform: translateY(22px); transition: opacity .85s var(--ease-out), transform .85s var(--ease-out); }
 .hero-copy.shown > * { opacity: 1; transform: none; }
 
 /* ============================================================
-   Responsive — full overhaul
+   Responsive - full overhaul
    Breakpoints: 1200 · 1100 · 960 · 900 · 768 · 680 · 480 · 380
    ============================================================ */
 
 /* ============================================================
-   1200px — wide laptop / near-desktop
+   1200px - wide laptop / near-desktop
    ============================================================ */
 @media (max-width: 1200px) {
   .section { padding: 0 36px; }
@@ -627,7 +627,7 @@ body {
 }
 
 /* ============================================================
-   1100px — landscape tablet / 13" laptop
+   1100px - landscape tablet / 13" laptop
    ============================================================ */
 @media (max-width: 1100px) {
   .section    { padding: 0 28px; }
@@ -641,7 +641,7 @@ body {
 }
 
 /* ============================================================
-   960px — iPad landscape / small laptop
+   960px - iPad landscape / small laptop
    ============================================================ */
 @media (max-width: 960px) {
   .section    { padding: 0 24px; }
@@ -657,7 +657,7 @@ body {
 }
 
 /* ============================================================
-   900px — nav flips to bottom bar.
+   900px - nav flips to bottom bar.
    Hero resets to full natural width (no viewport-centering needed).
    ============================================================ */
 @media (max-width: 900px) {
@@ -727,7 +727,7 @@ body {
 }
 
 /* ============================================================
-   768px — iPad portrait / large-phone landscape
+   768px - iPad portrait / large-phone landscape
    No arc stage. Hide scroll hint on touch-first devices.
    ============================================================ */
 @media (max-width: 768px) {
@@ -737,7 +737,7 @@ body {
   .about   { padding: 56px 20px; }
   .contact { padding: 64px 20px 60px; }
 
-  /* stack words + scale to fill width — single clamp handles all sizes below this point */
+  /* stack words + scale to fill width - single clamp handles all sizes below this point */
   .hero-title { font-size: clamp(52px, 19vw, 148px); white-space: normal; }
   .hero-title .grad { display: block; }
 
@@ -753,14 +753,14 @@ body {
 
   .topnav { top: 14px; right: 16px; }
 
-  /* hide scroll hint — touch devices don't need the scroll prompt */
+  /* hide scroll hint - touch devices don't need the scroll prompt */
   .scroll-hint { display: none; }
 }
 
 /* Touch device in landscape (tablets rotated, phones rotated).
    pointer: coarse = touch-primary; leaves mouse-driven laptops/desktops unaffected. */
 @media (orientation: landscape) and (pointer: coarse) {
-  /* hide scroll prompt — no need on touch in landscape */
+  /* hide scroll prompt - no need on touch in landscape */
   .scroll-hint { display: none; }
 
   /* move nav pill to bottom center, matching the ≤900px portrait behavior */
@@ -801,7 +801,7 @@ body {
 }
 
 /* ============================================================
-   680px — large phone
+   680px - large phone
    ============================================================ */
 @media (max-width: 680px) {
   .hero { padding: 72px 20px 80px; }
@@ -835,7 +835,7 @@ body {
 }
 
 /* ============================================================
-   480px — small phone (iPhone SE, Galaxy A-series)
+   480px - small phone (iPhone SE, Galaxy A-series)
    ============================================================ */
 @media (max-width: 480px) {
   .hero    { padding: 60px 16px 72px; }
@@ -873,7 +873,7 @@ body {
 }
 
 /* ============================================================
-   380px — very small phone (iPhone SE 1st gen, narrow Android)
+   380px - very small phone (iPhone SE 1st gen, narrow Android)
    ============================================================ */
 @media (max-width: 380px) {
   .hero    { padding: 52px 14px 64px; }
